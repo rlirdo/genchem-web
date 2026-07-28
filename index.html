@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="大學普通化學（Zumdahl 架構）互動自學網站：用 3D／2D 互動理解微觀化學，並以綠色化學十二原則與花蓮在地案例貫穿全書。">
+<title>大學普通化學互動自學｜綠色化學版</title>
+<link rel="stylesheet" href="assets/css/theme.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%233FA34D'/><circle cx='16' cy='16' r='5' fill='%23FFC93C'/></svg>">
+<style>
+  /* ---- 首頁專屬版面 ---- */
+  .hero { padding: clamp(2rem, 6vw, 4rem) 0 1.6rem; text-align: center; }
+  .hero .kicker {
+    display:inline-flex; align-items:center; gap:.4rem;
+    background: rgba(255,255,255,.75); border:1px solid var(--line);
+    padding:.3rem .9rem; border-radius: var(--r-pill);
+    font-size: var(--fs-xs); font-weight:700; color: var(--leaf-deep); letter-spacing:.06em;
+  }
+  .hero h1 { margin:.8rem 0 .4rem; line-height:1.25; }
+  .hero h1 .grad {
+    background: linear-gradient(100deg, var(--leaf-deep), var(--ocean), var(--sun-deep));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p.lead { max-width: 42rem; margin: 0 auto 1.2rem; color: var(--ink-2); font-size: var(--fs-lg); }
+  .hero .site-ring { display:flex; justify-content:center; align-items:center; gap:.7rem; margin-top:1rem;
+                     font-size: var(--fs-sm); color: var(--ink-2); }
+
+  .stage-cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr)); gap:1.4rem; margin: 1.6rem 0 3rem; }
+  .stage-card .sc-top { display:flex; align-items:flex-start; gap:1rem; }
+  .stage-card .sc-top > div:first-child { flex:1 1 auto; }
+  .stage-card .sc-meta { display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; margin-top:.6rem; }
+  .stage-card .sc-chips { display:flex; flex-wrap:wrap; gap:.3rem; margin-top:.9rem; }
+  .stage-card .sc-chips span {
+    font-size: var(--fs-xs); background: #F3F8F5; border:1px solid var(--line);
+    color: var(--ink-2); padding:.15rem .55rem; border-radius: var(--r-pill);
+  }
+
+  /* ---- 十二原則互動索引 ---- */
+  .gp { margin: 0 0 3rem; }
+  .gp-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(190px,1fr)); gap:.6rem; margin:1rem 0; }
+  .gp-item {
+    text-align:left; font: inherit; cursor:pointer;
+    background:#fff; border:1.5px solid var(--line); border-radius: var(--r);
+    padding:.7rem .8rem; box-shadow: var(--shadow-sm);
+    transition: transform .2s var(--ease-out), border-color .2s, background .2s, box-shadow .2s;
+  }
+  .gp-item:hover { transform: translateY(-3px); border-color: var(--leaf); box-shadow: var(--shadow); }
+  .gp-item[aria-pressed="true"] { background: var(--leaf-soft); border-color: var(--leaf); box-shadow: var(--shadow); }
+  .gp-item .n { font: 700 var(--fs-xs)/1 var(--font-num); color:#fff; background: var(--leaf);
+                padding:.22rem .45rem; border-radius:6px; }
+  .gp-item .zh { font-weight:700; display:block; margin-top:.35rem; font-size: var(--fs-sm); }
+  .gp-item .en { font-size: var(--fs-xs); color: var(--ink-3); }
+  .gp-desc { min-height: 3.2em; }
+  .gp-chapters { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.7rem; }
+  .gp-chip {
+    font-size: var(--fs-xs); text-decoration:none; padding:.28rem .65rem; border-radius: var(--r-pill);
+    background:#F3F8F5; border:1px solid var(--line); color: var(--ink-3);
+    transition: background .2s, color .2s, border-color .2s, transform .2s var(--ease-back);
+  }
+  .gp-chip.on { background: var(--leaf); border-color: var(--leaf); color:#fff; font-weight:700; transform: scale(1.05); }
+  .gp-chip:hover { border-color: var(--ocean); color: var(--ocean-deep); }
+  .gp-chip.on:hover { color:#fff; }
+
+  .why { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:1rem; margin-bottom:3rem; }
+  .why .card h4 { margin:.2rem 0 .4rem; color: var(--leaf-deep); }
+  .why .card p { font-size: var(--fs-sm); color: var(--ink-2); margin:0; }
+  .why .ic { font-size:1.7rem; line-height:1; }
+</style>
+</head>
+<body>
+<header data-nav></header>
+
+<main id="main" class="wrap">
+
+  <section class="hero">
+    <span class="kicker">🌿 花蓮 × 綠色化學 × 互動自學</span>
+    <h1>把看不見的<span class="grad">微觀化學</span><br>變成可以動手轉的世界</h1>
+    <p class="lead">
+      依 Zumdahl <i>Chemistry</i> 架構重新設計的大學普通化學自學網站。每一章都有可操作的 3D／2D 模擬，
+      而且每一章都同時問一件事：<strong>同樣的化學原理，怎麼做才對環境更友善？</strong>
+    </p>
+    <div class="site-ring">
+      <span id="site-ring"></span>
+      <span>全站學習進度（存在這台裝置上）</span>
+    </div>
+  </section>
+
+  <h2 style="text-align:center">選一個階段開始</h2>
+  <div class="stage-cards" id="stage-cards"></div>
+
+  <section class="gp card" id="principles">
+    <h2 style="margin-bottom:.2rem">綠色化學十二原則 · 互動索引</h2>
+    <p style="color:var(--ink-2);font-size:var(--fs-sm)">
+      點任一原則，下面就會亮出所有涵蓋它的章節。這十二條由 Anastas 與 Warner 於 1998 年提出，
+      是本站每一章「綠色化學情境」的設計依據。
+    </p>
+    <div class="gp-grid" id="gp-grid" role="group" aria-label="綠色化學十二原則"></div>
+    <div class="note leaf" id="gp-detail" aria-live="polite">
+      <div class="gp-desc">尚未選取原則。點上面任一張卡片看看它涵蓋哪些章節。</div>
+      <div class="gp-chapters" id="gp-chapters"></div>
+    </div>
+  </section>
+
+  <section class="why">
+    <div class="card"><div class="ic">🧪</div><h4>先動手，再讀懂</h4>
+      <p>每章先給你一個可以拉滑桿、拖分子、發射粒子的舞台，數字跟畫面同步變。看懂了現象，再回頭讀觀念解說。</p></div>
+    <div class="card"><div class="ic">🌏</div><h4>兩種情境並排</h4>
+      <p>同一個化學原理，切換「傳統製程」與「綠色化學情境」兩邊都能互動，右側的綠色指標會即時告訴你差在哪。</p></div>
+    <div class="card"><div class="ic">🏞</div><h4>連到花蓮的日常</h4>
+      <p>從七星潭的海水、花蓮溪的水質、大理石與蛇紋石，到有機農業與水力發電，化學不只在課本裡。</p></div>
+    <div class="card"><div class="ic">📴</div><h4>離線也能用</h4>
+      <p>純前端、無後端、無需安裝。整個資料夾複製到隨身碟就能開，也可以直接放上 GitHub Pages。</p></div>
+  </section>
+
+</main>
+
+<footer data-footer></footer>
+
+<script type="module">
+import { initPage, Progress, ring, BASE } from './assets/js/core.js';
+import { STAGES, chaptersInStage } from './assets/data/chapters.js';
+import { PRINCIPLES } from './assets/data/principles.js';
+import { getChapter } from './assets/data/chapters.js';
+
+initPage({ floaters: 16 });
+
+/* ---------- 全站進度環 ---------- */
+document.getElementById('site-ring').appendChild(
+  ring(Progress.siteRatio(), 62, { label: `全站完成度 ${Math.round(Progress.siteRatio() * 100)}%` })
+);
+
+/* ---------- 兩張大階段卡片 ---------- */
+const molSvg = (c1, c2) => `
+<svg class="mol-badge" viewBox="0 0 100 100" aria-hidden="true">
+  <g stroke="${c1}" stroke-width="3" opacity=".55">
+    <line x1="50" y1="50" x2="50" y2="16"/><line x1="50" y1="50" x2="80" y2="68"/>
+    <line x1="50" y1="50" x2="20" y2="68"/>
+  </g>
+  <circle cx="50" cy="50" r="13" fill="${c1}"/>
+  <circle cx="50" cy="16" r="8" fill="${c2}"/>
+  <circle cx="80" cy="68" r="8" fill="${c2}"/>
+  <circle cx="20" cy="68" r="8" fill="${c2}"/>
+  <circle cx="50" cy="50" r="26" fill="none" stroke="${c2}" stroke-width="1.6" stroke-dasharray="5 6" opacity=".7"/>
+</svg>`;
+
+const host = document.getElementById('stage-cards');
+STAGES.forEach((s, i) => {
+  const list = chaptersInStage(s.id);
+  const { done, total } = Progress.stageCount(s.id);
+  const a = document.createElement('a');
+  a.className = 'stage-card' + (i ? ' s2' : '');
+  a.href = BASE + s.file;
+  a.innerHTML = `
+    <div class="sc-top">
+      <div>
+        <div class="eyebrow">${s.range}</div>
+        <h2>${s.zh.replace(/^第.階段：/, '')}</h2>
+        <p>${s.desc}</p>
+      </div>
+      ${molSvg(i ? '#1E9EB3' : '#3FA34D', i ? '#3FA34D' : '#FFC93C')}
+    </div>
+    <div class="sc-meta">
+      <span class="ring-slot"></span>
+      <span style="font-size:var(--fs-sm);color:var(--ink-2)">已完成 <strong>${done}</strong> / ${total} 章</span>
+      <span class="spacer" style="flex:1"></span>
+      <span class="btn ${i ? 'ocean' : ''}" style="pointer-events:none">進入 ${s.short} →</span>
+    </div>
+    <div class="sc-chips">${list.map(c => `<span>Ch${c.no} ${c.zh}</span>`).join('')}</div>`;
+  a.querySelector('.ring-slot').appendChild(
+    ring(total ? done / total : 0, 48, { theme: i ? 'ocean' : '', label: `${s.short}完成度` })
+  );
+  host.appendChild(a);
+});
+
+/* ---------- 綠色化學十二原則互動索引 ---------- */
+const grid = document.getElementById('gp-grid');
+const detail = document.querySelector('#gp-detail .gp-desc');
+const chapHost = document.getElementById('gp-chapters');
+
+/* 先把全部 13 章列成 chip */
+import('./assets/data/chapters.js').then(({ CHAPTERS }) => {
+  CHAPTERS.forEach(c => {
+    const a = document.createElement('a');
+    a.className = 'gp-chip';
+    a.dataset.ch = c.id;
+    a.href = BASE + 'chapters/' + c.id + '.html';
+    a.textContent = `Ch${c.no} ${c.zh}`;
+    chapHost.appendChild(a);
+  });
+});
+
+let cur = null;
+PRINCIPLES.forEach(p => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'gp-item';
+  b.setAttribute('aria-pressed', 'false');
+  b.setAttribute('aria-label', `原則 ${p.no}：${p.zh}。${p.desc}`);
+  b.innerHTML = `<span class="n">#${p.no}</span><span class="zh">${p.zh}</span><span class="en">${p.en}</span>`;
+  b.addEventListener('click', () => {
+    cur = (cur === p.no) ? null : p.no;
+    grid.querySelectorAll('.gp-item').forEach((x, i) =>
+      x.setAttribute('aria-pressed', String(PRINCIPLES[i].no === cur)));
+    if (cur === null) {
+      detail.textContent = '尚未選取原則。點上面任一張卡片看看它涵蓋哪些章節。';
+      chapHost.querySelectorAll('.gp-chip').forEach(c => c.classList.remove('on'));
+      return;
+    }
+    detail.innerHTML = `<strong>原則 #${p.no} ${p.zh}（${p.en}）</strong>：${p.desc}
+      <br>本站有 <strong>${p.chapters.length}</strong> 章實作了這條原則：`;
+    chapHost.querySelectorAll('.gp-chip').forEach(c =>
+      c.classList.toggle('on', p.chapters.includes(c.dataset.ch)));
+  });
+  grid.appendChild(b);
+});
+</script>
+</body>
+</html>

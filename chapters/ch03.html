@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ch3 化學計量：拖曳分子找出限量試劑，並用原子經濟性計算器比較布洛芬兩條合成路徑的 E-factor。">
+<title>Ch3 化學計量｜普通化學互動自學</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/chapter.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%233FA34D'/><circle cx='16' cy='16' r='5' fill='%23FFC93C'/></svg>">
+<script type="importmap">
+{ "imports": {
+    "three": "../assets/vendor/three.module.js",
+    "three/addons/controls/OrbitControls.js": "../assets/vendor/OrbitControls.js"
+} }
+</script>
+</head>
+<body>
+<header data-nav></header>
+<div class="wrap"><nav data-crumbs></nav></div>
+<main id="main" data-chapter></main>
+<footer data-footer></footer>
+
+<template id="tpl-concept">
+  <h3>一、限量試劑：誰先用完，誰說了算</h3>
+  <p>
+    化學計量最容易被記成「背係數」，但它真正的意思是<strong>配額</strong>。
+    N₂ + 3H₂ → 2NH₃ 這條式子在說：每消耗 1 個 N₂ 就要配 3 個 H₂。
+    所以判斷誰是<span data-term="限量試劑">限量試劑</span>不能只看「哪個比較少」，
+    而要看<strong>「莫耳數 ÷ 係數」誰比較小</strong>。
+  </p>
+  <div class="formula">
+    <code>可反應次數 = min( n(N₂) / 1 , n(H₂) / 3 )</code><br>
+    例：投入 6 個 N₂ 與 6 個 H₂ → 6/1 = 6、6/3 = 2 → 只能反應 2 次。
+    <strong>H₂ 才是限量試劑</strong>，雖然兩者「個數一樣多」。
+  </div>
+  <p>
+    上面的反應器把這件事畫出來了：按「開始反應」之後，紅色標記的就是限量試劑，
+    灰色半透明的分子則是<strong>過量剩餘</strong>——在真實工廠裡，這些剩下來的東西要嘛回收、要嘛變成廢棄物，
+    兩者的成本差很多。
+  </p>
+
+  <h4>二、莫耳：從「數不到」到「秤得到」</h4>
+  <p>
+    右邊表格的單位寫的是「分子個數」，但整張表乘上 <span data-term="莫耳">亞佛加厥數</span> 6.022×10²³ 之後完全不變形——
+    這就是莫耳的用處：<strong>比例關係在微觀與巨觀之間是等價的</strong>。
+    實驗室秤 17.03 g 的 NH₃，就是秤了 1 莫耳、6.022×10²³ 個氨分子。
+  </p>
+
+  <h4>三、質量守恆是檢查表，不是口號</h4>
+  <p>
+    面板上的「質量守恆檢查」會把反應前後所有物種的總質量（原子質量單位 u）算出來。
+    不管你怎麼調分子數、反應幾次，這個數字都不會變。
+    如果你自己算計量題時前後對不起來，那一定是配平或係數出了問題。
+  </p>
+  <div class="formula teacher-only">
+    <strong>教師模式：本頁用到的關係式</strong><br>
+    可反應次數 <code>ξ = ⌊min(n_i / ν_i)⌋</code>（ν 為計量係數）<br>
+    剩餘量 <code>n_i,after = n_i − ξ·ν_i</code>；產物量 <code>n_j = ξ·ν_j</code><br>
+    分子量由 <code>assets/data/constants.js</code> 的 <code>ATOMIC_MASS</code> 逐原子加總，
+    要改原子量請改那個檔案。
+  </div>
+</template>
+
+<template id="tpl-green">
+  <h3>產率高，不代表沒有浪費</h3>
+  <p>
+    傳統有機化學課只問一件事：<strong>產率（yield）多少？</strong>
+    但產率 90% 的反應，可能同時把 60% 的原料原子丟進廢液桶——因為那些原子從一開始就沒打算進到產物裡
+    （保護基、離去基、化學計量的助劑）。
+    <span data-term="原子經濟性">原子經濟性</span>問的是完全不同的問題：
+  </p>
+  <div class="formula">
+    <code>原子經濟性 AE = 目標產物分子量 ÷ 所有反應物分子量總和 × 100%</code><br>
+    <code>E-factor = 廢棄物質量 ÷ 產物質量</code>
+  </div>
+
+  <h4>🌿 綠色情境怎麼玩：布洛芬的兩條路</h4>
+  <p>
+    布洛芬（ibuprofen，就是市售止痛藥的主成分）是綠色化學教科書最經典的案例，因為同一個分子有兩條工業化路線：
+  </p>
+  <div class="compare">
+    <div class="c-old">
+      <h5>🏭 Boots 傳統路線（1960s，6 步）</h5>
+      <ul>
+        <li>原子經濟性僅 <strong>40.0%</strong></li>
+        <li>使用<strong>化學計量</strong>的 AlCl₃，用完即水解成廢鋁鹽</li>
+        <li>步驟多 → 每一步都要分離純化 → 溶劑與能源疊加</li>
+        <li>超過一半的原料原子最後變成廢棄物</li>
+      </ul>
+    </div>
+    <div class="c-new">
+      <h5>🌿 BHC 觸媒路線（1990s，3 步）</h5>
+      <ul>
+        <li>原子經濟性 <strong>77.4%</strong>；回收乙酸後可達 <strong>99.0%</strong></li>
+        <li>把化學計量試劑換成<span data-term="催化劑">催化劑</span>（HF、Raney Ni、Pd）</li>
+        <li>步驟由 6 步降為 3 步，分離次數與能耗同步下降</li>
+        <li>唯一副產物是乙酸，而且可以回收再賣</li>
+        <li>1997 年美國總統綠色化學挑戰獎得主</li>
+      </ul>
+    </div>
+  </div>
+  <p>
+    請在控制面板依序做三件事：<strong>①</strong> 切到 BHC 路線看「產生廢棄物」掉多少；
+    <strong>②</strong> 勾選「回收副產物乙酸」，看原子經濟性衝到 99%；
+    <strong>③</strong> 把「廢棄物處理成本」拉高到 120 元/kg——你會發現綠色化學不只是道德議題，
+    它同時是<strong>成本議題</strong>，這也是它真的被工業界採用的原因。
+  </p>
+
+  <h4>對應的綠色化學原則</h4>
+  <ul>
+    <li><strong>原則 #1 預防廢棄物</strong>：與其事後處理廢液，不如一開始就設計不產生它的路徑。</li>
+    <li><strong>原則 #2 原子經濟性</strong>：本章的核心指標。</li>
+    <li><strong>原則 #8 減少衍生物</strong>：Boots 路線的多餘步驟正是「衍生物」的典型——
+      保護、去保護、官能基轉換，每一步都消耗試劑卻不增加最終產物的原子。</li>
+  </ul>
+
+  <h4>📏 E-factor：不同產業差了三個數量級</h4>
+  <p>Roger Sheldon 統計各產業每做 1 kg 產品產生的廢棄物：</p>
+  <table class="data">
+    <thead><tr><th>產業</th><th>E-factor 範圍</th><th>年產量級距</th></tr></thead>
+    <tbody>
+      <tr><td>石化業</td><td>約 0.1（有些低於 0.1）</td><td>10⁶–10⁸ 噸</td></tr>
+      <tr><td>大宗化學品</td><td>1 – 5</td><td>10⁴–10⁶ 噸</td></tr>
+      <tr><td>精細化學品</td><td>5 – 50</td><td>10²–10⁴ 噸</td></tr>
+      <tr><td>製藥業</td><td>25 – 100</td><td>10 – 10³ 噸</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:.6rem">
+    看起來石化業最「乾淨」？別急——它的<strong>總量</strong>大到即使 E-factor 只有 0.1，
+    絕對廢棄量仍然驚人。這提醒我們：綠色指標要同時看「強度」與「總量」。
+  </p>
+
+  <h4>🏞 在地連結：合成氨與花蓮的農業</h4>
+  <p>
+    切回傳統情境選 N₂ + 3H₂，你會看到儀表板顯示原子經濟性 <strong>100%</strong>——
+    每一顆氮原子與氫原子都進到 NH₃ 裡，沒有任何副產物。就原子經濟性而言，這是完美的反應。
+  </p>
+  <div class="note warn">
+    但哈柏法在 450 °C、200 atm 下運轉，約占全球能源使用的 1–2%，每噸氨排放約 1.9 噸 CO₂。
+    <strong>原子經濟性 100% 的反應，仍然可以是高碳排的反應。</strong>
+    這是全書最重要的觀念之一：綠色化學的十二條原則要一起看，不能只挑一條漂亮的來講。
+    這條線索會在 Ch13 的「哈柏法 vs 固氮酶」接上。
+  </div>
+  <p>
+    花蓮的有機農業選擇不使用合成氮肥，改以豆科綠肥（透過根瘤菌的<span data-term="固氮酶">固氮酶</span>常溫固氮）
+    與堆肥補充氮素——這其實是用生物體系取代高溫高壓製程，也就是原則 #6 與 #9 的實踐。
+  </p>
+
+  <div class="note leaf">
+    <strong>本章綠色化學占比自評：</strong>本章為綠色化學核心章。綠色情境為完整可互動計算器（4 個可調參數）；
+    綠色相關文字實測占全章 66.5%（觀念解說 656 字 vs 綠色化學 1304 字）；5 題測驗中有 4 題考綠色化學判斷。
+  </div>
+</template>
+
+<script type="module">
+import { mountChapter } from '../assets/js/chapter.js';
+import { init } from '../assets/js/sim/ch03.js';
+
+mountChapter({
+  id: 'ch03',
+  stageTitle: '模組 A：把分子投進反應器，找出限量試劑',
+  hint: '在下方投料盤拖曳分子 · 3D 可旋轉',
+  scenario: { classicLabel: '🏭 教科書情境', greenLabel: '🌿 綠色化學情境' },
+  disclaimer: '反應以「整數個分子、瞬間完全反應」簡化；真實反應有速率、平衡與副反應。此為教學示意。',
+  init,
+  quiz: [
+    {
+      type: 'single', green: false,
+      q: '投入 6 個 N₂ 與 6 個 H₂ 進行 N₂ + 3H₂ → 2NH₃，限量試劑是誰？可以生成幾個 NH₃？',
+      options: ['N₂ 是限量試劑，生成 12 個 NH₃', 'H₂ 是限量試劑，生成 4 個 NH₃',
+                'H₂ 是限量試劑，生成 12 個 NH₃', '兩者一樣多，恰好完全反應'],
+      answer: 1,
+      hint: '別比「個數」，比「個數 ÷ 係數」：N₂ 是 6/1，H₂ 是 6/3。',
+      explain: '6/1 = 6、6/3 = 2，最小者為 H₂，所以只能反應 2 次，生成 2×2 = 4 個 NH₃，並剩下 4 個 N₂。你可以在上面的反應器把數字設成 6 和 6 驗證看看。',
+    },
+    {
+      type: 'single', green: true,
+      q: '某反應的<strong>產率高達 95%</strong>，但<strong>原子經濟性只有 35%</strong>。下列敘述何者最正確？',
+      options: [
+        '產率高就代表浪費少，這個反應很綠',
+        '大部分投入的原子本來就沒打算進到產物裡，即使產率再高也會產生大量廢棄物',
+        '原子經濟性低一定是因為反應沒做完全',
+        '原子經濟性與產率是同一件事的不同說法',
+      ],
+      answer: 1,
+      hint: '產率問的是「該生成的有沒有生成」；原子經濟性問的是「投入的原子有多少被設計進產物」。',
+      explain: '這兩個指標互相獨立。保護基、離去基、化學計量的助劑（如 AlCl₃）從設計上就注定變成廢棄物，產率再高也救不了。這正是綠色化學原則 #2 存在的理由。',
+    },
+    {
+      type: 'single', green: true,
+      q: '下列哪一條路徑的 E-factor 最低（最綠）？',
+      options: [
+        'Boots 路線，E-factor 1.50',
+        'BHC 路線（不回收乙酸），E-factor 0.29',
+        'BHC 路線（回收乙酸），E-factor 約 0.06',
+        '無法比較，因為產物不同',
+      ],
+      answer: 2,
+      hint: 'E-factor 是「每 1 kg 產品產生幾 kg 廢棄物」，數字越小越好。三個選項做的是同一個產物。',
+      explain: 'E-factor 越低代表單位產品的廢棄物越少。BHC 路線加上乙酸回收後，幾乎把副產物也變成了資源，這同時實踐了原則 #1（預防廢棄物）與 #2（原子經濟性）。',
+    },
+    {
+      type: 'single', green: true,
+      q: 'N₂ + 3H₂ → 2NH₃ 的原子經濟性是 100%。為什麼哈柏法仍然被視為高環境負荷的製程？',
+      options: [
+        '因為它的產率其實很低，只有 15%',
+        '因為它需要 450 °C、200 atm 的高溫高壓，能耗與碳排極高',
+        '因為 NH₃ 是劇毒物質，不能大量生產',
+        '因為原子經濟性的計算方式有誤',
+      ],
+      answer: 1,
+      hint: '想想綠色化學十二原則中，除了 #2 之外還有哪一條在談「條件」而不是「原子」。',
+      explain: '原子經濟性只看原子的去向，不看能量。哈柏法約占全球能源使用的 1–2%、每噸氨約排 1.9 噸 CO₂，違反的是原則 #6（能源效率設計）。綠色化學的十二條必須一起評估。',
+      explain2: 'Ch13 會把這條線索接到「固氮酶如何在常溫常壓做同一件事」。',
+    },
+    {
+      type: 'multi', green: true,
+      q: 'BHC 路線相對於 Boots 路線的改良，實踐了下列哪些綠色化學原則？（複選）',
+      options: [
+        '原則 #2 原子經濟性（40.0% → 77.4%）',
+        '原則 #9 催化（以催化劑取代化學計量的 AlCl₃）',
+        '原則 #8 減少衍生物（步驟由 6 步縮為 3 步）',
+        '原則 #12 本質安全（因為完全不使用任何具腐蝕性的試劑）',
+      ],
+      answer: [0, 1, 2],
+      hint: '前三項在頁面的對照表裡都找得到根據。第四項要想一想 BHC 路線用了什麼作為溶劑兼觸媒。',
+      explain: 'BHC 路線使用無水 HF 作為溶劑兼觸媒，HF 具高度腐蝕性與毒性，因此它在原則 #12 上並沒有明顯改善——這也提醒我們，沒有任何製程能同時滿足全部十二條原則，綠色化學是一種「權衡與持續改進」，不是非黑即白的標籤。',
+    },
+  ],
+  sources: [
+    '原子量：IUPAC 2021 標準原子量（本站取四位有效數字，見 assets/data/constants.js）',
+    '布洛芬兩條合成路線之原子經濟性（Boots 40.0%、BHC 77.4%、含乙酸回收 99.0%）：Cann &amp; Connelly, <i>Real World Cases in Green Chemistry</i>, ACS (2000)；BHC 製程為 1997 年美國總統綠色化學挑戰獎（Greener Reaction Conditions Award）得主。',
+    'E-factor 定義與產業基準值：R. A. Sheldon, “The E factor: fifteen years on”, <i>Green Chem.</i>, 2007, 9, 1273.',
+    '哈柏法能耗（約 30 GJ/噸 NH₃）與碳排（約 1.9 噸 CO₂/噸 NH₃）：IEA <i>Ammonia Technology Roadmap</i> (2021)；概略值，隨製程與燃料而異。',
+    '綠色化學十二原則：Anastas &amp; Warner, <i>Green Chemistry: Theory and Practice</i>, Oxford (1998).',
+  ],
+});
+</script>
+</body>
+</html>

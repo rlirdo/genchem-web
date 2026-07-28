@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head><meta charset="utf-8"><title>全站自我檢查（開發用）</title>
+<style>body{font:14px/1.6 system-ui;padding:1rem;background:#f7fbf5}
+pre{background:#fff;padding:1rem;border-radius:8px;white-space:pre-wrap}
+iframe{width:420px;height:340px;border:1px solid #ccc;margin:2px}</style>
+</head>
+<body>
+<h1>全站自我檢查</h1>
+<pre id="log">載入中…</pre>
+<div id="frames"></div>
+<script type="module">
+const PAGES = ['index.html','stage1.html','stage2.html',
+  ...['01','02','03','04','05','06','07','08','11','12','13','14','15'].map(n=>`chapters/ch${n}.html`)];
+const log = document.getElementById('log');
+const frames = document.getElementById('frames');
+const results = [];
+
+for (const p of PAGES) {
+  await new Promise(res => {
+    const f = document.createElement('iframe');
+    f.src = p;
+    const errs = [];
+    f.addEventListener('load', () => {
+      const w = f.contentWindow;
+      w.addEventListener('error', e => errs.push('error: ' + e.message));
+      w.addEventListener('unhandledrejection', e => errs.push('reject: ' + e.reason));
+      setTimeout(() => {
+        const d = f.contentDocument;
+        const info = {
+          page: p,
+          title: d.title,
+          errors: (w.__errs || []).concat(errs),
+          canvases: d.querySelectorAll('canvas').length,
+          readouts: d.querySelectorAll('.readouts .ro').length,
+          gauges: d.querySelectorAll('.gauge').length,
+          controls: d.querySelectorAll('[data-controls] input, [data-controls] .seg button, [data-controls] .btn').length,
+          quiz: d.querySelectorAll('.q-item').length,
+          greenQuiz: d.querySelectorAll('.q-green').length,
+          scenario: d.querySelectorAll('.scenario-switch button').length,
+          sources: d.querySelectorAll('.sources li').length,
+          terms: d.querySelectorAll('[data-term]').length,
+          stageErr: (d.querySelector('[data-stage]')?.textContent||'').includes('載入失敗'),
+        };
+        results.push(info);
+        log.textContent = JSON.stringify(results, null, 1);
+        window.__RESULTS = results;
+        f.remove();
+        res();
+      }, 1400);
+    });
+    // 攔截 iframe 內的錯誤
+    f.addEventListener('error', () => { errs.push('iframe load error'); });
+    frames.appendChild(f);
+  });
+}
+log.textContent = '完成\n' + JSON.stringify(results, null, 1);
+window.__DONE = true;
+</script>
+</body>
+</html>

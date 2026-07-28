@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ch5 氣體：數百顆分子的分子動力論模擬、Maxwell–Boltzmann 分布與凡得瓦修正；綠色化學延伸到 GWP 與碳捕捉。">
+<title>Ch5 氣體｜普通化學互動自學</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/chapter.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%233FA34D'/><circle cx='16' cy='16' r='5' fill='%23FFC93C'/></svg>">
+<script type="importmap">
+{ "imports": {
+    "three": "../assets/vendor/three.module.js",
+    "three/addons/controls/OrbitControls.js": "../assets/vendor/OrbitControls.js"
+} }
+</script>
+</head>
+<body>
+<header data-nav></header>
+<div class="wrap"><nav data-crumbs></nav></div>
+<main id="main" data-chapter></main>
+<footer data-footer></footer>
+
+<template id="tpl-concept">
+  <h3>一、壓力是什麼？是分子在敲牆</h3>
+  <p>
+    <span data-term="分子動力論">分子動力論</span>只用幾個假設就推出整個氣體定律：
+    氣體是大量做隨機運動的微小粒子、彼此間沒有作用力、碰撞是完全彈性的。
+    在這個圖像裡，<strong>壓力就是單位時間內分子撞擊器壁的總衝量</strong>。
+  </p>
+  <p>
+    面板上的「壁面碰撞頻率」直接數給你看。試試看：
+  </p>
+  <ul>
+    <li>把<strong>體積</strong>從 6 L 壓到 0.5 L → 碰撞頻率暴增（波以耳定律的微觀版本）。</li>
+    <li>把<strong>溫度</strong>從 300 K 拉到 1200 K → 分子跑更快，撞得更頻繁也更用力。</li>
+    <li>把<strong>分子數</strong>加倍 → 碰撞頻率大致加倍。</li>
+  </ul>
+
+  <h4>二、Maxwell–Boltzmann：不是每顆分子都一樣快</h4>
+  <p>
+    左下角那張圖是本章最重要的一張圖。它說：在任何溫度下，分子的速率都是<strong>一個分布</strong>，
+    不是一個值。溫度上升時曲線會<strong>往右移、變矮變寬</strong>——
+    但曲線下的總面積永遠是 1（分子總數不變）。
+  </p>
+  <div class="formula">
+    <code>f(v) = 4π (M / 2πRT)^{3/2} · v² · e^{−Mv² / 2RT}</code><br>
+    最可能速率 <code>v_p = √(2RT/M)</code>　方均根速率 <code>v_rms = √(3RT/M)</code><br>
+    注意 M 在分母：同一溫度下，<strong>輕的分子跑得快</strong>。切到 He 與 CO₂ 比比看
+    （He 的 v_rms 約是 CO₂ 的 3.3 倍）。
+  </div>
+  <div class="note">
+    這張圖的<strong>右側尾巴</strong>就是 Ch12 動力學的關鍵：只有尾巴上那些速度夠快的分子才翻得過活化能。
+    溫度稍微上升，尾巴的面積就會呈指數放大——這才是「加熱能加速反應」的真正原因。
+  </div>
+
+  <h4>三、理想氣體的兩個謊言</h4>
+  <p>
+    理想氣體方程式假設「分子不占體積」且「分子之間沒有吸引力」。這兩件事都不是真的。
+    <span data-term="凡得瓦方程式">凡得瓦方程式</span>各補一項回去：
+  </p>
+  <div class="formula">
+    <code>(P + a n²/V²)(V − nb) = nRT</code><br>
+    <strong>b</strong>：分子本身占的體積 → 可用空間變小 → 壓力偏<strong>高</strong>（高壓時主導）<br>
+    <strong>a</strong>：分子間吸引力 → 撞牆時被後方同伴拉住 → 壓力偏<strong>低</strong>（低溫時主導）
+  </div>
+  <p>
+    右下角的圖把兩條曲線疊在一起。把體積壓到很小，你會看到凡得瓦曲線<strong>翹上去</strong>（b 主導）；
+    切到 H₂O（a = 5.536，是 He 的 160 倍）再看，低壓區會明顯<strong>掉下來</strong>（a 主導）。
+    這也解釋了為什麼水蒸氣容易液化，而氦幾乎不肯液化。
+  </p>
+</template>
+
+<template id="tpl-green">
+  <h3>不是所有氣體都一樣「重」</h3>
+  <p>
+    普通化學談氣體時，通常把每種氣體一視同仁。但從氣候的角度看，它們的份量差非常多。
+    <span data-term="GWP">GWP-100</span> 就是把不同氣體換算成「相當於幾公噸 CO₂」的係數：
+  </p>
+  <table class="data">
+    <thead><tr><th>氣體</th><th>GWP-100</th><th>主要來源</th><th>大氣壽命</th></tr></thead>
+    <tbody>
+      <tr><td>CO₂ 二氧化碳</td><td>1</td><td>燃燒化石燃料、水泥製程</td><td>數百至數千年</td></tr>
+      <tr><td>CH₄ 甲烷</td><td><strong>29.8</strong></td><td>畜牧、水稻田、掩埋場、天然氣洩漏</td><td>約 12 年</td></tr>
+      <tr><td>N₂O 一氧化二氮</td><td><strong>273</strong></td><td>氮肥施用、工業製程</td><td>約 109 年</td></tr>
+      <tr><td>SF₆ 六氟化硫</td><td>25,200</td><td>電力設備絕緣</td><td>約 3,200 年</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:var(--fs-xs);color:var(--ink-3);margin-top:.4rem">GWP 值取自 IPCC AR6 WG1 (2021) Table 7.15（含氣候—碳循環回饋）。</p>
+  <div class="note leaf">
+    甲烷的大氣壽命只有 12 年，卻有 29.8 倍的暖化威力。這代表<strong>減甲烷的效果來得特別快</strong>——
+    這也是為什麼「全球甲烷承諾」會成為近年氣候政策的重點。
+    對農業縣如花蓮而言，水稻田的間歇灌溉、畜牧糞尿的沼氣回收，都是直接的減甲烷手段。
+  </div>
+
+  <h4>🌿 綠色情境怎麼玩：碳捕捉真的減碳嗎？</h4>
+  <p>
+    切到綠色情境後，畫面裡的紅色 CO₂ 分子會隨你拉「捕捉率」而逐一被胺溶液吸住、沉到底部。
+    但請務必做完下面這個實驗：
+  </p>
+  <ol>
+    <li>把捕捉率拉到 <strong>90%</strong>，此時「捕捉量」很漂亮。</li>
+    <li>看「所需能量」與「捕捉造成的額外碳排」——胺吸收法的再生（把 CO₂ 從胺裡趕出來）要 <strong>≈3.7 GJ/公噸 CO₂</strong>。</li>
+    <li>把「電網碳強度」拉到 <strong>850 g CO₂/kWh</strong>（燃煤等級），看「淨減碳效益」怎麼崩掉。</li>
+    <li>再拉回 <strong>20 g CO₂/kWh</strong>（水力／地熱等級），效益立刻回來。</li>
+  </ol>
+  <div class="note warn">
+    這是碳捕捉最常被誤解的地方：<strong>捕捉 CO₂ 本身要花能量，而能量往往也會排碳。</strong>
+    如果用高碳電力去驅動碳捕捉，等於用左手做白工。
+    碳捕捉要有意義，必須搭配低碳電力——這正是原則 #6「能源效率設計」要求「認清能源使用的環境成本」的意思。
+  </div>
+
+  <h4>超臨界 CO₂：把溫室氣體變成綠色溶劑</h4>
+  <p>
+    CO₂ 的臨界點是 <strong>31.0 °C、73.8 bar</strong>——非常容易達到。
+    超過臨界點後，它同時具有氣體的擴散性與液體的溶解力，成為
+    <span data-term="超臨界流體">超臨界流體</span>。
+  </p>
+  <ul>
+    <li>咖啡因萃取（低咖啡因咖啡）已工業化數十年，取代了二氯甲烷這類鹵化溶劑。</li>
+    <li>精油、天然物萃取：常溫操作，不破壞熱敏感成分。</li>
+    <li>乾洗、半導體清洗：取代四氯乙烯等有害溶劑。</li>
+    <li>洩壓後 CO₂ 直接氣化離開，<strong>沒有溶劑殘留</strong>，而且可以回收循環使用。</li>
+  </ul>
+  <p>
+    這對應綠色化學<strong>原則 #5「更安全的溶劑與助劑」</strong>。
+    有趣的是：同一個分子，在煙囪裡是要被捕捉的污染物，在萃取槽裡卻是最乾淨的溶劑之一。
+    化學物質本身沒有善惡，<strong>脈絡決定一切</strong>。
+  </p>
+
+  <h4>對應的綠色化學原則</h4>
+  <ul>
+    <li><strong>原則 #5 更安全的溶劑與助劑</strong>：超臨界 CO₂ 取代鹵化有機溶劑。</li>
+    <li><strong>原則 #6 能源效率設計</strong>：碳捕捉的能耗檢視；先進吸收劑把 3.7 GJ/t 降到 2.4 GJ/t。</li>
+    <li><strong>原則 #12 本質安全的化學</strong>：CO₂ 不可燃、不爆炸，本質上比有機溶劑安全。</li>
+  </ul>
+
+  <h4>🏞 在地連結：花蓮的空氣與水泥業</h4>
+  <p>
+    水泥業是全球約 7–8% CO₂ 排放的來源，而且它的排放有一半以上<strong>不是來自燃料</strong>，
+    而是來自製程本身的化學反應：
+  </p>
+  <div class="formula">
+    <code>CaCO₃(s) → CaO(s) + CO₂(g)　（煅燒，約 900 °C）</code><br>
+    每生產 1 噸熟料，光是這個分解反應就釋放約 0.5 噸 CO₂——<strong>就算改用再生能源也躲不掉</strong>。
+  </div>
+  <p>
+    花蓮擁有全台最豐富的石灰岩資源，水泥與礦業是重要產業。這使得幾件事在花蓮特別有意義：
+  </p>
+  <ul>
+    <li><strong>碳捕捉</strong>：製程排放無法靠換燃料解決，只能捕捉——這是水泥業唯一的深度減碳路徑之一。</li>
+    <li><strong>替代膠結材</strong>：用爐石粉、飛灰取代部分熟料，直接減少需要煅燒的碳酸鈣量（原則 #1）。</li>
+    <li><strong>礦物碳封存</strong>：Ch1 提過的蛇紋石碳礦化，正好與水泥業的 CO₂ 排放源在地理上重疊。</li>
+  </ul>
+  <p>
+    另外，花蓮的空氣品質長期是全台最好的區域之一，這讓它成為極佳的<strong>背景測站</strong>：
+    要判斷西部的污染物是否越過中央山脈、要量測大氣 CO₂ 的本底濃度，都需要一個乾淨的參考點。
+  </p>
+
+  <div class="note leaf">
+    <strong>本章綠色化學占比自評：</strong>綠色情境為完整可互動模擬（8 個可調參數，含捕捉率與電網碳強度）；
+    綠色相關文字實測占全章 66.6%（觀念解說 772 字 vs 綠色化學 1539 字）；5 題測驗中有 3 題考綠色化學／永續判斷。
+  </div>
+</template>
+
+<script type="module">
+import { mountChapter } from '../assets/js/chapter.js';
+import { init } from '../assets/js/sim/ch05.js';
+
+mountChapter({
+  id: 'ch05',
+  stageTitle: '模組 A：分子動力論——幾百顆分子在盒子裡亂撞',
+  hint: '拖曳旋轉 · 分子數上限 600 顆以保護效能',
+  scenario: { classicLabel: '🏭 教科書情境', greenLabel: '🌿 綠色化學情境' },
+  disclaimer: '3D 粒子採彈性碰撞的簡化模型，只與器壁作用、不計分子間碰撞；壓力數值由氣體方程式計算而非由模擬統計得出。分子數上限 600 顆，低效能裝置會自動降低畫質。',
+  init,
+  quiz: [
+    {
+      type: 'single', green: false,
+      q: '在同一溫度下，He 與 CO₂ 的 Maxwell–Boltzmann 曲線相比：',
+      options: [
+        '兩者完全相同，因為溫度相同',
+        'He 的曲線更靠右且較矮寬，因為 v_rms = √(3RT/M)，M 越小速率越大',
+        'CO₂ 的曲線更靠右，因為它比較重、動量比較大',
+        'He 的曲線更靠左，因為輕的分子跑得慢',
+      ],
+      answer: 1,
+      hint: '看公式裡 M 在分子還是分母。溫度相同代表「平均動能」相同，不是「平均速率」相同。',
+      explain: '同溫度下平均動能相同（½mv² 相同），因此質量小的分子速率必須大。He 的 M = 4.003、CO₂ 是 44.01，v_rms 比值為 √(44.01/4.003) ≈ 3.3 倍。',
+    },
+    {
+      type: 'single', green: false,
+      q: '把體積壓到很小時，凡得瓦曲線的壓力比理想氣體<strong>高</strong>。主要是哪一個修正項造成的？',
+      options: [
+        'a（分子間吸引力）', 'b（分子本身占的體積）',
+        '兩者影響相同', '與 a、b 都無關，是溫度造成的',
+      ],
+      answer: 1,
+      hint: '(V − nb) 這一項在 V 很小的時候會發生什麼事？',
+      explain: '高壓（小體積）時，分子自身體積不可忽略，實際可自由活動的空間是 (V − nb)，分母變小 → 壓力偏高。低溫低壓時則換成 a 項主導，壓力偏低。',
+    },
+    {
+      type: 'single', green: true,
+      q: '排放 1 公噸甲烷與排放 1 公噸 CO₂，何者對 100 年尺度的暖化貢獻較大？大約幾倍？',
+      options: ['CO₂ 較大，約 29.8 倍', '甲烷較大，約 29.8 倍',
+                '兩者相同', '甲烷較大，約 273 倍'],
+      answer: 1,
+      hint: '面板上切到 CH₄，看「GWP-100」那一格的數字。',
+      explain: 'GWP-100(CH₄) ≈ 29.8（IPCC AR6，化石來源）。甲烷雖然大氣壽命只有約 12 年，但吸收紅外線的能力強得多。也因為壽命短，減甲烷能在數十年內見效——這是氣候政策的重要槓桿。',
+    },
+    {
+      type: 'single', green: true,
+      q: '在綠色情境中把捕捉率設為 90%、電網碳強度設為 850 g CO₂/kWh，「淨減碳效益」明顯下降。原因是：',
+      options: [
+        '胺吸收劑會分解成溫室氣體',
+        '捕捉 CO₂ 需要能量（約 3.7 GJ/公噸），若這些能量來自高碳電力，會把減下來的碳排回去',
+        '捕捉率越高，CO₂ 越容易逃逸',
+        '高碳電網會讓 Ksp 上升',
+      ],
+      answer: 1,
+      hint: '看「所需能量」與「捕捉造成的額外碳排」這兩格數字的關係。',
+      explain: '這是碳捕捉最容易被忽略的環節。原則 #6 要求「認清能源使用的環境與經濟成本」——碳捕捉必須搭配低碳電力，否則就是用左手做白工。把電網碳強度拉到 20 g CO₂/kWh（水力／地熱等級）再看一次差別。',
+    },
+    {
+      type: 'multi', green: true,
+      q: '超臨界 CO₂ 作為萃取溶劑，符合下列哪些綠色化學原則？（複選）',
+      options: [
+        '原則 #5 更安全的溶劑（取代二氯甲烷等鹵化溶劑）',
+        '原則 #12 本質安全（CO₂ 不可燃、不爆炸）',
+        '原則 #1 預防廢棄物（洩壓後 CO₂ 氣化離開，無溶劑殘留且可回收循環）',
+        '原則 #2 原子經濟性（因為 CO₂ 會變成產物的一部分）',
+      ],
+      answer: [0, 1, 2],
+      hint: '溶劑在萃取過程中會不會變成產物的一部分？原子經濟性談的是「反應物的原子去哪裡」。',
+      explain: '萃取不是化學反應，CO₂ 只是把目標分子帶出來，不會進到產物裡，因此與原子經濟性無關。同一個分子在煙囪是污染物、在萃取槽是綠色溶劑——脈絡決定一切。',
+    },
+  ],
+  sources: [
+    '凡得瓦常數 a、b：CRC Handbook of Chemistry and Physics, 97th ed.',
+    '氣體常數 R = 0.083144626 L·bar/(mol·K)、8.314462618 J/(mol·K)：CODATA 2018.',
+    'GWP-100 值（CO₂ = 1、CH₄ = 29.8、N₂O = 273、SF₆ = 25,200）：IPCC AR6 WG1 (2021), Table 7.15，含氣候—碳循環回饋。',
+    '胺吸收法（30 wt% MEA）再生能耗約 3.5–4.0 GJ/公噸 CO₂，先進吸收劑約 2.4 GJ/公噸：IEA <i>CCUS</i> 系列報告與相關文獻之常見區間（本頁取代表值並標註為概略值）。',
+    'CO₂ 臨界點 31.0 °C、73.8 bar：NIST Chemistry WebBook.',
+    '水泥製程排放（每噸熟料約 0.5 噸製程 CO₂、全球約占 7–8%）：IEA <i>Cement Technology Roadmap</i> 之常見引用值。',
+  ],
+});
+</script>
+</body>
+</html>

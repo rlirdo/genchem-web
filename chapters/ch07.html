@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ch7 原子結構與週期性：可旋轉的 s/p/d/f 軌域點雲與節面顯示、互動週期表與週期趨勢；綠色化學延伸到光電材料能隙與稀土回收。">
+<title>Ch7 原子結構與週期性｜普通化學互動自學</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/chapter.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%233FA34D'/><circle cx='16' cy='16' r='5' fill='%23FFC93C'/></svg>">
+<script type="importmap">
+{ "imports": {
+    "three": "../assets/vendor/three.module.js",
+    "three/addons/controls/OrbitControls.js": "../assets/vendor/OrbitControls.js"
+} }
+</script>
+</head>
+<body>
+<header data-nav></header>
+<div class="wrap"><nav data-crumbs></nav></div>
+<main id="main" data-chapter></main>
+<footer data-footer></footer>
+
+<template id="tpl-concept">
+  <h3>一、軌域不是軌道</h3>
+  <p>
+    高中課本常畫的「電子繞著核跑」的圖是波耳模型，它在氫原子上算得出正確的能階，
+    但<strong>電子的位置並不是一條線</strong>。解薛丁格方程式得到的是波函數 ψ，
+    而 |ψ|² 代表「在某一點找到電子的機率密度」。
+  </p>
+  <p>
+    上面 3D 畫面裡的每一個點，都是依 |ψ|² 抽樣出來的一次「找到電子」的事件。
+    點密的地方機率高，點稀的地方機率低——這就是<span data-term="軌域">軌域</span>的真正意思。
+  </p>
+  <div class="note">
+    <strong>顏色代表什麼？</strong>藍色是 ψ &gt; 0 的區域，橘色是 ψ &lt; 0。
+    請注意：機率 |ψ|² 在兩邊都是正的，<strong>正負號指的是波函數的相位</strong>。
+    這個相位在 Ch8 會變得非常重要——同相疊加形成鍵結軌域，反相疊加形成反鍵軌域。
+  </div>
+
+  <h4>二、節面：電子絕對不會出現的地方</h4>
+  <p>
+    勾選「顯示節面與節球」，黃色的曲面就是<span data-term="節面">節面</span>——ψ = 0 的位置。
+    它們分兩種：
+  </p>
+  <ul>
+    <li><strong>徑向節面（節球）</strong>：像洋蔥皮一樣的球殼。數量 = n − ℓ − 1。
+      切到 3s 會看到<strong>兩層</strong>球殼。</li>
+    <li><strong>角向節面</strong>：通過原子核的平面或錐面。數量 = ℓ。
+      2p 有 1 個平面；3d_xy 有 2 個平面；3d_z² 則是兩個<strong>錐面</strong>（54.7° 與 125.3°）。</li>
+  </ul>
+  <div class="formula">
+    <code>總節面數 = n − 1</code>　（徑向 n − ℓ − 1 個 ＋ 角向 ℓ 個）<br>
+    例：3p_z 的 n = 3、ℓ = 1 → 徑向 1 個節球 + 角向 1 個節面 = 共 2 個。<br>
+    <span class="teacher-only">教師補充：本頁使用類氫（單電子）波函數。多電子原子因電子—電子排斥而使
+    軌域能量分裂（同一 n 下 s &lt; p &lt; d &lt; f），形狀也會略為收縮，但節面的數目規則不變。</span>
+  </div>
+
+  <h4>三、週期趨勢：從軌域讀出整張週期表</h4>
+  <p>
+    下方的互動週期表點任一元素，就會顯示它的電子組態，並在趨勢圖上標出位置。請觀察兩件事：
+  </p>
+  <ul>
+    <li><strong>游離能</strong>（紅點為惰性氣體、黃點為鹼金屬）：
+      每一個週期結束時衝到高峰，下一個週期開始時掉到谷底。
+      這個鋸齒形狀本身就是「電子殼層存在」的直接證據。</li>
+    <li><strong>共價半徑</strong>：同一週期由左至右變小（核電荷增加、電子被拉得更緊），
+      同一族由上而下變大（多了一層電子殼層）。</li>
+  </ul>
+  <p>
+    順帶一提：週期表上的<strong>例外</strong>也值得看。點鉻（Cr，Z = 24）與銅（Cu，Z = 29），
+    它們的組態是 3d⁵4s¹ 與 3d¹⁰4s¹ 而不是規則的 3d⁴4s² 與 3d⁹4s²——
+    半滿與全滿的 d 殼層特別穩定。
+  </p>
+</template>
+
+<template id="tpl-green">
+  <h3>能隙：一個量子力學參數，決定整個能源產業</h3>
+  <p>
+    軌域與能階聽起來很抽象，但當原子聚成固體，離散的能階會展開成<strong>能帶</strong>，
+    價帶與導帶之間的空隙就是<span data-term="能隙">能隙</span> E_g。
+    這一個數字決定了材料能吸收哪些光、能發出哪些光，也就決定了太陽能電池與 LED 的一切。
+  </p>
+  <div class="formula">
+    <code>λ = 1239.84 / E_g</code>　（E_g 以 eV 為單位，λ 以 nm 為單位）<br>
+    能隙 3.20 eV（TiO₂）→ 387 nm，只吃得到紫外光。<br>
+    能隙 1.12 eV（Si）→ 1107 nm，可以吸收整個可見光加一部分紅外光。
+  </div>
+
+  <h4>🌿 綠色情境怎麼玩</h4>
+  <ol>
+    <li>依序點過六種光電材料，看「理論轉換上限」怎麼變。
+      你會發現最高點落在能隙約 <strong>1.34 eV</strong> 附近——這就是
+      <strong>Shockley–Queisser 極限</strong>（單接面太陽能電池的理論上限 33.7%）。</li>
+    <li>點 <strong>TiO₂</strong>（3.20 eV）：轉換上限掉到很低。
+      這正好解釋了 Ch12 的光觸媒為什麼只能用紫外光——而紫外光只占太陽光約 4%。</li>
+    <li>切換「照明技術」：白熾燈約 15 lm/W，LED 超過 120 lm/W。
+      看「每年每盞省電」——一盞燈看起來不多，乘上全國上億盞就是一座電廠。</li>
+    <li>把「稀土回收率」從 1% 拉到 90%，看供應風險指標怎麼下降。</li>
+  </ol>
+  <div class="note leaf">
+    <strong>為什麼能隙太大或太小都不好？</strong><br>
+    能隙<strong>太大</strong>：只有高能量的光子（藍紫光）能激發電子，紅光與紅外光完全浪費。<br>
+    能隙<strong>太小</strong>：什麼光都吸得到，但每個光子多出來的能量會變成熱（熱化損失）。<br>
+    兩種損失一升一降，交會處就是最佳能隙。這是純粹的量子力學推出來的工程結論。
+  </div>
+
+  <h4>LED：一個能隙改變一個產業</h4>
+  <p>
+    藍光 LED 的關鍵材料是 GaN（能隙 3.40 eV）。在它被做出來之前，紅光與綠光 LED 已存在數十年，
+    但沒有藍光就無法合成白光。2014 年的諾貝爾物理獎正是頒給藍光 LED 的發明者。
+  </p>
+  <ul>
+    <li>照明約占全球用電的 <strong>15%</strong>，全面 LED 化可省下其中的一大半。</li>
+    <li>LED <strong>不含汞</strong>，取代含汞的省電燈泡（螢光燈），同時符合原則 #3（低毒性）與 #4（更安全的產品）。</li>
+    <li>LED 壽命長（數萬小時），減少更換與廢棄物（原則 #1）。</li>
+  </ul>
+
+  <h4>🌿 稀土：綠色科技的阿基里斯腱</h4>
+  <p>
+    在週期表上點鑭系（第 8 列那一排）——這些元素是綠色科技的隱形骨幹：
+  </p>
+  <table class="data">
+    <thead><tr><th>元素</th><th>用途</th><th>為什麼難取代</th></tr></thead>
+    <tbody>
+      <tr><td>Nd 釹、Dy 鏑</td><td>風力發電機與電動車的永磁馬達</td><td>4f 電子提供極強的磁矩</td></tr>
+      <tr><td>Eu 銪、Tb 鋱、Y 釔</td><td>LED 與螢光體的紅／綠發光</td><td>4f–4f 躍遷給出極純的發光波長</td></tr>
+      <tr><td>La 鑭、Ce 鈰</td><td>石油裂解觸媒、汽車觸媒轉化器</td><td>可變氧化態、儲放氧能力強</td></tr>
+    </tbody>
+  </table>
+  <div class="note warn">
+    稀土的問題不是「稀少」（地殼含量其實不低），而是：<br>
+    ① <strong>分離極困難</strong>——鑭系元素化學性質太像（4f 電子被外層遮蔽），
+    需要上百級的溶劑萃取，能耗與廢液量都很大；<br>
+    ② <strong>開採伴隨放射性</strong>——礦源常含釷、鈾；<br>
+    ③ <strong>供應高度集中</strong>，且全球實際回收率長期低於 <strong>1%</strong>。<br>
+    這使得「關鍵原料永續」成為綠色化學的新戰場：原則 #1（預防廢棄物）在這裡的意思是
+    <strong>把用過的磁鐵與螢光粉當成礦源</strong>——又回到 Ch2 的都市採礦。
+  </div>
+
+  <h4>對應的綠色化學原則</h4>
+  <ul>
+    <li><strong>原則 #6 能源效率設計</strong>：選對能隙＝把同樣的陽光轉換成更多電力；LED 照明省電。</li>
+    <li><strong>原則 #4 設計更安全的化學品</strong>：LED 取代含汞螢光燈；CdTe 太陽能電池的鎘則帶來新的權衡。</li>
+    <li><strong>原則 #1 預防廢棄物</strong>：稀土回收、光電板的循環設計。</li>
+    <li><strong>原則 #7 使用可再生原料</strong>：太陽能本身就是最徹底的可再生能源。</li>
+  </ul>
+
+  <h4>🏞 在地連結：花蓮的光與能源</h4>
+  <p>
+    花蓮日照條件不錯、空氣品質佳（懸浮微粒少 → 直射日照衰減小），太陽光電有一定潛力；
+    但同時是農業與觀光縣，土地利用必須謹慎，因此<strong>屋頂型光電</strong>與
+    <strong>農電共生</strong>（在不影響作物的前提下架設高透光模組）比地面型更合適。
+  </p>
+  <p>
+    這裡有一個漂亮的化學連結：作物行光合作用主要利用<strong>藍光與紅光</strong>，
+    對綠光的利用效率較低（所以葉子看起來是綠的）。
+    因此若使用具<strong>波長選擇性</strong>的半透明光電模組（讓紅藍光透過、吸收其他波段），
+    理論上可以同時發電與種植——而這件事能不能成立，完全取決於材料的<strong>能隙與吸收光譜</strong>。
+    也就是說，這一章開頭那些看似抽象的軌域與能階，最後決定的是花蓮一塊農地能不能同時長稻子與發電。
+  </p>
+
+  <div class="note leaf">
+    <strong>本章綠色化學占比自評：</strong>綠色情境為完整可互動模擬（7 個可調參數，含材料能隙、照明技術與回收率）；
+    綠色相關文字實測占全章 66.3%（觀念解說 840 字 vs 綠色化學 1649 字）；5 題測驗中有 3 題考綠色化學／永續判斷。
+  </div>
+</template>
+
+<script type="module">
+import { mountChapter } from '../assets/js/chapter.js';
+import { init } from '../assets/js/sim/ch07.js';
+
+mountChapter({
+  id: 'ch07',
+  stageTitle: '模組 A：原子軌域的機率密度點雲',
+  hint: '拖曳旋轉 · 點下方週期表換元素',
+  scenario: { classicLabel: '🏭 教科書情境', greenLabel: '🌿 綠色化學情境' },
+  disclaimer: '點雲以類氫（單電子）波函數的 |ψ|² 做拒絕取樣產生，為教學示意而非多電子原子的精確解；多電子原子有電子—電子排斥，軌域會收縮並產生能階分裂。Shockley–Queisser 曲線以簡化近似繪製。',
+  init,
+  quiz: [
+    {
+      type: 'single', green: false,
+      q: '3p_z 軌域總共有幾個節面？其中徑向（節球）與角向各幾個？',
+      options: [
+        '共 3 個：徑向 2、角向 1', '共 2 個：徑向 1、角向 1',
+        '共 2 個：徑向 0、角向 2', '共 1 個：只有 1 個角向節面',
+      ],
+      answer: 1,
+      hint: '總節面數 = n − 1；角向節面數 = ℓ。3p 的 n = 3、ℓ = 1。',
+      explain: '總節面 = n − 1 = 2；角向 = ℓ = 1（通過原子核的平面）；徑向 = n − ℓ − 1 = 1（一層節球）。勾選「顯示節面與節球」就能同時看到這兩者。',
+    },
+    {
+      type: 'single', green: false,
+      q: '在游離能趨勢圖上，惰性氣體都出現在高峰、鹼金屬都出現在低谷。這個鋸齒形狀說明了什麼？',
+      options: [
+        '游離能與原子序成正比', '電子是分殼層填入的：填滿一層後特別穩定，開始新一層時最外層電子特別鬆',
+        '重的元素一定比較難游離', '這只是量測誤差造成的',
+      ],
+      answer: 1,
+      hint: '想想 Ne（1s²2s²2p⁶）與 Na（[Ne]3s¹）在電子組態上的差別。',
+      explain: '填滿的殼層是特別穩定的組態，要拔掉一個電子很困難（游離能高峰）。下一個元素多出的那個電子進到新的、離核更遠且被內層遮蔽的殼層，非常容易失去（游離能低谷）。週期表的「週期性」就是這樣來的。',
+    },
+    {
+      type: 'single', green: true,
+      q: 'TiO₂ 的能隙是 3.20 eV，對應的吸收邊界波長約 387 nm。這對它作為光觸媒的最大限制是：',
+      options: [
+        '它只能吸收紫外光，而紫外光只占太陽光約 4%',
+        '它只能吸收紅外光，能量太低', '它會吸收所有可見光，因此不透明',
+        '能隙太小，電子電洞太容易復合',
+      ],
+      answer: 0,
+      hint: '用 λ = 1239.84 / E_g 算出波長，再想想 387 nm 落在光譜的哪個位置。',
+      explain: '387 nm 在紫外區。太陽光中紫外線只占約 4%，因此 TiO₂ 在自然光下的效率有限。這就是「可見光響應光觸媒」（氮摻雜、複合半導體）成為研究熱點的原因——直接呼應 Ch12 的催化。',
+    },
+    {
+      type: 'single', green: true,
+      q: '單接面太陽能電池的理論轉換上限（Shockley–Queisser 極限）在能隙約 1.34 eV 時最高。為什麼能隙太大或太小都不好？',
+      options: [
+        '太大吸不到低能量光子；太小則高能量光子多餘的能量變成熱而浪費',
+        '太大會導電；太小會絕緣',
+        '太大成本高；太小材料稀有',
+        '能隙大小其實不影響效率',
+      ],
+      answer: 0,
+      hint: '想想「吸收得到多少光子」與「每個光子能用到多少能量」這兩件事的方向是相反的。',
+      explain: '能隙越小，能吸收的光子越多，但每個光子超出能隙的能量會以熱的形式浪費（熱化損失）；能隙越大，每個電子能量高，但吸得到的光子少。兩者一升一降的交會點就是最佳值。這是純量子力學推出的工程結論。',
+    },
+    {
+      type: 'multi', green: true,
+      q: '關於稀土元素的永續問題，下列哪些敘述正確？（複選）',
+      options: [
+        '稀土的主要問題不是地殼含量稀少，而是分離困難、開採伴隨放射性、供應集中',
+        '鑭系元素化學性質非常相似，需要上百級溶劑萃取才能分離，能耗與廢液量大',
+        '全球稀土的實際回收率長期低於 1%，回收用過的磁鐵與螢光粉是重要方向',
+        '因為稀土難以取代，所以綠色化學認為不需要考慮它們的循環問題',
+      ],
+      answer: [0, 1, 2],
+      hint: '最後一個選項的邏輯與綠色化學原則 #1 正好相反。',
+      explain: '正因為難以取代，循環使用才更重要。原則 #1（預防廢棄物）在關鍵原料上的意思，就是把報廢的永磁馬達與螢光粉當成礦源——與 Ch2 的都市採礦是同一個思路。',
+    },
+  ],
+  sources: [
+    '類氫波函數（徑向與角度部分）：Zumdahl &amp; Zumdahl, <i>Chemistry</i>, 10th ed., Ch.7；Levine, <i>Quantum Chemistry</i>。',
+    '第一游離能：CRC Handbook of Chemistry and Physics, 97th ed.（本站收錄 Z = 1–86 之可得值，未收錄者以「未收錄」標示，不以推估值填補）。',
+    '共價半徑：B. Cordero et al., “Covalent radii revisited”, <i>Dalton Trans.</i>, 2008, 2832.',
+    '電負度（鮑林標度）：CRC Handbook, 97th ed.',
+    '電子組態與 Aufbau 例外（Cr、Cu、Nb、Mo、Ru、Rh、Pd、Ag、La、Ce、Gd、Pt、Au）：CRC Handbook, 97th ed.',
+    '半導體能隙：Sze, <i>Physics of Semiconductor Devices</i>；鈣鈦礦與 CIGS 之值隨組成變動，已標註為概略值。',
+    'Shockley–Queisser 極限（1.34 eV 時 33.7%）：W. Shockley &amp; H. J. Queisser, <i>J. Appl. Phys.</i> 32, 510 (1961) 及後續修訂值。',
+    '稀土回收率長期低於 1%：UNEP <i>Recycling Rates of Metals</i> (2011) 及後續文獻。',
+  ],
+});
+</script>
+</body>
+</html>

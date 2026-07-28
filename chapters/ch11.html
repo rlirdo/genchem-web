@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ch11 溶液的性質：看溶質如何擋住水分子蒸發、半透膜兩側的滲透與逆滲透；綠色化學延伸到海水淡化能耗與花蓮深層海水。">
+<title>Ch11 溶液的性質｜普通化學互動自學</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/chapter.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231E9EB3'/><circle cx='16' cy='16' r='5' fill='%23FFC93C'/></svg>">
+<script type="importmap">
+{ "imports": {
+    "three": "../assets/vendor/three.module.js",
+    "three/addons/controls/OrbitControls.js": "../assets/vendor/OrbitControls.js"
+} }
+</script>
+</head>
+<body>
+<header data-nav></header>
+<div class="wrap"><nav data-crumbs></nav></div>
+<main id="main" data-chapter></main>
+<footer data-footer></footer>
+
+<template id="tpl-concept">
+  <h3>一、依數性：只數人頭，不問是誰</h3>
+  <p>
+    <span data-term="依數性">依數性</span>（colligative properties）是溶液性質裡最反直覺的一組：
+    <strong>它們只跟溶質的「粒子數」有關，跟溶質是什麼完全無關。</strong>
+  </p>
+  <p>
+    請做這個實驗：把濃度固定在 1.0 mol/L，然後把溶質從<strong>葡萄糖</strong>切到 <strong>NaCl</strong> 再切到 <strong>CaCl₂</strong>。
+    濃度數字完全沒變，但滲透壓與蒸氣壓下降都變成 2 倍、3 倍。
+  </p>
+  <div class="formula">
+    這個倍數叫<strong>凡特荷夫因子 i</strong>：<br>
+    葡萄糖 → 1 個分子（i = 1）　NaCl → Na⁺ + Cl⁻（i ≈ 2）　CaCl₂ → Ca²⁺ + 2Cl⁻（i ≈ 3）<br>
+    <code>π = i · M · R · T</code>　<code>ΔT_b = K_b · i · m</code>　<code>ΔT_f = K_f · i · m</code>
+  </div>
+
+  <h4>二、蒸氣壓為什麼會下降？</h4>
+  <p>
+    在模組 A 的畫面裡，橘色的溶質粒子會擠在液面上。水分子要蒸發，必須<strong>剛好位在表面</strong>
+    而且動能夠大。溶質占掉了一部分表面位置，能逃出去的水分子就變少了——蒸氣壓因此下降。
+  </p>
+  <div class="formula">
+    <span data-term="拉午耳定律">拉午耳定律</span>：<code>P = X_溶劑 · P°</code><br>
+    25 °C 時純水的飽和蒸氣壓 P° = 23.76 torr。溶劑莫耳分率越小，溶液蒸氣壓越低。
+  </div>
+  <p>
+    這也順帶解釋了另外兩件事：蒸氣壓變低 → 要更高的溫度才能讓蒸氣壓等於大氣壓 → <strong>沸點上升</strong>；
+    而溶質擾亂了冰晶的形成 → <strong>凝固點下降</strong>（這就是為什麼下雪的地方要撒鹽）。
+  </p>
+
+  <h4>三、滲透壓：水想去粒子多的那一邊</h4>
+  <p>
+    切到模組 B。半透膜只讓水分子通過，橘色的溶質被完全擋住。
+    水分子其實是<strong>雙向</strong>穿越的——但因為濃側的水分子「濃度」比較低，
+    淨結果是水往濃側跑，把液面推高。要阻止這個淨流動所需的壓力，就是<strong>滲透壓 π</strong>。
+  </p>
+  <div class="note">
+    海水（約 0.6 mol/L NaCl、i ≈ 2）在 25 °C 的滲透壓約 <strong>27 atm</strong>。
+    把「外加壓力」拉到超過這個值，你會看到水流方向<strong>反轉</strong>——這就是
+    <span data-term="逆滲透">逆滲透</span>（RO），也是全世界一半以上淡化水的來源。
+  </div>
+  <div class="formula teacher-only">
+    <strong>教師模式：驗算</strong><br>
+    π = i·M·R·T = 2 × 0.55 mol/L × 0.08206 L·atm/(mol·K) × 298 K ≈ 26.9 atm ≈ 27 bar。<br>
+    海水的實際滲透莫耳濃度約 1.1 osmol/L（含 Mg²⁺、SO₄²⁻ 等），與此估算一致。
+  </div>
+</template>
+
+<template id="tpl-green">
+  <h3>把 π 從課本搬到淡化廠</h3>
+  <p>
+    上一節算出的那個 27 atm，不只是一個考題答案——它是全世界海水淡化廠<strong>每天必須克服的門檻</strong>。
+    切到綠色情境，你手上就是一座 RO 廠的控制盤。
+  </p>
+
+  <h4>🌿 四個一定要做的實驗</h4>
+  <ol>
+    <li><strong>把「施加壓力」降到 20 bar。</strong>面板會顯示「壓力低於滲透壓，完全無法產水」。
+      這是滲透壓最直接的工程意義：它是一道<strong>硬門檻</strong>。</li>
+    <li><strong>把壓力慢慢往上加。</strong>一旦超過門檻就開始產水，但能耗也跟著線性上升。
+      找出「剛好能產水」的壓力，能耗最低。</li>
+    <li><strong>把「產水回收率」從 45% 拉到 65%。</strong>看兩件事同時發生：
+      濃鹽水鹽度飆到 100 g/kg 以上（海水本身才 35），而且需要的壓力也變高——
+      因為<strong>濃側的滲透壓隨著濃縮而上升</strong>。</li>
+    <li><strong>切到「半鹹水」。</strong>滲透壓低很多，能耗也低很多。
+      這解釋了為什麼內陸半鹹水淡化的成本遠低於海水淡化。</li>
+  </ol>
+
+  <h4>為什麼 RO 打敗了蒸餾？</h4>
+  <table class="data">
+    <thead><tr><th>技術</th><th>能耗 (kWh/m³)</th><th>原理</th></tr></thead>
+    <tbody>
+      <tr><td>熱力學理論最小值</td><td>約 1.06</td><td>分離所需的最小功（35 g/kg、50% 回收率）</td></tr>
+      <tr><td>逆滲透 RO</td><td>約 3–4</td><td>加壓把水擠過膜，<strong>水不需要相變</strong></td></tr>
+      <tr><td>多級閃化蒸餾 MSF</td><td>約 10–15（含熱能換算）</td><td>把水汽化再冷凝，要付出汽化熱</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:.6rem">
+    關鍵差別在<strong>相變</strong>。水的汽化熱是 40.7 kJ/mol，非常大；
+    RO 完全繞過這件事，只付「把水擠過膜」的機械功。
+    這是綠色化學<strong>原則 #6</strong>最漂亮的工程實例：
+    <strong>換一個物理路徑，就少花一個數量級的能量。</strong>
+  </p>
+  <div class="note warn">
+    但 RO 也不是沒有代價：<strong>濃鹽水（brine）</strong>。
+    每產 1 m³ 淡水，就會產生約 1–1.5 m³ 鹽度加倍的濃排水。
+    它密度高、會沉在海底，對底棲生物與海草床有實質衝擊；
+    若含前處理藥劑與抗垢劑，問題更複雜。
+    <strong>零液體排放（ZLD）</strong>把濃鹽水繼續濃縮到析出固體鹽，
+    甚至回收其中的鎂、鋰等元素——這是把「廢棄物」變回「原料」（原則 #1），
+    代價則是更高的能耗。天下沒有白吃的午餐，只有想清楚的取捨。
+  </div>
+
+  <h4>對應的綠色化學原則</h4>
+  <ul>
+    <li><strong>原則 #6 能源效率設計</strong>：以壓力驅動取代相變，能耗差一個數量級。</li>
+    <li><strong>原則 #5 更安全的溶劑與助劑</strong>：整個程序以水為介質，不使用有機溶劑。</li>
+    <li><strong>原則 #1 預防廢棄物</strong>：ZLD 與濃鹽水的資源化（提取鎂、鋰、溴）。</li>
+    <li><strong>原則 #11 即時分析防污染</strong>：線上監測導電度與膜壓差，及早發現結垢與破膜。</li>
+  </ul>
+
+  <h4>🏞 在地連結：花蓮深層海水</h4>
+  <p>
+    花蓮擁有台灣少數的<strong>深層海水</strong>取水條件：離岸不遠就有陡降的海底地形，
+    可以在 600–800 公尺深處取水。深層海水有三個化學上的特點：
+  </p>
+  <ul>
+    <li><strong>低溫穩定</strong>（約 5–10 °C）：溫度低代表細菌活性低，也代表可以直接作為冷能利用（海洋溫差發電、空調冷卻）。</li>
+    <li><strong>潔淨</strong>：位於透光層之下，浮游生物與有機污染物少，前處理負擔小。</li>
+    <li><strong>富含礦物質</strong>：鎂、鉀、鋅等含量穩定。這使得「淡化」不再是唯一目的——
+      濃縮後的礦物質本身就是產品（食品級鎂、深層海水飲品、養殖用水）。</li>
+  </ul>
+  <div class="note leaf">
+    這正是綠色化學的思考方式：<strong>不要問「怎麼處理廢棄物」，要問「為什麼它是廢棄物」。</strong>
+    在傳統海水淡化廠，濃鹽水是要花錢排掉的負擔；
+    在深層海水產業，同一股濃縮液是要賣錢的原料。
+    差別不在化學，在<strong>設計</strong>。
+  </div>
+  <p>
+    另外值得一提：花蓮水資源其實相對豐沛，本身未必需要大規模海水淡化。
+    這一頁的重點不是主張花蓮該蓋淡化廠，而是說明<strong>同一組依數性公式，
+    如何同時解釋一杯鹽水、一顆細胞、與一座工廠的電費單</strong>。
+  </p>
+
+  <div class="note leaf">
+    <strong>本章綠色化學占比自評：</strong>綠色情境為完整可互動模擬（6 個可調參數，含壓力、回收率與水源）；
+    綠色相關文字實測占全章 62.9%（觀念解說 792 字 vs 綠色化學 1340 字）；5 題測驗中有 3 題考綠色化學／永續判斷。
+  </div>
+</template>
+
+<script type="module">
+import { mountChapter } from '../assets/js/chapter.js';
+import { init } from '../assets/js/sim/ch11.js';
+
+mountChapter({
+  id: 'ch11',
+  stageTitle: '模組 A／B：蒸氣壓下降與滲透壓',
+  hint: '拖曳旋轉 · 切換模組看蒸發或滲透',
+  scenario: { classicLabel: '🏭 教科書情境', greenLabel: '🌿 綠色化學情境' },
+  disclaimer: '粒子運動為示意動畫，非分子動力學計算；依數性以理想稀溶液處理（實際海水有離子對與活性係數修正）。RO 能耗採簡化模型（泵效率 80%、能量回收 95%），實廠數值另受前處理、膜種與水質影響。',
+  init,
+  quiz: [
+    {
+      type: 'single', green: false,
+      q: '同樣是 1.0 mol/L 的水溶液，下列何者的滲透壓最大？',
+      options: ['葡萄糖溶液', 'NaCl 溶液', 'CaCl₂ 溶液', '三者相同，因為濃度相同'],
+      answer: 2,
+      hint: '依數性只數「粒子數」。1 個 CaCl₂ 溶進水裡會變成幾個粒子？',
+      explain: 'π = i·M·R·T。葡萄糖不解離（i = 1）、NaCl 解離成 2 個粒子（i ≈ 2）、CaCl₂ 解離成 3 個（i ≈ 3）。所以 CaCl₂ 的滲透壓約是葡萄糖的三倍——濃度相同，粒子數不同。',
+    },
+    {
+      type: 'single', green: false,
+      q: '溶質使溶液的蒸氣壓下降，微觀上的原因是：',
+      options: [
+        '溶質分子會吸收水分子放出的熱', '溶質粒子占據了一部分液面，能逃出去的水分子變少',
+        '溶質使水分子的動能下降', '溶質與水形成共價鍵',
+      ],
+      answer: 1,
+      hint: '看模組 A 的畫面：橘色粒子擠在哪裡？',
+      explain: '蒸發只能從表面發生。溶質占掉表面位置後，單位時間逃逸的水分子減少，蒸氣壓因而下降。這也連帶造成沸點上升與凝固點下降。',
+    },
+    {
+      type: 'single', green: true,
+      q: '在綠色情境中把施加壓力降到 20 bar，系統顯示「完全無法產水」。原因是：',
+      options: [
+        '泵壞了', '20 bar 低於海水的滲透壓（約 27 atm ≈ 27 bar），水不會被推過膜',
+        '膜被鹽堵住了', '溫度太低',
+      ],
+      answer: 1,
+      hint: '把「進料滲透壓 π」那一格的數字與你設定的壓力比一比。',
+      explain: '逆滲透必須克服滲透壓這道門檻才會產水。這是滲透壓從課本走進工程最直接的意義——它決定了淡化廠泵的最低規格，也決定了電費的下限。',
+    },
+    {
+      type: 'single', green: true,
+      q: 'RO 的能耗約 3–4 kWh/m³，而多級閃化蒸餾約 10–15 kWh/m³。RO 之所以省這麼多，關鍵在於：',
+      options: [
+        'RO 使用的膜是催化劑', 'RO 不需要讓水發生相變（汽化），省下巨大的汽化熱',
+        'RO 的產水回收率比較高', 'RO 不需要前處理',
+      ],
+      answer: 1,
+      hint: '水的汽化熱是 40.7 kJ/mol，非常大。蒸餾法必須付這筆錢，RO 呢？',
+      explain: '蒸餾要把水汽化再冷凝，必須支付汽化熱；RO 只付「把水擠過膜」的機械功。換一個物理路徑就省下一個數量級的能量——這是綠色化學原則 #6 最漂亮的工程實例。',
+    },
+    {
+      type: 'multi', green: true,
+      q: '把產水回收率從 45% 拉高到 65% 會帶來哪些後果？（複選）',
+      options: [
+        '濃鹽水的鹽度大幅上升，對底棲生態的衝擊變大',
+        '濃側的滲透壓上升，需要更高的壓力，單位產水能耗上升',
+        '每處理一噸海水可得到更多淡水，取水量與取水口的生態衝擊下降',
+        '完全沒有任何代價，回收率越高一定越環保',
+      ],
+      answer: [0, 1, 2],
+      hint: '前三項是同一個操作的三個不同面向，有好有壞。第四項是絕對化的說法。',
+      explain: '提高回收率同時帶來好處（少取水）與壞處（高鹽度濃排水、更高能耗）。綠色化學不提供「一定比較好」的答案，它提供的是把所有面向攤開來比較的方法。零液體排放（ZLD）是這個困境的一種解法，代價是更多能量。',
+    },
+  ],
+  sources: [
+    '水的飽和蒸氣壓（25 °C，23.76 torr）、K_b = 0.512 °C/m、K_f = 1.86 °C/m：CRC Handbook, 97th ed.',
+    '氣體常數 R = 0.08205736608 L·atm/(mol·K)：CODATA 2018.',
+    '海水鹽度 35 g/kg、滲透莫耳濃度約 1.1 osmol/L、滲透壓約 27 atm：標準海洋化學數據。',
+    '海水淡化能耗（RO 約 3–4、MSF 約 10–15 kWh/m³；熱力學最小分離功約 1.06 kWh/m³）：M. Elimelech &amp; W. A. Phillip, “The Future of Seawater Desalination: Energy, Technology, and the Environment”, <i>Science</i> 333, 712 (2011).',
+    '水的汽化熱 40.7 kJ/mol（100 °C）：NIST Chemistry WebBook.',
+    '深層海水取水深度與特性：台灣東部深層海水產業之公開資料（概略描述）。',
+  ],
+});
+</script>
+</body>
+</html>

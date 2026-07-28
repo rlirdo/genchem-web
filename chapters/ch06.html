@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ch6 熱化學：3D 看斷鍵吸熱、成鍵放熱，用鍵能法與生成焓法各算一次 ΔH；綠色化學比較燃料碳排與花蓮再生能源。">
+<title>Ch6 熱化學｜普通化學互動自學</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/chapter.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%233FA34D'/><circle cx='16' cy='16' r='5' fill='%23FFC93C'/></svg>">
+<script type="importmap">
+{ "imports": {
+    "three": "../assets/vendor/three.module.js",
+    "three/addons/controls/OrbitControls.js": "../assets/vendor/OrbitControls.js"
+} }
+</script>
+</head>
+<body>
+<header data-nav></header>
+<div class="wrap"><nav data-crumbs></nav></div>
+<main id="main" data-chapter></main>
+<footer data-footer></footer>
+
+<template id="tpl-concept">
+  <h3>一、只有一句話要記住：斷鍵吸熱、成鍵放熱</h3>
+  <p>
+    很多人第一次讀熱化學會卡在「燃燒到底是吸熱還是放熱」。答案是：<strong>兩者同時發生</strong>。
+    把「反應進度」滑桿從 0 拉到 100，你會看到兩個階段：
+  </p>
+  <ul>
+    <li><strong>0–50%（斷鍵）</strong>：C–H 與 O=O 鍵被拉長、拉斷。這個階段<strong>吸收</strong>能量，畫面轉冷。</li>
+    <li><strong>50–100%（成鍵）</strong>：原子重新組合成 C=O 與 O–H。這個階段<strong>放出</strong>能量，熱粒子向外輻射，畫面轉暖。</li>
+  </ul>
+  <p>
+    燃燒是放熱反應，是因為<strong>成鍵放出的比斷鍵吸收的多</strong>。
+    新形成的鍵比原本的鍵更穩定，多出來的能量就以熱跑出來。
+  </p>
+  <div class="formula">
+    <code>ΔH ≈ Σ(斷鍵所需能量) − Σ(成鍵放出能量)</code><br>
+    以 CH₄ + 2O₂ → CO₂ + 2H₂O 為例：<br>
+    斷鍵 = 4×(C–H 413) + 2×(O=O 495) = 1652 + 990 = <strong>2642</strong> kJ/mol<br>
+    成鍵 = 2×(C=O 799) + 4×(O–H 467) = 1598 + 1868 = <strong>3466</strong> kJ/mol<br>
+    ΔH ≈ 2642 − 3466 = <strong>−824</strong> kJ/mol（放熱）
+  </div>
+
+  <h4>二、為什麼兩種算法會差一點？</h4>
+  <p>
+    面板上同時給你「鍵能法」與「生成焓法」的結果，兩者差了幾個百分點。這不是程式寫錯，而是重要的觀念：
+  </p>
+  <ul>
+    <li><span data-term="鍵能">鍵能</span>表上的數字是<strong>平均值</strong>——
+      甲烷第一個 C–H 與第四個 C–H 的實際解離能並不相同，表上給的是各種分子的平均。</li>
+    <li>生成焓法（<span data-term="赫斯定律">赫斯定律</span>）用的是各物質的實測 ΔH°f，
+      因此結果更精確：<code>ΔH = ΣΔH°f(產物) − ΣΔH°f(反應物)</code>。</li>
+  </ul>
+  <div class="note">
+    切到「辛烷」看看：兩法只差約 0.5%。切到「氫氣」則差約 5%。
+    <strong>鍵能法適合快速估算與理解機制，精確計算要用生成焓法。</strong>
+    知道一個方法的誤差來源，比會用這個方法更重要。
+  </div>
+
+  <h4>三、赫斯定律：路徑不重要，起點與終點才重要</h4>
+  <p>
+    上面的能量圖刻意畫成「先把所有分子拆成自由原子（爬到最高點），再重新組合成產物（掉下來）」。
+    現實中的燃燒當然不是這樣走的——但<strong>ΔH 只跟起點與終點有關</strong>，
+    所以我們可以自由選一條方便計算的路。這就是赫斯定律，也是整個熱化學計算的基礎。
+  </p>
+  <div class="formula teacher-only">
+    <strong>教師模式：本頁的計算來源</strong><br>
+    平均鍵能取自 Zumdahl <i>Chemistry</i> 10e Table 8.4，存放在
+    <code>assets/data/constants.js</code> 的 <code>BOND_E</code>；<br>
+    標準生成焓取自 NIST/CRC，存放在同檔的 <code>HF298</code>。<br>
+    要新增燃料，只要在 <code>assets/js/sim/ch06.js</code> 的 <code>FUEL</code> 物件加一筆
+    （列出斷鍵與成鍵的鍵種與數量）即可。
+  </div>
+</template>
+
+<template id="tpl-green">
+  <h3>能量是有代價的：原則 #6 與 #7</h3>
+  <p>
+    熱化學課本通常只問「放出多少熱」。綠色化學多問一句：<strong>放出這些熱的同時，排了多少碳？</strong>
+    切到綠色情境，畫面下方的長條圖會把四種燃料的<strong>生命週期碳排強度</strong>（g CO₂e / MJ）並排比較。
+  </p>
+
+  <h4>🌿 三個一定要做的實驗</h4>
+  <ol>
+    <li><strong>選「氫氣」，製氫方式維持「灰氫」。</strong>
+      燃燒端明明是零碳排（產物只有水），碳排強度卻高達 80 g CO₂e/MJ——比直接燒天然氣還糟。
+      因為灰氫是用天然氣重組製造的，每公斤 H₂ 約排 10 公斤 CO₂。</li>
+    <li><strong>把製氫方式切到「綠氫」。</strong>碳排強度立刻掉到個位數。
+      同一個分子、同一個燃燒反應，環境結果卻天差地遠——<strong>差別完全在上游</strong>。</li>
+    <li><strong>選「乙醇」，把「生質上游排放」在三個選項間切換。</strong>
+      用玉米或甘蔗要耕作、施肥、灌溉；用稻稈這類農業廢棄物則幾乎沒有額外的土地成本。</li>
+  </ol>
+  <div class="note warn">
+    第 1、2 步是整章最重要的一課：<strong>「使用階段零碳排」不等於「零碳排」。</strong>
+    電動車、氫能、碳捕捉都有同樣的陷阱。要判斷一項技術是否真的減碳，
+    必須看<strong>整個生命週期</strong>——這是綠色化學原則 #6 要求「認清能源使用的環境與經濟成本」的完整意思。
+  </div>
+
+  <h4>短碳循環 vs 長碳循環</h4>
+  <div class="compare">
+    <div class="c-old">
+      <h5>🏭 化石燃料（長碳循環）</h5>
+      <ul>
+        <li>碳是幾億年前被封存進地層的</li>
+        <li>燒掉＝把地質時間尺度的碳一次釋放到大氣</li>
+        <li>沒有任何自然機制能在人類尺度內把它收回去</li>
+        <li>甲烷是碳氫比最好的化石燃料（每個 C 配 4 個 H），但仍然是化石碳</li>
+      </ul>
+    </div>
+    <div class="c-new">
+      <h5>🌿 生質燃料（短碳循環）</h5>
+      <ul>
+        <li>碳是作物<strong>幾個月前</strong>才從大氣吸走的</li>
+        <li>燒掉只是把它還回去，淨值接近零</li>
+        <li>但耕作、施肥、發酵、蒸餾都要能量與化肥（N₂O！見 Ch5）</li>
+        <li>若為此開墾林地，碳債可能數十年都還不完</li>
+        <li>以<strong>農業廢棄物</strong>為原料最理想（原則 #7 ＋ 原則 #1）</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>對應的綠色化學原則</h4>
+  <ul>
+    <li><strong>原則 #6 能源效率設計</strong>：本章主軸——能源的環境成本必須被計入。</li>
+    <li><strong>原則 #7 使用可再生原料</strong>：生質燃料與綠氫。</li>
+    <li><strong>原則 #1 預防廢棄物</strong>：以稻稈、蔗渣等農業廢棄物為原料。</li>
+    <li><strong>原則 #9 催化</strong>：燃料電池以催化劑在低溫下把化學能直接轉成電能，
+      避開卡諾循環的效率限制，比燃燒更有效率。</li>
+  </ul>
+
+  <h4>🏞 在地連結：花蓮的能源條件</h4>
+  <p><strong>（一）水力發電</strong></p>
+  <p>
+    花蓮的地形落差大、雨量豐沛，是台灣水力發電的重要區域（銅門、清水、龍澗等電廠）。
+    水力的生命週期碳排約 <strong>24 g CO₂e/kWh</strong>，相對燃煤的約 820 是兩個數量級的差距。
+    這也回頭影響 Ch5 談過的碳捕捉、以及本章的綠氫——<strong>低碳電力是所有其他綠色技術的前提</strong>。
+  </p>
+  <table class="data">
+    <thead><tr><th>發電方式</th><th>生命週期碳排 (g CO₂e/kWh)</th></tr></thead>
+    <tbody>
+      <tr><td>水力（花蓮主力）</td><td>約 24</td></tr>
+      <tr><td>地熱</td><td>約 38</td></tr>
+      <tr><td>天然氣複循環</td><td>約 490</td></tr>
+      <tr><td>燃煤</td><td>約 820</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:var(--fs-xs);color:var(--ink-3);margin-top:.4rem">
+    數值為 IPCC AR5 生命週期評估之中位數，為概略值。</p>
+
+  <p style="margin-top:1rem"><strong>（二）地熱潛能</strong></p>
+  <p>
+    花蓮位於板塊交界，瑞穗、紅葉一帶有明確的地熱徵兆。地熱的特點是<strong>不受天候影響</strong>，
+    可以提供基載電力——這正好補上水力在枯水期的缺口。從熱化學的角度看，
+    地熱是直接利用地球內部的熱，不需要任何燃燒反應，因此沒有燃燒產物的問題。
+  </p>
+
+  <p style="margin-top:1rem"><strong>（三）稻稈：從露天燃燒到資源化</strong></p>
+  <p>
+    花蓮是重要的稻米產區。稻稈若在田間露天燃燒，會產生大量 PM2.5 與不完全燃燒產物（CO、多環芳香烴），
+    而且熱能完全浪費。若改為資源化：
+  </p>
+  <ul>
+    <li><strong>纖維素乙醇</strong>：把稻稈的纖維素水解成糖再發酵，屬於第二代生質燃料，
+      不與糧食競爭土地（在面板上對應「低（農業廢棄物）」選項）。</li>
+    <li><strong>生物炭（biochar）</strong>：在缺氧下熱裂解，把碳固定成穩定的炭返回土壤，
+      同時改良土壤保水與保肥力——這是<strong>負排放</strong>技術。</li>
+    <li><strong>沼氣</strong>：與畜牧糞尿共消化產生甲烷發電，同時解決 Ch5 提到的甲烷逸散問題。</li>
+  </ul>
+  <p>
+    同一堆稻稈，露天燒掉是污染源，妥善轉化就是能源與碳匯。
+    這中間的差別，就是本章要教的<strong>能量與物質的去向管理</strong>。
+  </p>
+
+  <div class="note leaf">
+    <strong>本章綠色化學占比自評：</strong>綠色情境為完整可互動模擬（5 個可調參數，含製氫路線與生質上游）；
+    綠色相關文字實測占全章 61.4%（觀念解說 934 字 vs 綠色化學 1483 字）；5 題測驗中有 3 題考綠色化學／永續判斷。
+  </div>
+</template>
+
+<script type="module">
+import { mountChapter } from '../assets/js/chapter.js';
+import { init } from '../assets/js/sim/ch06.js';
+
+mountChapter({
+  id: 'ch06',
+  stageTitle: '模組 A：燃燒中的鍵結重組（斷鍵吸熱、成鍵放熱）',
+  hint: '拉「反應進度」看斷鍵與成鍵 · 可旋轉',
+  scenario: { classicLabel: '🏭 教科書情境', greenLabel: '🌿 綠色化學情境' },
+  disclaimer: '3D 為鍵結重組的示意動畫，非分子動力學軌跡；辛烷等大分子在畫面上以簡化結構呈現。鍵能法使用平均鍵能，本身即為近似，頁面同時給出生成焓法的精確值供比較。',
+  init,
+  quiz: [
+    {
+      type: 'single', green: false,
+      q: '下列關於斷鍵與成鍵的敘述，何者正確？',
+      options: [
+        '斷鍵放熱、成鍵吸熱', '斷鍵吸熱、成鍵放熱',
+        '兩者都放熱，所以燃燒才會放熱', '兩者都吸熱，需要外界持續供能',
+      ],
+      answer: 1,
+      hint: '把「反應進度」拉到 25%（斷鍵中）與 75%（成鍵中），看畫面的冷暖與熱粒子。',
+      explain: '打斷鍵一定要投入能量（吸熱），形成鍵一定會放出能量（放熱）。燃燒放熱是因為成鍵放出的比斷鍵吸收的多——新鍵比舊鍵更穩定。',
+    },
+    {
+      type: 'single', green: false,
+      q: 'CH₄ 的燃燒 ΔH：鍵能法算出 −824 kJ/mol，生成焓法算出 −802.5 kJ/mol。這個差異最合理的解釋是：',
+      options: [
+        '生成焓法算錯了', '鍵能表用的是各種分子的「平均」鍵能，本身就是近似值',
+        '因為赫斯定律不適用於燃燒反應', '因為兩者用的溫度不同',
+      ],
+      answer: 1,
+      hint: '想想「甲烷的第一個 C–H」與「甲醇的 C–H」的解離能是否完全相同。',
+      explain: '鍵能表列的是同一種鍵在不同分子中的平均值，因此鍵能法只能算到「幾個百分點」的準確度。要精確計算必須用實測的 ΔH°f 搭配赫斯定律。認識方法的誤差來源，是化學計算的基本素養。',
+    },
+    {
+      type: 'single', green: true,
+      q: '氫氣燃燒的產物只有水，為什麼「灰氫」的生命週期碳排強度仍然高達約 80 g CO₂e/MJ，比天然氣還糟？',
+      options: [
+        '因為氫氣燃燒會產生 CO₂', '因為灰氫是用天然氣重組製造的，每公斤 H₂ 約排 10 公斤 CO₂',
+        '因為氫氣的能量密度太低', '因為水蒸氣也是溫室氣體',
+      ],
+      answer: 1,
+      hint: '在面板上把製氫方式從「灰氫」切到「綠氫」，看碳排強度怎麼變。燃燒反應完全沒變，變的是什麼？',
+      explain: '「使用階段零碳排」不等於「零碳排」。判斷一項技術是否真的減碳，必須看整個生命週期——這是本章最重要的一課，同樣的邏輯適用於電動車、碳捕捉與所有「綠色」技術。',
+      explain2: '這也是為什麼綠氫（再生電力電解）與低碳電網是氫能真正的前提。',
+    },
+    {
+      type: 'single', green: true,
+      q: '用<strong>稻稈</strong>製造纖維素乙醇，相對於用玉米製造乙醇，額外符合了哪一條綠色化學原則？',
+      options: [
+        '原則 #1 預防廢棄物（把本來要處理的農業廢棄物變成原料）',
+        '原則 #2 原子經濟性', '原則 #11 即時分析防污染', '原則 #4 設計更安全的化學品',
+      ],
+      answer: 0,
+      hint: '玉米是為了做燃料而種的；稻稈本來就存在，而且原本常被露天燃燒。',
+      explain: '第二代生質燃料使用農業廢棄物，同時滿足原則 #7（可再生原料）與原則 #1（預防廢棄物），而且不與糧食競爭土地。這是「一個做法同時解決兩個問題」的漂亮案例。',
+    },
+    {
+      type: 'match', green: true,
+      q: '把花蓮的能源選項與它的化學／環境特點配對：',
+      leftTitle: '能源選項', rightTitle: '特點',
+      left: ['水力發電（銅門、清水、龍澗）', '地熱（瑞穗、紅葉一帶）', '稻稈製生物炭'],
+      right: [
+        '不需要燃燒反應，不受天候影響，可提供基載電力',
+        '負排放技術：把碳固定成穩定的炭返回土壤，同時改良地力',
+        '生命週期碳排約 24 g CO₂e/kWh，是所有其他綠色技術的低碳電力前提',
+      ],
+      answer: [2, 0, 1],
+      hint: '想想每一項的關鍵詞：水力是「電力來源」、地熱是「不受天候影響的基載」、生物炭是「把碳鎖回土裡」。',
+      explain: '低碳電力（水力、地熱）是綠氫、碳捕捉、電動化等所有下游綠色技術的共同前提；生物炭則是少數能做到「負排放」的技術。花蓮同時具備這幾項條件，在能源轉型上有結構性的優勢。',
+    },
+  ],
+  sources: [
+    '平均鍵能：Zumdahl &amp; Zumdahl, <i>Chemistry</i>, 10th ed., Table 8.4.',
+    '標準生成焓 ΔH°f (298 K)：NIST Chemistry WebBook / CRC Handbook, 97th ed.',
+    '燃料質量能量密度（低熱值）：IEA / US DOE 常用值。',
+    '製氫碳足跡（灰氫約 10、藍氫約 3、綠氫約 0.5 kg CO₂/kg H₂）：IEA <i>Global Hydrogen Review</i> 系列之常見區間，本頁取代表值並標註為概略值。',
+    '生質燃料上游碳排（25–70 g CO₂e/MJ）：生命週期評估文獻之常見區間，隨原料與耕作方式差異極大。',
+    '各發電方式生命週期碳排中位數：IPCC AR5 WG3 Annex III。',
+  ],
+});
+</script>
+</body>
+</html>

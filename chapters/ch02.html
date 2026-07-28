@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ch2 原子、分子與離子：3D 重現 Geiger–Marsden 金箔實驗與 Thomson 布丁模型對照；綠色化學延伸到都市採礦與生物瀝濾。">
+<title>Ch2 原子、分子與離子｜普通化學互動自學</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/chapter.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%233FA34D'/><circle cx='16' cy='16' r='5' fill='%23FFC93C'/></svg>">
+<script type="importmap">
+{ "imports": {
+    "three": "../assets/vendor/three.module.js",
+    "three/addons/controls/OrbitControls.js": "../assets/vendor/OrbitControls.js"
+} }
+</script>
+</head>
+<body>
+<header data-nav></header>
+<div class="wrap"><nav data-crumbs></nav></div>
+<main id="main" data-chapter></main>
+<footer data-footer></footer>
+
+<template id="tpl-concept">
+  <h3>一、一個實驗如何推翻一個模型</h3>
+  <p>
+    1909 年，Geiger 與 Marsden 在 Rutherford 指導下把 α 粒子射向厚約 0.4 µm 的金箔。
+    當時大家相信的是 Thomson 的<strong>布丁模型</strong>：正電荷像布丁一樣均勻散布在整顆原子裡，
+    電子像葡萄乾嵌在其中。如果這是對的，α 粒子穿過去頂多被輕輕推歪一點點——
+    你可以把上面的模型切到「Thomson 布丁」親眼確認：直方圖會全部擠在 0° 附近，永遠不會有反彈。
+  </p>
+  <p>
+    但實驗結果是：<strong>絕大多數穿透，極少數卻被彈回來</strong>。Rutherford 的著名比喻是——
+    這就像你朝一張衛生紙開砲，砲彈卻反彈回來打到自己。
+  </p>
+
+  <h4>二、為什麼「極少數」才是關鍵</h4>
+  <p>
+    切回 Rutherford 模型，把「每秒發射粒子數」拉到最大，觀察面板上的「反彈比例」。
+    在 5 MeV、400 nm 金箔的條件下，這個比例大約是<strong>幾萬分之一</strong>。
+    正因為機率這麼低，才能推論出：原子裡的正電荷不是散開的，而是<strong>集中在一個極小的核</strong>。
+  </p>
+  <div class="formula">
+    <strong>Rutherford 散射（單次散射近似）</strong><br>
+    最近接近距離 <code>d₀ = Z₁Z₂e² / (4πε₀E)</code>（α 粒子 Z₁=2，金 Z₂=79）<br>
+    散射角與碰撞參數的關係 <code>tan(θ/2) = d₀ / (2b)</code><br>
+    偏折超過 θ 的機率 <code>P(Θ&gt;θ) = n·t·π·(d₀/2)²·cot²(θ/2)</code><br>
+    <span class="teacher-only">n 為金的原子數密度（由 ρN_A/M 算得，約 5.9×10²⁸ /m³），t 為箔片厚度。
+    把 α 能量從 5 MeV 拉到 12 MeV，d₀ 會下降，反彈比例隨之下降——這是可以在面板上驗證的預測。</span>
+  </div>
+
+  <h4>三、尺度感：原子裡幾乎全是空的</h4>
+  <p>
+    金原子半徑約 144 pm，而金原子核半徑只有約 7.3 fm——相差<strong>約兩萬倍</strong>。
+    如果把原子放大到一座棒球場那麼大，原子核大概只有球場中央的一顆彈珠。
+    上面 3D 畫面裡那些紅色小點就是原子核，已經刻意畫大了，否則你根本看不見。
+  </p>
+  <div class="note">
+    <strong>同位素小提醒：</strong>質子數決定是哪一種元素，中子數決定是哪一個<span data-term="同位素">同位素</span>。
+    同位素化學性質幾乎相同、質量不同——這個「幾乎相同但可分辨」的特性，正是後面污染源追蹤技術的基礎。
+  </div>
+</template>
+
+<template id="tpl-green">
+  <h3>從金箔到都市礦山</h3>
+  <p>
+    Rutherford 用的是金箔。一百多年後，我們仍然在為了金而挖山——
+    但現在有一個更好的礦源，就在我們的抽屜裡：<span data-term="都市採礦">廢棄電子產品</span>。
+  </p>
+  <table class="data">
+    <thead><tr><th>金的來源</th><th>含金量</th><th>倍率</th></tr></thead>
+    <tbody>
+      <tr><td>原生金礦石</td><td>約 1–5 g / 公噸</td><td>1×</td></tr>
+      <tr><td>廢電路板（都市礦山）</td><td>約 200–350 g / 公噸</td><td>約 <strong>50–100×</strong></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:var(--fs-xs);color:var(--ink-3);margin-top:.4rem">含金量為概略值，隨產品世代與板型差異很大。</p>
+  <p>
+    在綠色情境裡把「金的來源」在兩者間切換，看「原料含金量」與「相當於開採原生礦」兩個數字——
+    你會發現處理 100 公噸廢電路板拿到的金，等同於開採<strong>好幾千公噸</strong>原生礦石。
+    這就是原則 #1「預防廢棄物」最有力的版本：把廢棄物重新定義成原料。
+  </p>
+
+  <h4>🌿 但用什麼方法把金取出來？</h4>
+  <div class="compare">
+    <div class="c-old">
+      <h5>🏭 氰化法（傳統）</h5>
+      <ul>
+        <li>以 CN⁻ 與金形成錯合物 [Au(CN)₂]⁻ 而溶出</li>
+        <li>快（約 1 天）、回收率高（約 95%）</li>
+        <li>氰化物<strong>劇毒</strong>，毒性等級 5</li>
+        <li>尾礦壩潰決風險（1999 年羅馬尼亞 Baia Mare 氰化物外洩污染多瑙河支流）</li>
+        <li>違反原則 #3（低毒性合成）與原則 #12（本質安全）</li>
+      </ul>
+    </div>
+    <div class="c-new">
+      <h5>🌿 生物瀝濾 Biomining（仿生／微生物冶金）</h5>
+      <ul>
+        <li>利用微生物代謝物（有機酸、氰基化合物、硫氧化）把金屬溶出</li>
+        <li>常溫常壓、水相，能耗約只有氰化法的 <strong>30%</strong></li>
+        <li>毒性等級由 5 降到 1</li>
+        <li>代價是<strong>慢</strong>：需要 1–4 週，回收率也較低（約 70%）</li>
+        <li>符合原則 #3、#5（水為溶劑）、#6（常溫常壓）</li>
+      </ul>
+    </div>
+  </div>
+  <p>
+    請在面板上把製程切到「生物瀝濾」，然後把「可接受的處理天數」從 1 天慢慢拉到 40 天——
+    你會看到回收率像一條飽和曲線爬上來。這是一個很誠實的畫面：
+    <strong>綠色技術通常不是「什麼都比較好」，而是用一種成本換另一種成本。</strong>
+    在這個案例裡，我們用<em>時間</em>換掉了<em>劇毒</em>。
+  </p>
+
+  <h4>對應的綠色化學原則</h4>
+  <ul>
+    <li><strong>原則 #3 低毒性合成</strong>：以微生物代謝取代氰化物。</li>
+    <li><strong>原則 #11 即時分析防污染</strong>：散射與光譜分析屬<strong>非破壞性檢測</strong>，
+      不需溶解樣品、不產生化學廢液就能知道材料成分。傳統濕式分析每測一個樣品就製造一批廢液。</li>
+    <li><strong>原則 #1 預防廢棄物</strong>：都市採礦把電子廢棄物變回資源。</li>
+  </ul>
+
+  <h4>🏞 在地連結：同位素當「化學指紋」追污染源</h4>
+  <p>
+    <span data-term="同位素">同位素</span>比值是環境鑑識最有力的工具之一。
+    不同來源的污染物，其同位素比值往往帶有各自的「指紋」：
+  </p>
+  <ul>
+    <li><strong>硝酸鹽的 δ¹⁵N 與 δ¹⁸O</strong>：可以分辨溪水中的氮是來自化學肥料、動物糞肥，還是生活污水。</li>
+    <li><strong>鉛同位素比（²⁰⁶Pb/²⁰⁷Pb）</strong>：不同礦源的鉛比值不同，可用來追溯土壤或底泥中鉛的來源。</li>
+    <li><strong>水的 δD 與 δ¹⁸O</strong>：可以判斷地下水補注來自降雨、河水還是深層來源。</li>
+  </ul>
+  <p>
+    對花蓮這種同時有農業、觀光與礦業活動的流域來說，這件事很實際：
+    當花蓮溪某段測到氮濃度偏高，究竟該找農民、找養殖場，還是找污水處理廠？
+    同位素分析可以在<strong>不製造額外污染的前提下</strong>回答這個問題——這正是原則 #11 的精神：
+    好的分析方法本身就是一種預防。
+  </p>
+
+  <div class="note leaf">
+    <strong>本章綠色化學占比自評：</strong>綠色情境為完整可互動模擬（4 個可調參數，兩種礦源 × 兩種製程 × 時間）；
+    綠色相關文字實測占全章 59.1%（觀念解說 800 字 vs 綠色化學 1157 字）；5 題測驗中有 3 題考綠色化學／永續判斷。
+  </div>
+</template>
+
+<script type="module">
+import { mountChapter } from '../assets/js/chapter.js';
+import { init } from '../assets/js/sim/ch02.js';
+
+mountChapter({
+  id: 'ch02',
+  stageTitle: '模組 A：α 粒子撞金箔（Geiger–Marsden 實驗）',
+  hint: '拖曳旋轉 · 可切換原子模型',
+  scenario: { classicLabel: '🏭 教科書情境', greenLabel: '🌿 綠色化學情境' },
+  disclaimer: '採用單次散射近似與 Rutherford 公式；3D 畫面中的原子核已刻意放大（真實比例約 1:20000），金箔僅畫 3 層原子（真實約 1000 層）。統計圖為真實比例。',
+  init,
+  quiz: [
+    {
+      type: 'single', green: false,
+      q: '把原子模型切到「Thomson 布丁」後，直方圖的變化說明了什麼？',
+      options: [
+        '布丁模型也能解釋大角度反彈，只是機率較低',
+        '布丁模型下 α 粒子只會有極小的偏折，無法解釋觀測到的大角度反彈',
+        '布丁模型預測所有粒子都會被反彈',
+        '兩個模型的預測其實完全相同',
+      ],
+      answer: 1,
+      hint: '看直方圖裡有沒有任何粒子落在 90° 右邊。',
+      explain: '正電荷若均勻散開，α 粒子感受到的電場很弱，最大偏折角只有約 0.02°。實驗上真的看到反彈，就是布丁模型的死刑判決——這是「一個關鍵實驗推翻一個模型」的經典案例。',
+    },
+    {
+      type: 'single', green: false,
+      q: '把 α 粒子能量從 5 MeV 提高到 12 MeV，其他條件不變，「反彈比例」會如何變化？為什麼？',
+      options: [
+        '上升，因為粒子更有力氣衝過去',
+        '下降，因為最近接近距離 d₀ 與能量成反比，需要更小的碰撞參數才能大角度偏折',
+        '不變，因為偏折只由原子核大小決定',
+        '先上升後下降',
+      ],
+      answer: 1,
+      hint: '看公式 d₀ = Z₁Z₂e²/(4πε₀E)，再看 P(Θ>θ) 與 d₀ 的關係。',
+      explain: 'd₀ ∝ 1/E，而 P(Θ>θ) ∝ d₀²，所以能量加倍時反彈機率降為約四分之一。你可以在面板上直接驗證這個預測——這就是好模型的價值：它能被檢驗。',
+    },
+    {
+      type: 'single', green: true,
+      q: '廢電路板每公噸約含 250 g 金，原生金礦石每公噸約含 3 g。這個對比最直接支持哪一條綠色化學原則？',
+      options: [
+        '原則 #1 預防廢棄物（把廢棄物重新定義為原料）',
+        '原則 #9 催化',
+        '原則 #7 使用可再生原料',
+        '原則 #12 本質安全的化學',
+      ],
+      answer: 0,
+      hint: '想想「都市採礦」到底改變了什麼——是反應條件，還是我們對「廢棄物」的定義？',
+      explain: '都市採礦沒有改變化學反應本身，它改變的是原料的來源：把原本要進掩埋場的東西當成高品位礦。這是原則 #1 最徹底的實踐。',
+    },
+    {
+      type: 'single', green: true,
+      q: '生物瀝濾相對氰化法「毒性由 5 降到 1、能耗只剩 30%」，但它<strong>不是</strong>在所有面向都比較好。它最主要的代價是：',
+      options: [
+        '需要更高的操作溫度', '需要更長的處理時間，且回收率較低',
+        '會產生更多二氧化碳', '完全無法應用在電子廢棄物上',
+      ],
+      answer: 1,
+      hint: '把面板上的「可接受的處理天數」從 1 拉到 40，觀察回收率怎麼變。',
+      explain: '氰化法約 1 天達 95% 回收率，生物瀝濾要 1–4 週才達約 70%。綠色化學很少是「全面勝出」，而是明確地選擇要付出哪一種成本——這裡是用時間換掉劇毒。',
+    },
+    {
+      type: 'multi', green: true,
+      q: '下列哪些做法符合綠色化學原則 #11「即時分析防污染」的精神？（複選）',
+      options: [
+        '用散射／光譜等非破壞性方法檢測材料成分，不產生化學廢液',
+        '用同位素比值追蹤花蓮溪流中氮污染的來源，再針對源頭管理',
+        '把所有廢水集中後再一次做大規模末端處理',
+        '在製程中連續監測，在有害物質生成前就調整參數',
+      ],
+      answer: [0, 1, 3],
+      hint: '原則 #11 的關鍵字是「即時」與「預防」，不是「事後」。',
+      explain: '第三個選項是典型的「末端處理」思維，也就是綠色化學想取代的舊模式。原則 #11 主張把分析方法本身變成預防工具：能提早知道，就不必事後補救。',
+    },
+  ],
+  sources: [
+    'Geiger–Marsden 實驗與 Rutherford 散射公式：H. Geiger &amp; E. Marsden, <i>Proc. R. Soc. A</i> 82, 495 (1909)；E. Rutherford, <i>Phil. Mag.</i> 21, 669 (1911)。',
+    '金的密度、原子半徑：CRC Handbook, 97th ed.；原子數密度由 n = ρN_A/M 計算。',
+    '核半徑經驗式 R ≈ 1.25·A<sup>1/3</sup> fm，Au-197 得約 7.3 fm。',
+    '電子廢棄物與原生礦含金量：UNU/ITU <i>Global E-waste Monitor</i> 系列報告之常見引用區間（概略值，隨板型差異大）。',
+    '生物瀝濾（biomining）之能耗與回收率：本頁採教學用代表值（見 assets/data/constants.js，已標註 approx: true），用以呈現數量級關係。',
+    'Baia Mare 氰化物外洩事件（2000 年 1 月）：UNEP/OCHA 聯合評估任務報告。',
+    '同位素環境鑑識（δ¹⁵N、δ¹⁸O、Pb 同位素比）：環境地球化學標準方法之通用做法。',
+  ],
+});
+</script>
+</body>
+</html>

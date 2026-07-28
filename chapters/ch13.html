@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ch13 化學平衡：看分子持續雙向轉換的動態平衡、正逆速率交會與勒沙特列原理；綠色化學比較哈柏法與固氮酶，並延伸海洋酸化。">
+<title>Ch13 化學平衡｜普通化學互動自學</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/chapter.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231E9EB3'/><circle cx='16' cy='16' r='5' fill='%23FFC93C'/></svg>">
+<script type="importmap">
+{ "imports": {
+    "three": "../assets/vendor/three.module.js",
+    "three/addons/controls/OrbitControls.js": "../assets/vendor/OrbitControls.js"
+} }
+</script>
+</head>
+<body>
+<header data-nav></header>
+<div class="wrap"><nav data-crumbs></nav></div>
+<main id="main" data-chapter></main>
+<footer data-footer></footer>
+
+<template id="tpl-concept">
+  <h3>一、平衡不是停止，是「一樣快」</h3>
+  <p>
+    這是整章最容易被誤會的一句話。請盯著 3D 畫面看幾秒：
+    即使左邊兩張圖上的濃度已經不再變化，畫面裡的分子<strong>仍然不斷在 N₂/H₂ 與 NH₃ 之間轉換</strong>。
+  </p>
+  <p>
+    左邊那張「正逆反應速率」圖把這件事講得最清楚：
+    反應剛開始時正反應（藍）很快、逆反應（橘）幾乎是零；
+    隨著 NH₃ 累積，逆反應加速、正反應減慢，最後兩條線<strong>交會</strong>——
+    從那一刻起，濃度就不再改變了。這就是<span data-term="動態平衡">動態平衡</span>。
+  </p>
+  <div class="formula">
+    平衡時 <code>r_f = r_r</code>，即 <code>k_f[N₂][H₂]³ = k_r[NH₃]²</code><br>
+    整理後 <code>K_c = k_f / k_r = [NH₃]² / ([N₂][H₂]³)</code><br>
+    <strong>平衡常數其實就是正逆速率常數的比值。</strong>
+  </div>
+
+  <h4>二、Q 追 K：系統怎麼知道要往哪走？</h4>
+  <p>
+    <span data-term="反應商">反應商</span> Q 用的公式與 K 完全一樣，差別只在於它代入的是<strong>當下</strong>的濃度。
+    比較 Q 與 K，就知道系統會往哪邊走：
+  </p>
+  <ul>
+    <li><strong>Q &lt; K</strong>：產物還不夠 → 往右（生成更多 NH₃）</li>
+    <li><strong>Q = K</strong>：平衡</li>
+    <li><strong>Q &gt; K</strong>：產物太多 → 往左（分解 NH₃）</li>
+  </ul>
+  <p>
+    現在按面板上的「<strong>－ 抽走 NH₃</strong>」。你會看到 Q 瞬間掉到 K 以下，
+    正反應速率立刻跳起來，系統開始重新製造 NH₃ 把 Q「追」回 K。
+    工業上這招叫「移除產物以推動反應」——合成氨廠就是靠不斷把液氨冷凝抽走，
+    才能把單程轉化率不高的反應變成連續高產量的製程。
+  </p>
+
+  <h4>三、勒沙特列原理：三個把手</h4>
+  <table class="data">
+    <thead><tr><th>擾動</th><th>系統怎麼反應</th><th>在本頁怎麼驗證</th></tr></thead>
+    <tbody>
+      <tr><td>加入反應物</td><td>往右移，消耗掉一部分新加入的量</td><td>按「＋ 加入 N₂」</td></tr>
+      <tr><td>抽走產物</td><td>往右移，補回被抽走的產物</td><td>按「－ 抽走 NH₃」</td></tr>
+      <tr><td>加壓（減體積）</td><td>往<strong>氣體莫耳數少</strong>的一邊移<br>（左 4 mol → 右 2 mol，故往右）</td><td>拉「壓力」滑桿</td></tr>
+      <tr><td>升溫</td><td>往<strong>吸熱</strong>方向移。本反應放熱，故往左，K 變小</td><td>拉「溫度」滑桿看 K 的變化</td></tr>
+    </tbody>
+  </table>
+  <div class="note warn">
+    請特別注意最後一列：<strong>只有溫度會改變 K 本身</strong>。
+    改濃度或壓力只是讓 Q 暫時偏離 K，系統再走回同一個 K；
+    但改溫度是把 K 這個目標值本身移動了。這是考試最常出錯的地方。
+  </div>
+  <div class="formula teacher-only">
+    <strong>教師模式：本頁的溫度模型</strong><br>
+    以凡特荷夫式外推：<code>K(T) = K(298) · exp[−ΔH/R · (1/T − 1/298)]</code>，
+    ΔH = −92.2 kJ/mol，K_c(298) 取 3.6×10⁸（由 K_p = 5.8×10⁵ 換算）。<br>
+    動力學積分採 <code>r_f = k_f[N₂][H₂]³</code>、<code>r_r = k_r[NH₃]²</code>，
+    其中 <code>k_r = k_f / K</code>，因此模擬必然收斂到熱力學正確的平衡位置。
+  </div>
+</template>
+
+<template id="tpl-green">
+  <h3>養活一半人類的反應，也是最耗能的反應之一</h3>
+  <p>
+    哈柏法（Haber–Bosch）是二十世紀最重要的化學製程：沒有它，全球約<strong>一半</strong>的人口
+    無法獲得足夠的糧食。但它同時是：
+  </p>
+  <ul>
+    <li>約占全球能源使用的 <strong>1–2%</strong></li>
+    <li>每噸氨排放約 <strong>1.9 噸 CO₂</strong></li>
+    <li>操作條件 <strong>450 °C、200 atm</strong>——高溫高壓本身就是重大工安風險（原則 #12 的反例）</li>
+  </ul>
+
+  <h4>🌿 一個殘酷的化學矛盾</h4>
+  <p>
+    合成氨是<strong>放熱</strong>反應（ΔH = −92.2 kJ/mol）。依勒沙特列原理，
+    <strong>低溫對生成 NH₃ 有利</strong>——把面板溫度從 900 K 拉到 400 K，你會看到 K 暴增好幾個數量級。
+  </p>
+  <p>
+    那為什麼工業不用低溫？因為<strong>低溫下反應慢到沒有商業價值</strong>（回想 Ch12 的 Arrhenius 式）。
+    於是工業只好折衷：用 450 °C 換取速率，再用 200 atm 的高壓把平衡推回右邊。
+  </p>
+  <div class="note warn">
+    <strong>熱力學說「可以」，動力學說「太慢」，工程只好用能量硬幹。</strong>
+    這個拉鋸是整個化學工業的核心難題，也是為什麼原則 #9（催化）的價值這麼高——
+    好的催化劑能讓你不必用溫度去買速率。
+  </div>
+
+  <h4>🦠 仿生固氮：細菌早就解決了這個問題</h4>
+  <div class="compare">
+    <div class="c-old">
+      <h5>🏭 哈柏法</h5>
+      <ul>
+        <li>450 °C、200 atm、鐵觸媒</li>
+        <li>能耗約 30 GJ/噸 NH₃</li>
+        <li>碳排約 1.9 t CO₂/t NH₃（天然氣製程）</li>
+        <li>用<strong>溫度與壓力</strong>硬拆 N≡N（941 kJ/mol）</li>
+        <li>單程轉化率僅約 15%，靠循環與冷凝分離補足</li>
+      </ul>
+    </div>
+    <div class="c-new">
+      <h5>🌿 固氮酶（nitrogenase）</h5>
+      <ul>
+        <li><strong>25 °C、1 atm</strong>，在細菌細胞裡</li>
+        <li>靠鐵鉬輔因子（FeMo-co）<strong>逐步</strong>傳遞電子與質子</li>
+        <li>不是「硬拆」三鍵，而是一步一步弱化它</li>
+        <li>代價：每固定 1 個 N₂ 消耗 <strong>16 個 ATP</strong></li>
+        <li>人類目前<strong>還無法工業化複製</strong>——但它證明了常溫常壓固氮在物理上可行</li>
+      </ul>
+    </div>
+  </div>
+  <p>
+    請在面板上依序點過「哈柏法 → 綠氨 → 固氮酶」，注意三個指標的變化方向<strong>並不一致</strong>：
+    綠氨大幅降低碳排（1.9 → 0.35 t/t），但能耗<strong>反而上升</strong>（電解效率有限）。
+    這是誠實的綠色化學：說清楚哪一項改善了、哪一項沒有，而不是貼一張「環保」標籤了事。
+  </p>
+
+  <h4>🌊 另一個巨大的平衡：海洋與 CO₂</h4>
+  <p>
+    把面板主題切到「海洋 CO₂ 平衡」。這是地球上最大的化學平衡系統：
+  </p>
+  <div class="formula">
+    <code>CO₂(g) ⇌ CO₂(aq) ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻ ⇌ 2H⁺ + CO₃²⁻</code>
+  </div>
+  <p>
+    海洋吸收了人為 CO₂ 排放的<strong>約四分之一</strong>——這聽起來像好消息，
+    但依勒沙特列原理，大氣 CO₂ 上升會把整串平衡往右推，釋出更多 H⁺。
+  </p>
+  <ul>
+    <li>工業革命前：大氣 278 ppm，海水 pH <strong>8.21</strong></li>
+    <li>2023 年：大氣 419 ppm，海水 pH <strong>8.10</strong></li>
+    <li>pH 只掉 0.11 聽起來很少，但 pH 是<strong>對數尺度</strong>——[H⁺] 增加了約 <strong>30%</strong></li>
+  </ul>
+  <p>
+    把「大氣 CO₂ 濃度」滑桿拉到 1000 ppm 看看右邊那張圖：[H⁺] 會變成工業革命前的好幾倍。
+    後果是碳酸鈣殼體（珊瑚、貝類、有孔蟲、翼足類）更難形成、甚至溶解——
+    因為 CO₃²⁻ 被大量的 H⁺ 消耗掉了。
+  </p>
+
+  <h4>對應的綠色化學原則</h4>
+  <ul>
+    <li><strong>原則 #6 能源效率設計</strong>：哈柏法的高溫高壓 vs 固氮酶的常溫常壓。</li>
+    <li><strong>原則 #9 催化</strong>：好的催化劑讓你不必用溫度買速率。</li>
+    <li><strong>原則 #12 本質安全</strong>：200 atm 的高壓製程 vs 常壓的生物系統。</li>
+    <li><strong>原則 #2 原子經濟性</strong>：合成氨本身是 100% 原子經濟（見 Ch3）——
+      再次提醒：原子經濟性滿分，不代表製程就綠。</li>
+  </ul>
+
+  <h4>🏞 在地連結：花蓮的氮循環與海域</h4>
+  <p>
+    <strong>（一）豆科綠肥取代合成氮肥。</strong>花蓮是全台有機與友善耕作面積比例最高的縣市之一。
+    有機農法使用豆科作物（如田菁、太陽麻）當綠肥，靠根瘤菌的固氮酶在<strong>常溫常壓</strong>把 N₂ 變成植物可用的氮——
+    等於在田裡直接運轉一座不用電的「氨工廠」。這不只是理念，也是本章化學的直接應用。
+  </p>
+  <p>
+    <strong>（二）過量施氮的下游代價。</strong>合成氮肥若過量施用，多餘的氮會以兩種方式離開農田：
+    以硝酸鹽形式進入溪流與地下水（見 Ch4 的水質），或以 N₂O 形式進入大氣——
+    而 N₂O 的 GWP 是 <strong>273</strong>（見 Ch5）。
+    <strong>一個原子經濟性 100% 的反應，它的下游卻可能是全球暖化與水污染。</strong>
+    綠色化學要求我們看的就是這種跨章節、跨尺度的連結。
+  </p>
+  <p>
+    <strong>（三）東部海域的酸化監測。</strong>花蓮外海是黑潮流經的區域，
+    水質相對穩定、人為干擾少，是觀測<strong>海洋酸化背景趨勢</strong>的良好場址。
+    而近岸的珊瑚與貝類生態，正是碳酸鈣飽和度下降時最先受影響的對象。
+  </p>
+
+  <div class="note leaf">
+    <strong>本章綠色化學占比自評：</strong>綠色情境為兩個完整可互動子模組（固氮比較 ＋ 海洋 CO₂ 平衡，共 6 個可調參數）；
+    綠色相關文字實測占全章 65.0%（觀念解說 912 字 vs 綠色化學 1693 字）；5 題測驗中有 3 題考綠色化學／永續判斷。
+  </div>
+</template>
+
+<script type="module">
+import { mountChapter } from '../assets/js/chapter.js';
+import { init } from '../assets/js/sim/ch13.js';
+
+mountChapter({
+  id: 'ch13',
+  stageTitle: '模組 A：N₂ + 3H₂ ⇌ 2NH₃ 的動態平衡',
+  hint: '拖曳旋轉 · 按按鈕加料或抽走產物，看系統怎麼自我調節',
+  scenario: { classicLabel: '🏭 教科書情境', greenLabel: '🌿 綠色化學情境' },
+  disclaimer: '動力學以基元反應形式的速率式積分（k_r = k_f/K），因此必然收斂到熱力學正確的平衡位置，但速率常數為教學用取值、非實際反應速率。K(T) 以凡特荷夫式外推。海水 pH 對大氣 CO₂ 的關係為以觀測值錨定的簡化近似，未計入完整碳酸鹽系統與鹼度變化。',
+  init,
+  quiz: [
+    {
+      type: 'single', green: false,
+      q: '系統達到平衡後，3D 畫面中的分子仍持續在反應物與產物之間轉換。這代表：',
+      options: [
+        '模擬程式有誤，平衡時反應應該停止',
+        '平衡是動態的：正逆反應仍在進行，只是速率相等，所以巨觀濃度不變',
+        '分子只是在移動，並沒有真的反應',
+        '系統其實還沒達到平衡',
+      ],
+      answer: 1,
+      hint: '看「正逆反應速率」圖：兩條線交會之後，它們的值是零，還是相等但不為零？',
+      explain: '這是本章最核心的觀念。平衡時 r_f = r_r ≠ 0，反應在分子層次從未停止；改變的只是「淨變化為零」。所以平衡叫做 dynamic equilibrium，不是 static。',
+    },
+    {
+      type: 'single', green: false,
+      q: '對已達平衡的 N₂ + 3H₂ ⇌ 2NH₃ 系統，下列哪一個操作會<strong>改變平衡常數 K 本身</strong>？',
+      options: ['加入更多 N₂', '抽走部分 NH₃', '加壓（減少容器體積）', '提高溫度'],
+      answer: 3,
+      hint: '前三個操作只是讓 Q 暫時偏離 K；只有一種操作會把 K 這個目標值本身移動。',
+      explain: '只有溫度會改變 K。改濃度或壓力只讓 Q 暫時偏離，系統再走回同一個 K。本反應放熱，升溫時 K 變小（平衡往左）——你可以拉溫度滑桿直接驗證面板上 K 的數量級變化。',
+    },
+    {
+      type: 'single', green: true,
+      q: '合成氨是放熱反應，低溫在熱力學上更有利（K 更大）。為什麼工業仍然在 450 °C 下操作？',
+      options: [
+        '因為低溫下 K 其實更小', '因為低溫下反應速率太慢，沒有商業價值，只好用溫度換速率',
+        '因為高溫可以提高原子經濟性', '因為觸媒必須在高溫才能作用，與平衡無關',
+      ],
+      answer: 1,
+      hint: '回想 Ch12 的 Arrhenius 式：溫度對速率的影響是指數的。',
+      explain: '這是熱力學與動力學的經典拉鋸：熱力學說低溫好，動力學說低溫慢。工業折衷到 450 °C 並用 200 atm 高壓把平衡推回去。也因此原則 #9（催化）價值極高——好的催化劑讓你不必用溫度去買速率。',
+    },
+    {
+      type: 'single', green: true,
+      q: '固氮酶能在 25 °C、1 atm 下把 N₂ 變成 NH₃。這對綠色化學最重要的意義是：',
+      options: [
+        '證明了常溫常壓固氮在物理上可行，為原則 #6 與 #12 指出可能的方向',
+        '證明哈柏法是錯誤的技術', '固氮酶完全不需要能量，是永動機',
+        '代表人類已經可以工業化取代哈柏法',
+      ],
+      answer: 0,
+      hint: '固氮酶每固定 1 個 N₂ 要消耗 16 個 ATP，而且人類目前還無法工業化複製它。',
+      explain: '固氮酶不是免費的（16 ATP/N₂），人類也還做不到工業化複製。但它證明了「常溫常壓固氮」在物理上並非不可能——這正是仿生化學的價值：先確認目標可達成，再研究怎麼達成。',
+    },
+    {
+      type: 'single', green: true,
+      q: '大氣 CO₂ 由 278 ppm 升到 419 ppm，海水 pH 由 8.21 降到 8.10。只降了 0.11 為什麼是嚴重問題？',
+      options: [
+        'pH 是對數尺度，[H⁺] 實際上增加了約 30%，且會消耗 CO₃²⁻ 使碳酸鈣殼體難以形成',
+        '因為 0.11 已經超過海洋生物的致死值',
+        '因為海水會變成酸性（pH < 7）',
+        '因為 pH 下降會讓海水沸點改變',
+      ],
+      answer: 0,
+      hint: '注意海水仍然是鹼性（pH > 7），問題不在「變成酸」。想想 pH 每降 1 單位，[H⁺] 變幾倍。',
+      explain: 'pH 每降 1 單位 [H⁺] 增為 10 倍，降 0.11 約增加 30%。多出來的 H⁺ 會與 CO₃²⁻ 結合成 HCO₃⁻，使碳酸鈣的飽和度下降，珊瑚與貝類更難造殼。「海洋酸化」指的是 pH 下降的趨勢，不是海水變成酸性。',
+    },
+  ],
+  sources: [
+    'ΔH°(N₂ + 3H₂ → 2NH₃) = −92.2 kJ/mol、K_p(298 K) ≈ 5.8×10⁵：CRC Handbook / Zumdahl <i>Chemistry</i> 10th ed.',
+    '哈柏法能耗（現代廠 28–35 GJ/噸 NH₃）與碳排（1.6–2.4 t CO₂/t NH₃）：IEA <i>Ammonia Technology Roadmap</i> (2021)；本頁取代表值並標註為概略值。',
+    '哈柏法約占全球能源使用 1–2%：V. Smil, <i>Enriching the Earth</i> (MIT Press, 2001) 及後續估計。',
+    '固氮酶化學計量（N₂ + 8H⁺ + 8e⁻ + 16 ATP → 2NH₃ + H₂ + 16 ADP + 16 Pi）：生物化學標準教科書。',
+    'N≡N 鍵能 941 kJ/mol：Zumdahl <i>Chemistry</i> 10th ed., Table 8.4.',
+    '海洋 pH（工業革命前 8.21、現今約 8.10，[H⁺] 增加約 26–30%）與大氣 CO₂ 濃度：IPCC AR6 WG1 §5.3；NOAA PMEL 海洋酸化計畫。',
+    '凡特荷夫式：d(lnK)/d(1/T) = −ΔH/R。',
+  ],
+});
+</script>
+</body>
+</html>

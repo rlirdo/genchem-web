@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ch14 酸與鹼：兩杯同濃度的弱酸與強酸並排比較解離度與 pH；綠色化學延伸到酸雨、海洋酸化與天然指示劑。">
+<title>Ch14 酸與鹼｜普通化學互動自學</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/chapter.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231E9EB3'/><circle cx='16' cy='16' r='5' fill='%23FFC93C'/></svg>">
+<script type="importmap">
+{ "imports": {
+    "three": "../assets/vendor/three.module.js",
+    "three/addons/controls/OrbitControls.js": "../assets/vendor/OrbitControls.js"
+} }
+</script>
+</head>
+<body>
+<header data-nav></header>
+<div class="wrap"><nav data-crumbs></nav></div>
+<main id="main" data-chapter></main>
+<footer data-footer></footer>
+
+<template id="tpl-concept">
+  <h3>一、「強」與「弱」講的不是濃度</h3>
+  <p>
+    這是酸鹼單元最大的誤解來源。看上面兩個燒杯：<strong>濃度完全一樣</strong>，但左邊的弱酸裡
+    大部分還是完整的 HA 分子（橘＋白），只有少數變成了 H₃O⁺（藍＋黃）與 A⁻（綠）；
+    右邊的強酸則幾乎全部拆開了。
+  </p>
+  <ul>
+    <li><strong>強／弱</strong>＝這個酸<strong>有多願意</strong>把質子交給水（由 Ka 決定，是物質的本性）</li>
+    <li><strong>濃／稀</strong>＝你放了<strong>多少</strong>進去（由你決定）</li>
+  </ul>
+  <p>
+    0.1 M 醋酸的 pH 約 2.88，0.1 M 鹽酸的 pH 是 1.00——[H⁺] 差了大約 <strong>75 倍</strong>，
+    儘管兩者「濃度相同」。
+  </p>
+
+  <h4>二、質子並不是自己跑掉，是被水拿走的</h4>
+  <p>
+    課本常寫 <code>HA → H⁺ + A⁻</code>，但裸露的質子在水中根本不存在。
+    真實的過程是<strong>質子轉移</strong>：
+  </p>
+  <div class="formula">
+    <code>HA(aq) + H₂O(l) ⇌ H₃O⁺(aq) + A⁻(aq)</code><br>
+    <code>Ka = [H₃O⁺][A⁻] / [HA]</code>　　<code>pKa = −log Ka</code><br>
+    精確解（不做近似）：<code>[H⁺] = (−Ka + √(Ka² + 4KaC)) / 2</code>
+    <span class="teacher-only"><br>教師補充：本頁一律使用上式的精確解，不使用「x 遠小於 C」的近似，
+    因此在極稀溶液（10⁻⁴ M 以下）也能得到正確的解離度。</span>
+  </div>
+
+  <h4>三、稀釋會讓弱酸「更解離」——奧士華稀釋定律</h4>
+  <p>
+    把濃度滑桿往<strong>左</strong>拉（稀釋），觀察面板上的解離度 α。
+    直覺會說「酸變稀了，當然解離得少」，但事實相反：<strong>α 會上升</strong>。
+  </p>
+  <div class="note">
+    原因用勒沙特列原理（Ch13）想最快：稀釋讓 H⁺ 與 A⁻ 更難相遇、重新結合成 HA，
+    逆反應被削弱，平衡因此往解離方向移。<br>
+    但請注意——<strong>α 上升，pH 卻還是往上（酸性變弱）</strong>，
+    因為 [H⁺] 的絕對值仍隨稀釋而下降。這兩件事不衝突，只是問的問題不同。
+  </div>
+  <p>
+    下方的圖把三種弱酸（醋酸、甲酸、碳酸）的 α–濃度曲線畫在一起。
+    Ka 越大的酸，整條曲線越往上；而所有弱酸在極稀時都會趨近 100%，
+    只有強酸（虛線）在任何濃度下都維持在 100%。
+  </p>
+</template>
+
+<template id="tpl-green">
+  <h3>當 pH 從實驗室走進天空與海洋</h3>
+  <p>
+    這一章的化學只有一件事：質子的去向。但同樣一件事，發生在雨滴裡叫做<strong>酸雨</strong>，
+    發生在海裡叫做<strong>海洋酸化</strong>。
+  </p>
+
+  <h4>🌿 綠色情境怎麼玩</h4>
+  <ol>
+    <li>先把 SO₂ 與 NOₓ 都拉到 <strong>0</strong>。雨水 pH 停在約 <strong>5.6</strong>——
+      這不是污染，而是<strong>乾淨雨水的本來面目</strong>：大氣 CO₂ 溶進雨水生成碳酸。
+      所以「酸雨」的界線不是 pH 7，台灣以 <strong>pH &lt; 5.0</strong> 定義。</li>
+    <li>把 <strong>SO₂ 拉到 20 ppb</strong>，看 pH 掉到 4.5 以下，面板亮出「⚠ 是酸雨」。</li>
+    <li>把 <strong>大氣 CO₂ 拉到 1000 ppm</strong>，看右邊海水方塊的 pH 與那顆碳酸鈣殼體——
+      殼體會隨 pH 下降而被侵蝕變薄。</li>
+    <li>最後勾選「<strong>改用合成指示劑</strong>」，看儀表板上的毒性指標怎麼跳。</li>
+  </ol>
+
+  <h4>酸雨的化學</h4>
+  <div class="formula">
+    <strong>硫的路徑：</strong><code>SO₂ + ½O₂ + H₂O → H₂SO₄ → 2H⁺ + SO₄²⁻</code>（強酸，放兩個質子）<br>
+    <strong>氮的路徑：</strong><code>NO₂ + OH· → HNO₃ → H⁺ + NO₃⁻</code>（強酸）<br>
+    <strong>本底：</strong><code>CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻</code>（弱酸，Ka₁ = 4.3×10⁻⁷）
+  </div>
+  <p>
+    關鍵差別在<strong>強酸 vs 弱酸</strong>：CO₂ 生成的碳酸是弱酸，只能把 pH 壓到 5.6；
+    而 SO₂ 與 NOₓ 氧化後生成的是<strong>強酸</strong>，同樣的莫耳數卻能把 pH 一路壓到 4 以下。
+    這就是為什麼脫硫（FGD）、低硫燃料與觸媒轉化器對酸雨防治這麼有效——
+    它們處理的是<strong>強酸的來源</strong>。
+  </p>
+  <div class="note leaf">
+    這是一個成功故事：歐美與東亞在 1990 年代後大幅收緊 SO₂ 排放，酸雨問題明顯改善。
+    <strong>環境化學不是只有壞消息，它也記錄了有效的干預。</strong>
+  </div>
+
+  <h4>🌊 海洋酸化：一個緩慢但巨大的酸鹼平衡</h4>
+  <p>
+    海洋吸收了人為 CO₂ 排放的約四分之一。這對大氣是好事，對海洋卻不是：
+  </p>
+  <div class="formula">
+    <code>CO₂(aq) + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻</code><br>
+    多出來的 H⁺ 又會吃掉碳酸根：<code>H⁺ + CO₃²⁻ → HCO₃⁻</code><br>
+    結果：<strong>CO₃²⁻ 濃度下降 → CaCO₃ 的飽和度下降 → 造殼變困難</strong>
+  </div>
+  <ul>
+    <li>工業革命前 pH <strong>8.21</strong> → 現今 <strong>8.10</strong></li>
+    <li>看起來只差 0.11，但 pH 是對數尺度：[H⁺] 增加約 <strong>30%</strong></li>
+    <li>受影響最直接的是珊瑚、貝類、有孔蟲與翼足類——牠們是海洋食物網的基礎</li>
+  </ul>
+
+  <h4>🌿 天然指示劑：把綠色化學帶進實驗課</h4>
+  <table class="data">
+    <thead><tr><th>指示劑</th><th>來源</th><th>變色範圍</th><th>安全性</th></tr></thead>
+    <tbody>
+      <tr><td>紫甘藍</td><td>花青素（蔬菜）</td><td>pH 2 紅 → 7 紫 → 12 黃綠</td><td>可食用，廢液可堆肥</td></tr>
+      <tr><td>洛神花</td><td>花青素（台東花蓮特產）</td><td>pH 1–3 鮮紅 → 中性紫 → 鹼性綠黃</td><td>可食用</td></tr>
+      <tr><td>薑黃</td><td>薑黃素</td><td>pH &lt; 8 黃 → pH &gt; 9 紅棕</td><td>可食用</td></tr>
+      <tr><td>甲基橙</td><td>合成偶氮染料</td><td>pH 3.1–4.4</td><td>部分偶氮化合物有致癌疑慮</td></tr>
+      <tr><td>酚酞</td><td>合成</td><td>pH 8.2–10.0</td><td>曾用作瀉藥，後因致癌疑慮下架</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:.6rem">
+    單次實驗用量很小，但一所學校一年、全國所有學校加起來就不小，而且多半直接倒進排水。
+    改用天然指示劑同時滿足<strong>原則 #3（低毒性合成）</strong>與
+    <strong>原則 #4（設計更安全的化學品）</strong>——而且花青素的變色範圍其實比單一合成指示劑更寬。
+  </p>
+
+  <h4>對應的綠色化學原則</h4>
+  <ul>
+    <li><strong>原則 #3 低毒性合成</strong>：天然指示劑取代合成染料。</li>
+    <li><strong>原則 #4 設計更安全的化學品</strong>：可食用等級的試劑。</li>
+    <li><strong>原則 #11 即時分析防污染</strong>：pH 是最便宜、最即時的水質指標，
+      在製程與流域監測中都是第一道警訊。</li>
+  </ul>
+
+  <h4>🏞 在地連結：花蓮的溪流、海域與洛神花</h4>
+  <p>
+    <strong>（一）花蓮溪與秀姑巒溪的 pH 監測。</strong>
+    花蓮的溪流集水區地質以大理岩（CaCO₃）為主，這給了溪水天然的<strong>緩衝能力</strong>——
+    碳酸鈣會中和掉進來的酸（<code>CaCO₃ + 2H⁺ → Ca²⁺ + H₂O + CO₂</code>）。
+    這也是為什麼同樣的酸雨落在石灰岩區與花崗岩區，對水體與土壤的影響差很多。
+    （緩衝這件事本身，就是下一章 Ch15 的主題。）
+  </p>
+  <p>
+    <strong>（二）洛神花。</strong>洛神葵是台東與花蓮的重要作物。它的花萼富含花青素，
+    在酸性下呈鮮紅、鹼性下轉綠黃——這不只是實驗室的替代品，
+    也解釋了為什麼洛神花蜜餞加了檸檬汁會更紅。<strong>把在地作物變成教具，
+    是綠色化學與在地連結最直接的交會點。</strong>
+  </p>
+  <p>
+    <strong>（三）東部海域的酸化背景。</strong>花蓮外海受黑潮影響、人為干擾少，
+    是觀測海洋酸化長期趨勢的良好場址；而近岸的珊瑚生態，正是碳酸鈣飽和度下降時首當其衝的對象。
+  </p>
+
+  <div class="note leaf">
+    <strong>本章綠色化學占比自評：</strong>綠色情境為完整可互動模擬（5 個可調參數，含酸雨、海洋酸化與指示劑色帶）；
+    綠色相關文字實測占全章 69.8%（觀念解說 694 字 vs 綠色化學 1601 字）；5 題測驗中有 3 題考綠色化學／永續判斷。
+  </div>
+</template>
+
+<script type="module">
+import { mountChapter } from '../assets/js/chapter.js';
+import { init } from '../assets/js/sim/ch14.js';
+
+mountChapter({
+  id: 'ch14',
+  stageTitle: '模組 A：弱酸 vs 強酸——同樣的濃度，差多少？',
+  hint: '拖曳旋轉 · 拉濃度滑桿看解離度怎麼變',
+  scenario: { classicLabel: '🏭 教科書情境', greenLabel: '🌿 綠色化學情境' },
+  disclaimer: '弱酸以精確二次式求解，未計入離子強度與活性係數修正，也未計入水自解離（極稀溶液時會有偏差）。雨水 pH 模型將 SO₂／NOₓ 視為完全氧化成強酸，其 ppb 對濃度的換算為教學用尺度，用以重現真實的 pH 4.5–5.6 區間。',
+  init,
+  quiz: [
+    {
+      type: 'single', green: false,
+      q: '0.1 M 醋酸與 0.1 M 鹽酸的濃度完全相同，為什麼 pH 差這麼多？',
+      options: [
+        '因為醋酸的濃度其實比較低',
+        '因為醋酸是弱酸，只有少部分把質子交給水；鹽酸幾乎完全解離',
+        '因為醋酸分子比較大', '因為醋酸的溫度比較低',
+      ],
+      answer: 1,
+      hint: '看兩個燒杯裡「完整 HA 分子」與「離子」的比例。',
+      explain: '強弱指的是「有多願意把質子交給水」（Ka 的大小），濃稀指的是「放了多少」。0.1 M 醋酸的 pH 約 2.88（解離度僅 1.33%），0.1 M 鹽酸是 1.00，[H⁺] 差約 75 倍。',
+    },
+    {
+      type: 'single', green: false,
+      q: '把醋酸從 1 M 稀釋到 0.0001 M，解離度 α 會如何變化？',
+      options: [
+        'α 下降，因為酸變稀了', 'α 上升，因為稀釋削弱了 H⁺ 與 A⁻ 重新結合的機會',
+        'α 不變，因為 Ka 是定值', 'α 先上升後下降',
+      ],
+      answer: 1,
+      hint: '直接把濃度滑桿往左拉，看面板上的 α。再用勒沙特列原理想想逆反應被怎麼影響。',
+      explain: '這是奧士華稀釋定律。稀釋讓逆反應（H⁺ + A⁻ → HA）變難，平衡往解離方向移，α 上升。但要注意：α 上升的同時 [H⁺] 的絕對值仍下降，所以 pH 還是往上——兩者不衝突。',
+    },
+    {
+      type: 'single', green: true,
+      q: '把 SO₂ 與 NOₓ 都設為 0 時，雨水 pH 仍然是約 5.6 而不是 7。為什麼？',
+      options: [
+        '因為模型有誤差', '因為大氣 CO₂ 溶入雨水生成碳酸，這是乾淨雨水的自然狀態',
+        '因為雨水中含有天然的硫酸', '因為 pH 計沒有校正',
+      ],
+      answer: 1,
+      hint: '想想空氣裡最多的酸性氣體是什麼。它溶進水裡會生成什麼？',
+      explain: 'CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻。與大氣 CO₂ 平衡的純水 pH 就是 5.6，所以「酸雨」的界線不是 pH 7；台灣以 pH < 5.0 定義酸雨。這是一個很好的提醒：自然的基準線不一定等於教科書上的中性值。',
+    },
+    {
+      type: 'single', green: true,
+      q: '為什麼 SO₂ 與 NOₓ 對雨水 pH 的影響，遠大於同樣莫耳數的 CO₂？',
+      options: [
+        '因為它們的分子量比較大',
+        '因為它們氧化後生成的是強酸（H₂SO₄、HNO₃），幾乎完全解離；CO₂ 生成的碳酸是弱酸',
+        '因為它們在大氣中的濃度比 CO₂ 高', '因為它們不溶於水',
+      ],
+      answer: 1,
+      hint: '回到本章前半段：強酸與弱酸的差別在哪裡？',
+      explain: '碳酸的 Ka₁ 只有 4.3×10⁻⁷，解離度很低，最多把 pH 壓到 5.6；硫酸與硝酸幾乎完全解離，而且硫酸還放兩個質子。這就是為什麼脫硫設備與觸媒轉化器對酸雨防治如此有效——它們處理的是強酸的來源。',
+    },
+    {
+      type: 'multi', green: true,
+      q: '在實驗課以紫甘藍或洛神花取代甲基橙、酚酞，符合下列哪些綠色化學原則？（複選）',
+      options: [
+        '原則 #3 低毒性合成：避免使用有致癌疑慮的合成染料',
+        '原則 #4 設計更安全的化學品：可食用等級的試劑，廢液可直接堆肥',
+        '原則 #7 使用可再生原料：來自作物而非石化原料',
+        '原則 #2 原子經濟性：因為天然指示劑的原子經濟性是 100%',
+      ],
+      answer: [0, 1, 2],
+      hint: '原子經濟性談的是「化學反應中反應物的原子去哪裡」。指示劑在滴定中有發生化學合成反應嗎？',
+      explain: '指示劑只是變色，不是合成反應，因此與原子經濟性無關。這一題想強調的是：綠色化學的十二原則各有適用範圍，套用時要看清楚它在問什麼，不能因為「聽起來很環保」就全部勾選。',
+    },
+  ],
+  sources: [
+    'Ka 值（醋酸 1.8×10⁻⁵、甲酸 1.8×10⁻⁴、HF 7.2×10⁻⁴、碳酸 Ka₁ 4.3×10⁻⁷，25 °C）：CRC Handbook, 97th ed.；Zumdahl <i>Chemistry</i> 10th ed. 附錄。',
+    'K_w = 1.0×10⁻¹⁴（25 °C）：CRC Handbook.',
+    '乾淨雨水 pH 5.6（與大氣 CO₂ 平衡之理論值）與台灣酸雨定義 pH < 5.0：環境部空氣品質監測網。',
+    '海洋 pH（工業革命前 8.21 → 現今約 8.10，[H⁺] 增加約 26–30%）：IPCC AR6 WG1 §5.3；NOAA PMEL 海洋酸化計畫。',
+    '天然指示劑（花青素、薑黃素）之變色範圍：一般化學教育文獻之常見描述（實際色階受濃度與共存離子影響）。',
+    '甲醛以外之合成指示劑安全性：酚酞因致癌疑慮於多國退出瀉藥市場；部分偶氮染料之健康疑慮見 IARC 相關評估。',
+    '本頁雨水 pH 的 ppb→濃度換算為教學用尺度，非由亨利定律與大氣化學模式嚴格推導。',
+  ],
+});
+</script>
+</body>
+</html>

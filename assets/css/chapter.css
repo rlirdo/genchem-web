@@ -1,0 +1,287 @@
+/* ==========================================================================
+   chapter.css — 第 3 階層「章節頁」統一版型
+   桌機：左舞台 + 右控制面板；手機（<900px）：舞台在上、控制面板變底部抽屜
+   ========================================================================== */
+
+.ch-head { padding-bottom: .6rem; }
+.ch-head h1 { font-size: clamp(1.6rem, 4.5vw, 2.4rem); margin-bottom: .2rem; }
+.ch-head .ch-en-title { color: var(--ink-3); font-size: var(--fs-sm); margin: 0 0 .6rem; }
+.ch-head .ch-tags { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1rem; }
+
+/* ---------- 主要工作區 ---------- */
+.ch-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 1.1rem;
+  align-items: start;
+}
+
+/* ---------- 互動舞台 ---------- */
+.stage-box {
+  background: var(--card); border-radius: var(--r-lg);
+  box-shadow: var(--shadow); overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.stage-bar {
+  display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+  padding: .6rem .85rem; border-bottom: 1px solid var(--line);
+  background: linear-gradient(90deg, var(--leaf-soft), var(--ocean-soft));
+}
+.stage-bar .stage-title { font-weight: 700; font-size: var(--fs-sm); color: var(--ink); }
+.stage-bar .spacer { flex: 1 1 auto; }
+
+/* 情境切換（傳統 ↔ 綠色化學）*/
+.scenario-switch {
+  display: inline-flex; background: #fff; border-radius: var(--r-pill);
+  padding: 3px; border: 1.5px solid var(--line); box-shadow: var(--shadow-sm);
+}
+.scenario-switch button {
+  font: inherit; font-size: var(--fs-xs); font-weight: 700;
+  border: 0; background: transparent; color: var(--ink-3);
+  padding: .34rem .8rem; border-radius: var(--r-pill); cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast), transform var(--t-fast) var(--ease-back);
+  white-space: nowrap;
+}
+.scenario-switch button:active { transform: scale(.94); }
+.scenario-switch button[aria-pressed="true"] { background: var(--ink-3); color: #fff; }
+.scenario-switch button[data-scenario="green"][aria-pressed="true"] { background: var(--leaf); }
+.scenario-switch button[data-scenario="classic"][aria-pressed="true"] { background: var(--ocean-deep); }
+
+.stage-canvas {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  min-height: 260px;
+  background: radial-gradient(120% 100% at 50% 0%, #FFFFFF 0%, #EFF8FB 60%, #E4F2EA 100%);
+  touch-action: none;   /* 讓 Three.js / 拖曳可以吃掉觸控手勢 */
+}
+.stage-canvas > canvas { display: block; width: 100%; height: 100%; }
+.stage-hint {
+  position: absolute; left: .7rem; bottom: .6rem;
+  font-size: var(--fs-xs); color: var(--ink-3);
+  background: rgba(255,255,255,.82); padding: .25rem .6rem; border-radius: var(--r-pill);
+  pointer-events: none;
+}
+.stage-overlay {
+  position: absolute; right: .7rem; top: .6rem;
+  font-size: var(--fs-xs); color: var(--ink);
+  background: rgba(255,255,255,.86); padding: .35rem .65rem; border-radius: var(--r-sm);
+  box-shadow: var(--shadow-sm); pointer-events: none; text-align: right;
+  max-width: 55%;
+}
+.stage-sub { padding: .6rem .85rem; border-top: 1px solid var(--line); }
+.stage-sub canvas { display: block; width: 100%; height: auto; }
+
+/* 教學示意警語 */
+.sim-disclaimer {
+  font-size: var(--fs-xs); color: var(--ink-3);
+  padding: .45rem .85rem; background: #FBFDFA; border-top: 1px dashed var(--line);
+}
+
+/* ---------- 右側控制面板 ---------- */
+.panel { display: flex; flex-direction: column; gap: 1rem; }
+.panel-card {
+  background: var(--card); border-radius: var(--r);
+  box-shadow: var(--shadow); padding: .95rem 1rem 1.05rem;
+}
+.panel-card > h3 {
+  font-size: var(--fs); margin: 0 0 .7rem;
+  display: flex; align-items: center; gap: .4rem;
+}
+.panel-card > h3::before {
+  content: ""; width: 4px; height: 1.1em; border-radius: 2px; background: var(--leaf);
+}
+.panel-card.green > h3::before { background: var(--leaf); }
+.panel-card.readout > h3::before { background: var(--ocean); }
+.panel-card.ctrl > h3::before { background: var(--sun); }
+
+/* 滑桿 */
+.field { margin-bottom: .85rem; }
+.field:last-child { margin-bottom: 0; }
+.field .field-top {
+  display: flex; justify-content: space-between; align-items: baseline; gap: .5rem;
+  font-size: var(--fs-sm); margin-bottom: .25rem;
+}
+.field .field-top label { font-weight: 700; color: var(--ink-2); }
+.field .field-val { font-family: var(--font-num); font-weight: 700; color: var(--ocean-deep); }
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 22px; background: transparent; cursor: pointer; margin: 0;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 7px; border-radius: 4px;
+  background: linear-gradient(90deg, var(--ocean), var(--leaf));
+  opacity: .85;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 20px; height: 20px; border-radius: 50%; background: #fff;
+  border: 3px solid var(--ocean); margin-top: -7px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t-fast) var(--ease-back);
+}
+input[type="range"]:active::-webkit-slider-thumb { transform: scale(1.2); }
+input[type="range"]::-moz-range-track {
+  height: 7px; border-radius: 4px;
+  background: linear-gradient(90deg, var(--ocean), var(--leaf));
+}
+input[type="range"]::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%; background: #fff;
+  border: 3px solid var(--ocean); box-shadow: var(--shadow-sm);
+}
+
+/* 選項按鈕群（例如選金屬 / 選氣體）*/
+.seg { display: flex; flex-wrap: wrap; gap: .35rem; }
+.seg button {
+  font: inherit; font-size: var(--fs-xs); font-weight: 700;
+  padding: .35rem .7rem; border-radius: var(--r-pill);
+  border: 1.5px solid var(--line); background: #fff; color: var(--ink-2); cursor: pointer;
+  transition: transform var(--t-fast) var(--ease-back), background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+}
+.seg button:active { transform: scale(.93); }
+.seg button[aria-pressed="true"] { background: var(--ocean); border-color: var(--ocean); color: #fff; }
+
+/* 核取開關 */
+.check { display: flex; align-items: center; gap: .5rem; font-size: var(--fs-sm); color: var(--ink-2); cursor: pointer; }
+.check input { width: 18px; height: 18px; accent-color: var(--leaf); cursor: pointer; }
+
+/* 即時數據讀出 */
+.readouts { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+.readouts .ro {
+  background: var(--ocean-soft); border-radius: var(--r-sm); padding: .5rem .6rem;
+}
+.readouts .ro .k { font-size: var(--fs-xs); color: var(--ink-3); display: block; }
+.readouts .ro .v { font-family: var(--font-num); font-weight: 700; font-size: var(--fs-lg); color: var(--ocean-deep); }
+.readouts .ro .u { font-size: var(--fs-xs); color: var(--ink-3); font-weight: 400; margin-left: .15rem; }
+.readouts .ro.wide { grid-column: 1 / -1; }
+
+/* ---------- 綠色指標儀表板 ---------- */
+.gauges { display: flex; flex-direction: column; gap: .7rem; }
+.gauge .g-top {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: var(--fs-sm); margin-bottom: .2rem;
+}
+.gauge .g-name { font-weight: 700; color: var(--ink-2); }
+.gauge .g-val { font-family: var(--font-num); font-weight: 700; }
+.gauge .g-bar {
+  height: 10px; border-radius: 5px; background: #EDF3EF; overflow: hidden;
+}
+.gauge .g-fill {
+  height: 100%; border-radius: 5px; width: 0%;
+  transition: width var(--t) var(--ease-out), background var(--t);
+}
+.gauge .g-note { font-size: var(--fs-xs); color: var(--ink-3); margin-top: .1rem; }
+.g-good { color: var(--leaf-deep); } .g-fill.good { background: linear-gradient(90deg, var(--leaf), #7ED08A); }
+.g-mid  { color: var(--sun-deep); }  .g-fill.mid  { background: linear-gradient(90deg, #E8A200, var(--sun)); }
+.g-bad  { color: var(--coral-deep); }.g-fill.bad  { background: linear-gradient(90deg, var(--coral-deep), var(--coral)); }
+
+.green-verdict {
+  margin-top: .8rem; font-size: var(--fs-sm); font-weight: 700;
+  padding: .5rem .7rem; border-radius: var(--r-sm);
+  background: var(--leaf-soft); color: var(--leaf-deep);
+}
+
+/* ---------- 分頁（觀念 / 綠色化學 / 測驗）---------- */
+.tabs { margin-top: 1.2rem; }
+.tab-btns {
+  display: flex; gap: .4rem; flex-wrap: wrap; border-bottom: 2px solid var(--line); padding-bottom: 0;
+}
+.tab-btns button {
+  font: inherit; font-weight: 700; font-size: var(--fs-sm);
+  border: 0; background: transparent; color: var(--ink-3);
+  padding: .6rem 1rem; cursor: pointer; border-radius: var(--r-sm) var(--r-sm) 0 0;
+  border-bottom: 3px solid transparent; margin-bottom: -2px;
+  transition: color var(--t-fast), border-color var(--t-fast), background var(--t-fast);
+}
+.tab-btns button:hover { color: var(--ocean-deep); background: rgba(30,158,179,.06); }
+.tab-btns button[aria-selected="true"] { color: var(--leaf-deep); border-bottom-color: var(--leaf); }
+.tab-panels {
+  background: var(--card); border-radius: 0 var(--r) var(--r) var(--r);
+  box-shadow: var(--shadow); padding: clamp(1rem, 2.5vw, 1.7rem);
+}
+.tab-panel[hidden] { display: none; }
+.tab-panel h3 { color: var(--leaf-deep); }
+.tab-panel h4 { color: var(--ocean-deep); margin-top: 1.2rem; }
+.tab-panel ul, .tab-panel ol { padding-left: 1.3rem; }
+.tab-panel li { margin-bottom: .4rem; }
+
+/* 綠色化學原則標籤 */
+.principle-tag {
+  display: inline-flex; align-items: center; gap: .3rem;
+  background: linear-gradient(90deg, var(--leaf-soft), var(--ocean-soft));
+  border: 1px solid rgba(63,163,77,.35); color: var(--leaf-deep);
+  font-size: var(--fs-xs); font-weight: 700;
+  padding: .25rem .65rem; border-radius: var(--r-pill); margin: 0 .25rem .35rem 0;
+}
+.principle-list { display: flex; flex-wrap: wrap; margin: .3rem 0 1rem; }
+
+/* 對照表（傳統 vs 綠色）*/
+.compare {
+  display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin: 1rem 0;
+}
+.compare > div { border-radius: var(--r); padding: .9rem 1rem; }
+.compare .c-old { background: #F4F6F5; border: 1px solid var(--line); }
+.compare .c-new { background: var(--leaf-soft); border: 1px solid rgba(63,163,77,.35); }
+.compare h5 { margin: 0 0 .4rem; font-size: var(--fs-sm); }
+.compare .c-old h5 { color: var(--ink-3); }
+.compare .c-new h5 { color: var(--leaf-deep); }
+.compare ul { margin: 0; padding-left: 1.15rem; font-size: var(--fs-sm); }
+
+/* ---------- 章節底部導覽 ---------- */
+.ch-foot-nav {
+  display: flex; align-items: center; gap: .7rem; flex-wrap: wrap;
+  margin-top: 1.4rem; padding: 1rem 1.1rem;
+  background: var(--card); border-radius: var(--r); box-shadow: var(--shadow);
+}
+.ch-foot-nav .spacer { flex: 1 1 auto; }
+.ch-foot-nav .done-state { font-size: var(--fs-sm); color: var(--leaf-deep); font-weight: 700; }
+
+/* 資料來源 */
+.sources { font-size: var(--fs-xs); color: var(--ink-3); margin-top: 1.2rem; }
+.sources h4 { font-size: var(--fs-sm); color: var(--ink-2); margin-bottom: .3rem; }
+.sources ol { padding-left: 1.2rem; margin: 0; }
+.sources li { margin-bottom: .18rem; }
+
+/* ==========================================================================
+   RWD：窄螢幕把控制面板變成底部抽屜
+   ========================================================================== */
+.drawer-toggle { display: none; }
+
+@media (max-width: 980px) {
+  .ch-main { grid-template-columns: minmax(0, 1fr); }
+  .compare { grid-template-columns: 1fr; }
+
+  /* 底部抽屜開關（浮動按鈕）*/
+  .drawer-toggle {
+    display: inline-flex; position: fixed; z-index: 70;
+    right: 1rem; bottom: 1rem;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .panel {
+    position: fixed; z-index: 65; left: 0; right: 0; bottom: 0;
+    width: 100%; max-width: 100vw;
+    max-height: 78vh; overflow-y: auto; overflow-x: hidden;
+    background: linear-gradient(180deg, #FFFFFF, #F7FBF5);
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+    box-shadow: 0 -12px 36px rgba(30,158,179,.22);
+    padding: 1.4rem 1rem 5.2rem;
+    transform: translateY(101%);
+    transition: transform var(--t) var(--ease-out);
+    will-change: transform;
+  }
+  .panel.open { transform: translateY(0); }
+  .panel::before {
+    content: ""; position: absolute; top: .55rem; left: 50%; transform: translateX(-50%);
+    width: 44px; height: 5px; border-radius: 3px; background: var(--line);
+  }
+  .panel-card { box-shadow: var(--shadow-sm); }
+}
+
+@media (max-width: 560px) {
+  .stage-canvas { aspect-ratio: 4 / 3.4; }
+  .readouts { grid-template-columns: 1fr 1fr; }
+  .tab-btns button { padding: .5rem .7rem; font-size: var(--fs-xs); }
+  .stage-bar { gap: .35rem; }
+  .scenario-switch button { padding: .3rem .55rem; }
+}

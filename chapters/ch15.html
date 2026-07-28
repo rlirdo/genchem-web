@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ch15 酸鹼平衡與緩衝溶液：逐滴加鹼看緩衝對如何接住質子、即時繪製滴定曲線；綠色化學延伸到血液、海洋、土壤緩衝與加藥最佳化。">
+<title>Ch15 酸鹼平衡與緩衝溶液｜普通化學互動自學</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/chapter.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231E9EB3'/><circle cx='16' cy='16' r='5' fill='%23FFC93C'/></svg>">
+<script type="importmap">
+{ "imports": {
+    "three": "../assets/vendor/three.module.js",
+    "three/addons/controls/OrbitControls.js": "../assets/vendor/OrbitControls.js"
+} }
+</script>
+</head>
+<body>
+<header data-nav></header>
+<div class="wrap"><nav data-crumbs></nav></div>
+<main id="main" data-chapter></main>
+<footer data-footer></footer>
+
+<template id="tpl-concept">
+  <h3>一、緩衝溶液是一塊「離子海綿」</h3>
+  <p>
+    把「加入強鹼體積」滑桿從 0 慢慢往右拉。前面很長一段路，
+    <strong>pH 計的讀數幾乎不動</strong>——面板會告訴你「每再加 1 mL，pH 只變 0.0X」。
+    同時，3D 畫面裡橘色的 HA 分子正一顆顆變成綠色的 A⁻。
+  </p>
+  <div class="formula">
+    加入的 OH⁻ 立刻被弱酸接住：<code>HA + OH⁻ → A⁻ + H₂O</code><br>
+    加入的 H⁺ 則被共軛鹼接住：<code>A⁻ + H⁺ → HA</code><br>
+    <strong>緩衝溶液沒有「阻止」酸鹼進來，它只是把它們轉換成不會大幅改變 pH 的形式。</strong>
+  </div>
+  <p>
+    現在勾選「<strong>把燒杯換成純水</strong>」再拉一次滑桿——第一滴鹼下去，pH 就從 7 直接跳到 11 以上。
+    這個對照是本章最有說服力的畫面。
+  </p>
+
+  <h4>二、Henderson–Hasselbalch：一條公式看懂整條曲線</h4>
+  <div class="formula">
+    <code>pH = pKa + log([A⁻] / [HA])</code><br>
+    ‧ 當 [A⁻] = [HA] 時 → <strong>pH = pKa</strong>，這就是<span data-term="半當量點">半當量點</span><br>
+    ‧ 比例在 1:10 到 10:1 之間時 → pH 在 pKa ± 1，這就是<strong>緩衝區</strong><br>
+    ‧ 超出這個範圍，緩衝就失效了
+  </div>
+  <p>
+    圖上兩條綠色虛線就是 pKa ± 1 的範圍。請注意曲線在這一段特別<strong>平坦</strong>——
+    這不是巧合，而是上式在 [A⁻]/[HA] ≈ 1 附近對比值變化最不敏感的直接結果。
+  </p>
+
+  <h4>三、當量點的 pH 不是 7</h4>
+  <p>
+    把滑桿拉到當量點（圖上紅色虛線），你會看到 pH 大約是 <strong>8.7</strong> 而不是 7。
+  </p>
+  <div class="note">
+    因為此時溶液裡剩下的是<span data-term="共軛鹼">共軛鹼</span> CH₃COO⁻，它會水解：
+    <code>CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻</code>，使溶液偏鹼。<br>
+    <strong>弱酸配強鹼的當量點一定在鹼性側</strong>（pH &gt; 7）；
+    弱鹼配強酸則一定在酸性側。這也決定了滴定該選哪一種指示劑——
+    酚酞（變色 8.2–10.0）適合前者，甲基橙（3.1–4.4）適合後者。
+  </div>
+  <div class="formula teacher-only">
+    <strong>教師模式：本頁的分段計算</strong><br>
+    起點（純弱酸）：<code>[H⁺] = (−Ka + √(Ka² + 4KaC)) / 2</code>（精確解）<br>
+    緩衝區：<code>pH = pKa + log(n_b / (n_a − n_b))</code><br>
+    當量點：<code>pH = 7 + ½pKa + ½log C_鹽</code><br>
+    過量鹼：<code>pH = 14 + log([OH⁻]過量)</code><br>
+    緩衝容量：<code>β = 2.303 · C_total · Ka[H⁺] / (Ka + [H⁺])²</code>，在 pH = pKa 時最大。
+  </div>
+
+  <h4>四、選緩衝對，就是選 pKa</h4>
+  <p>
+    切換四種緩衝對，注意圖上平坦段的<strong>高度</strong>跟著 pKa 移動：
+  </p>
+  <table class="data">
+    <thead><tr><th>緩衝對</th><th>pKa</th><th>有效範圍</th><th>典型用途</th></tr></thead>
+    <tbody>
+      <tr><td>醋酸／醋酸根</td><td>4.74</td><td>3.7–5.7</td><td>教學、食品</td></tr>
+      <tr><td>碳酸／碳酸氫根</td><td>6.37</td><td>5.4–7.4</td><td>血液、海洋</td></tr>
+      <tr><td>磷酸二氫／磷酸氫根</td><td>7.21</td><td>6.2–8.2</td><td>細胞內、生化實驗</td></tr>
+      <tr><td>銨／氨</td><td>9.25</td><td>8.3–10.3</td><td>鹼性側緩衝</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:.6rem">
+    <strong>要在哪個 pH 工作，就挑 pKa 最接近那個值的緩衝對。</strong>這是實驗設計最實用的一條規則。
+  </p>
+</template>
+
+<template id="tpl-green">
+  <h3>地球與身體，都是靠緩衝撐著的</h3>
+  <p>
+    緩衝溶液在課本裡是一個計算題，但它其實是<strong>生命與環境系統得以穩定的物理基礎</strong>。
+    切到綠色情境，四個系統背後其實是同一條 Henderson–Hasselbalch 方程式。
+  </p>
+
+  <h4>🌿 綠色情境怎麼玩</h4>
+  <ol>
+    <li>選「<strong>人體血液</strong>」，把酸負荷慢慢往右拉（單位是「占該系統緩衝總量的百分比」）。
+      注意藍線（有緩衝）與灰色虛線（無緩衝）的巨大差距，以及超過 100% 之後 pH 的崩落。</li>
+    <li>選「<strong>海洋</strong>」，把「緩衝物質總量倍率」往左拉到 0.2——
+      模擬鹼度下降。同樣的酸負荷，pH 跌得更兇。</li>
+    <li>選「<strong>土壤</strong>」，觀察 pH 掉出 5.5–6.5 的安全區之後會發生什麼。</li>
+    <li>選「<strong>廢水中和槽</strong>」，把「中和藥劑加藥量」從 1.0 拉到 3.0——
+      看污泥產量怎麼跟著上去。</li>
+  </ol>
+
+  <h4>🩸 血液：一個開放式的緩衝系統</h4>
+  <div class="formula">
+    <code>CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻</code>
+    <code>pH = 6.1 + log([HCO₃⁻] / [H₂CO₃])</code>
+  </div>
+  <ul>
+    <li>血液 pH 必須維持在 <strong>7.35–7.45</strong>；低於 7.0 或高於 7.8 就會危及生命。</li>
+    <li>表觀 pKa 只有 6.1，離 7.4 有 1.3 個單位——照理說緩衝效率不佳，比例約 <strong>20 : 1</strong>。</li>
+    <li>但它是<strong>開放系統</strong>：肺可以把 CO₂ 呼掉（減少 H₂CO₃），腎可以排 H⁺ 或回收 HCO₃⁻。
+      等於一邊被消耗、一邊被補充。</li>
+  </ul>
+  <div class="note leaf">
+    這正是為什麼過度換氣會頭暈（呼掉太多 CO₂ → H₂CO₃ 下降 → pH 上升 → 呼吸性鹼中毒），
+    而劇烈運動會讓人喘（乳酸產生 H⁺ → 被 HCO₃⁻ 中和成 CO₂ → 必須加快呼吸把它排掉）。
+    <strong>你每天都在親身操作 Henderson–Hasselbalch 方程式。</strong>
+  </div>
+
+  <h4>🌊 海洋：最大的緩衝庫，但不是無限的</h4>
+  <p>
+    海洋的碳酸鹽系統吸收了人為 CO₂ 排放的約四分之一，這就是為什麼大氣 CO₂ 沒有升得更快。
+    但緩衝<strong>是有容量的</strong>：
+  </p>
+  <ul>
+    <li>海水總鹼度約 <strong>2.3 mmol/L</strong>，主要由 HCO₃⁻ 與 CO₃²⁻ 貢獻。</li>
+    <li>每吸收一份 CO₂，就消耗掉一部分 CO₃²⁻（<code>CO₂ + CO₃²⁻ + H₂O → 2HCO₃⁻</code>）。</li>
+    <li>CO₃²⁻ 減少 → <strong>緩衝容量下降</strong>，而且碳酸鈣飽和度也下降。</li>
+  </ul>
+  <p>
+    也就是說，海洋吸收 CO₂ 的能力<strong>會隨著它吸收得越多而越差</strong>——這是一個負面回饋。
+    把面板上的「緩衝物質總量倍率」往左拉，看到的就是這件事的化學本質。
+    這條線索從 Ch5（GWP）、Ch13（平衡）、Ch14（酸化）一路接到這裡。
+  </p>
+
+  <h4>🌱 土壤：農業的緩衝底線</h4>
+  <p>
+    土壤 pH 決定了養分的有效性。多數作物適宜 <strong>pH 5.5–6.5</strong>：
+  </p>
+  <ul>
+    <li>pH 太低：鋁、錳溶出而毒害根系；磷被固定住；有益微生物活性下降。</li>
+    <li>pH 太高：鐵、錳、鋅、硼等微量元素沉澱，作物出現缺素黃化。</li>
+  </ul>
+  <p>
+    土壤的緩衝力來自<strong>有機質</strong>（含大量弱酸性官能基）與<strong>碳酸鹽</strong>。
+    長期施用生理酸性肥料（如硫酸銨）會持續消耗這個緩衝容量。
+  </p>
+  <div class="note warn">
+    請特別注意面板上的<strong>「中和藥劑加藥量」</strong>：把石灰從 1.0 倍加到 3.0 倍，
+    pH 會被推過頭。<strong>「土壤酸化就撒石灰」是一個危險的簡化</strong>——
+    正確做法是先量測（原則 #11 即時分析），再依緩衝容量計算需要量。
+  </div>
+
+  <h4>🏭 廢水中和：加藥最佳化就是綠色化學</h4>
+  <p>
+    工業廢水的放流水標準一般要求 <strong>pH 6.0–9.0</strong>。注意目標<strong>不是 pH = 7</strong>，
+    而是落在區間內。這個差別在工程上非常重要：
+  </p>
+  <ul>
+    <li>追求「剛好 7.0」會需要精密控制與大量藥劑，且極易過衝。</li>
+    <li>每多加一分藥劑，就多一分<strong>中和污泥</strong>——它是必須付費處理的事業廢棄物。</li>
+    <li>過量加鹼還可能讓已沉澱的兩性金屬<strong>重新溶解</strong>（回想 Ch4 的鉛！）。</li>
+  </ul>
+  <p>
+    因此「加藥最佳化」直接對應綠色化學<strong>原則 #1（預防廢棄物）</strong>：
+    <strong>少加一點藥，就少一點污泥、少一點處理費、少一點環境負荷。</strong>
+    而要做到最佳化，前提是知道這批廢水的<strong>緩衝容量</strong>——也就是本章的核心概念。
+  </p>
+
+  <h4>對應的綠色化學原則</h4>
+  <ul>
+    <li><strong>原則 #1 預防廢棄物</strong>：加藥最佳化，減少中和污泥。</li>
+    <li><strong>原則 #11 即時分析防污染</strong>：線上 pH 監測與滴定曲線是加藥控制的依據。</li>
+    <li><strong>原則 #12 本質安全的化學</strong>：以碳酸鈣、石灰等溫和藥劑取代強酸強鹼。</li>
+  </ul>
+
+  <h4>🏞 在地連結：花蓮的土地與水</h4>
+  <p>
+    <strong>（一）大理岩集水區的天然緩衝。</strong>
+    花蓮的溪流多流經以大理岩（CaCO₃）為主的地質。碳酸鈣會中和落下的酸：
+    <code>CaCO₃ + 2H⁺ → Ca²⁺ + H₂O + CO₂</code>。
+    這給了花蓮溪流很好的天然緩衝能力——同樣的酸雨落在花崗岩區，水體酸化會嚴重得多。
+    <strong>地質就是一個巨大的緩衝槽。</strong>
+  </p>
+  <p>
+    <strong>（二）農地酸化管理。</strong>花蓮的水稻、有機蔬菜與茶園若長期施用生理酸性肥料，
+    加上東部雨量豐沛造成鹽基淋洗，土壤緩衝容量會逐年下降。
+    有機農法強調補充<strong>有機質</strong>（堆肥、綠肥），這不只是補養分——
+    <strong>它是在補充土壤的緩衝容量本身</strong>。
+  </p>
+  <p>
+    <strong>（三）從一杯緩衝液到一座島。</strong>本章的方程式只有一條，
+    但它同時解釋了你的血液為什麼穩定、海洋為什麼還撐得住、花蓮的溪水為什麼不怕酸雨、
+    以及一座工廠該加多少石灰。<strong>這就是普通化學的價值：
+    同一組原理，在不同尺度上反覆出現。</strong>
+  </p>
+
+  <div class="note leaf">
+    <strong>本章綠色化學占比自評：</strong>綠色情境為完整可互動模擬（5 個可調參數 × 4 個天然／工程緩衝系統）；
+    綠色相關文字實測占全章 66.0%（觀念解說 998 字 vs 綠色化學 1933 字）；5 題測驗中有 3 題考綠色化學／永續判斷。
+  </div>
+</template>
+
+<script type="module">
+import { mountChapter } from '../assets/js/chapter.js';
+import { init } from '../assets/js/sim/ch15.js';
+
+mountChapter({
+  id: 'ch15',
+  stageTitle: '模組 A／B：緩衝溶液的「離子海綿」與滴定曲線',
+  hint: '拖曳旋轉 · 慢慢拉「加入強鹼體積」看 pH 幾乎不動',
+  scenario: { classicLabel: '🏭 教科書情境', greenLabel: '🌿 綠色化學情境' },
+  disclaimer: '滴定計算採分段解析式（起點用精確二次式，其餘用 Henderson–Hasselbalch 與過量強鹼），未計入離子強度、活性係數與水自解離，因此在極稀或極端 pH 區會有偏差。天然緩衝系統以單一 pKa 的簡化模型呈現，真實血液與海洋為多重平衡的開放系統。',
+  init,
+  quiz: [
+    {
+      type: 'single', green: false,
+      q: '在緩衝區內每加入 1 mL 強鹼，pH 只變動約 0.05；換成純水時第一滴就跳好幾個 pH 單位。原因是：',
+      options: [
+        '純水的濃度比較低', '緩衝溶液中的 HA 會把加進來的 OH⁻ 轉換成 A⁻ 與 H₂O，不讓 OH⁻ 自由累積',
+        '緩衝溶液的體積比較大', '純水的 Kw 比較大',
+      ],
+      answer: 1,
+      hint: '想想 HA + OH⁻ → A⁻ + H₂O 這個反應把 OH⁻ 變成了什麼。',
+      explain: '緩衝溶液不是「擋住」酸鹼，而是把它們轉換成不會大幅改變 pH 的形式。純水沒有這個轉換機制，加進去的 OH⁻ 全部留在溶液中，pH 立刻暴衝。',
+    },
+    {
+      type: 'single', green: false,
+      q: '在醋酸（pKa 4.74）配 NaOH 的滴定中，<strong>半當量點</strong>的 pH 是多少？為什麼？',
+      options: [
+        '7.00，因為酸鹼中和', '4.74，因為此時 [A⁻] = [HA]，log 項為 0',
+        '8.72，因為醋酸根水解', '2.87，因為還是弱酸溶液',
+      ],
+      answer: 1,
+      hint: '把 [A⁻] = [HA] 代進 pH = pKa + log([A⁻]/[HA])。',
+      explain: '半當量點時剛好一半的 HA 被中和，[A⁻] = [HA]，log(1) = 0，所以 pH = pKa。這也是實驗上測定未知弱酸 pKa 最方便的方法——滴定到一半讀 pH 就好。',
+    },
+    {
+      type: 'single', green: true,
+      q: '海洋每吸收一份 CO₂，就消耗一部分 CO₃²⁻（CO₂ + CO₃²⁻ + H₂O → 2HCO₃⁻）。這造成的後果是：',
+      options: [
+        '海洋的緩衝容量下降，吸收 CO₂ 的能力會隨吸收量增加而變差',
+        '海洋的緩衝容量上升，因為 HCO₃⁻ 變多了',
+        '海水的 pH 會上升', '對碳酸鈣飽和度沒有影響',
+      ],
+      answer: 0,
+      hint: '緩衝容量取決於「還剩多少鹼可以接質子」。CO₃²⁻ 被消耗掉，代表什麼？',
+      explain: '這是一個負面回饋：海洋吸收得越多，能再吸收的能力越差，而且 CO₃²⁻ 減少也讓碳酸鈣飽和度下降、造殼生物更難生存。把面板上的「緩衝物質總量倍率」往左拉，就能看到同樣酸負荷造成更大的 pH 跌幅。',
+    },
+    {
+      type: 'single', green: true,
+      q: '工業廢水中和的目標是「pH 落在 6.0–9.0」而不是「pH 恰好等於 7.0」。從綠色化學的角度，這個差別為什麼重要？',
+      options: [
+        '因為 pH 7.0 對魚類有毒',
+        '因為追求精確的 7.0 需要大量藥劑且容易過衝，而每多加一分藥就多一分必須付費處理的中和污泥',
+        '因為 pH 計無法量到 7.0', '因為法規允許任意 pH',
+      ],
+      answer: 1,
+      hint: '把面板上的「中和藥劑加藥量」從 1.0 拉到 3.0，看污泥產量的變化。',
+      explain: '這對應原則 #1（預防廢棄物）。加藥最佳化不是為了省錢而已——中和污泥是事業廢棄物，過量加鹼還可能讓已沉澱的兩性金屬（如 Ch4 的鉛）重新溶解。「達標」與「完美」在工程上是兩件事。',
+    },
+    {
+      type: 'multi', green: true,
+      q: '關於土壤緩衝與農地酸化管理，下列哪些敘述正確？（複選）',
+      options: [
+        '土壤緩衝力主要來自有機質與碳酸鹽，補充有機質等於補充緩衝容量本身',
+        '長期施用生理酸性肥料（如硫酸銨）會持續消耗土壤的緩衝容量',
+        '土壤 pH 過高時，鐵、錳、鋅等微量元素會沉澱，作物反而出現缺素',
+        '土壤一旦酸化，只要大量撒石灰就一定沒問題，加越多越好',
+      ],
+      answer: [0, 1, 2],
+      hint: '最後一個選項與面板上「加藥量拉到 3.0 倍」的結果一致嗎？',
+      explain: '過量石灰會把 pH 推過頭，造成微量元素不足。正確做法是先量測土壤 pH 與緩衝容量（原則 #11 即時分析），再計算需要量。這也是為什麼有機農法強調補充有機質——它同時提供養分與緩衝力。',
+    },
+  ],
+  sources: [
+    'Ka 值（醋酸 1.8×10⁻⁵、碳酸 Ka₁ 4.3×10⁻⁷、磷酸 Ka₂ 6.2×10⁻⁸、銨 5.6×10⁻¹⁰，25 °C）：CRC Handbook, 97th ed.；Zumdahl <i>Chemistry</i> 10th ed. 附錄。',
+    'Henderson–Hasselbalch 方程式與緩衝容量 β 的定義：Zumdahl <i>Chemistry</i> 10th ed., Ch.15.',
+    '血液 pH 範圍 7.35–7.45、H₂CO₃/HCO₃⁻ 表觀 pKa 6.1（37 °C）、比例約 20:1：生理學與臨床生化標準值。',
+    '海水總鹼度約 2.3 mmol/L 與碳酸鹽緩衝機制：標準海洋化學數據；IPCC AR6 WG1 §5.3。',
+    '土壤適宜 pH 5.5–6.5 與酸化管理：一般土壤肥料學教科書與農政單位建議（概略區間，隨作物而異）。',
+    '放流水標準 pH 6.0–9.0：中華民國環境部「放流水標準」。',
+  ],
+});
+</script>
+</body>
+</html>

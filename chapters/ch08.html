@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ch8 化學鍵：拖曳原子畫出勢能曲線、看電子雲極化與偶極矩、拆解 Born–Haber 循環；綠色化學延伸到仿生黏著與可分解塑膠。">
+<title>Ch8 化學鍵基本概念｜普通化學互動自學</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/chapter.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%233FA34D'/><circle cx='16' cy='16' r='5' fill='%23FFC93C'/></svg>">
+<script type="importmap">
+{ "imports": {
+    "three": "../assets/vendor/three.module.js",
+    "three/addons/controls/OrbitControls.js": "../assets/vendor/OrbitControls.js"
+} }
+</script>
+</head>
+<body>
+<header data-nav></header>
+<div class="wrap"><nav data-crumbs></nav></div>
+<main id="main" data-chapter></main>
+<footer data-footer></footer>
+
+<template id="tpl-concept">
+  <h3>一、鍵長不是被規定的，是被「談」出來的</h3>
+  <p>
+    在畫面上左右拖曳（或拉滑桿），你會看到勢能曲線上的黃點跟著跑。這條曲線只有一個訊息：
+    <strong>兩顆原子靠得太近會互斥、離得太遠會互相吸引，中間有一個位能最低的位置。</strong>
+    那個最低點就是<strong>平衡鍵長 r₀</strong>。
+  </p>
+  <ul>
+    <li><strong>r &lt; r₀（斥力區）</strong>：兩個原子核都是正電，靠太近時核—核排斥壓過一切，位能急速衝高。</li>
+    <li><strong>r = r₀</strong>：吸引與排斥剛好平衡，位能最低，系統最穩定。</li>
+    <li><strong>r &gt; r₀</strong>：吸引力仍在，但隨距離減弱；把 r 拉到很大時位能趨近 0，代表兩個原子已經分開。</li>
+  </ul>
+  <div class="formula">
+    最低點到 0 的深度就是<span data-term="解離能">解離能</span> D<sub>e</sub>——打斷這個鍵需要的能量。<br>
+    本頁曲線採 Morse 位能：<code>V(r) = D<sub>e</sub>[(1 − e<sup>−a(r−r₀)</sup>)² − 1]</code>，
+    其中 r₀ 與 D<sub>e</sub> 使用實測值。
+    <span class="teacher-only">形狀參數 a 為教學用取值（存於 <code>assets/js/sim/ch08.js</code> 的 <code>MORSE_A</code>），
+    實際上可由振動波數 ωₑ 推得。</span>
+  </div>
+
+  <h4>二、從共價到離子，是連續的光譜</h4>
+  <p>
+    依序切換 H–H → H–Cl → H–F → Na–Cl，注意三件事同時在變：
+  </p>
+  <table class="data">
+    <thead><tr><th>分子</th><th>ΔEN</th><th>偶極矩 μ (D)</th><th>離子性</th></tr></thead>
+    <tbody>
+      <tr><td>H–H</td><td>0</td><td>0</td><td>0%（純共價）</td></tr>
+      <tr><td>H–Cl</td><td>0.96</td><td>1.08</td><td>約 20%</td></tr>
+      <tr><td>H–F</td><td>1.78</td><td>1.83</td><td>約 55%</td></tr>
+      <tr><td>Na–Cl（氣態分子）</td><td>2.23</td><td>9.00</td><td>約 71%</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:.6rem">
+    電子雲的顏色梯度就是這件事的視覺化：ΔEN = 0 時電子雲左右對稱；
+    ΔEN 越大，電子雲越明顯偏向<span data-term="電負度">電負度</span>大的那一端，
+    <span data-term="偶極矩">偶極矩</span>箭頭也跟著變長。
+  </p>
+  <div class="note">
+    <strong>沒有「純粹的離子鍵」，也沒有「絕對的共價鍵」。</strong>
+    課本把它們分成兩章講是為了方便，但真實世界是一條連續的光譜。
+    離子性百分比用的是鮑林的經驗式 <code>1 − e^(−0.25·ΔEN²)</code>。
+  </div>
+
+  <h4>三、Born–Haber：離子固體為什麼穩定？</h4>
+  <p>
+    把分子切到 <strong>NaCl</strong>，右下角會列出完整的 Born–Haber 循環。
+    請特別注意一件反直覺的事：<strong>前四個步驟有三個是吸熱的</strong>——
+    把鈉變成氣態要吸熱、把電子拔掉要吸熱、把 Cl₂ 拆開也要吸熱。
+  </p>
+  <p>
+    唯一大幅放熱的是最後一步：氣態 Na⁺ 與 Cl⁻ 聚成晶體，放出 <strong>−787 kJ/mol</strong> 的
+    <span data-term="晶格能">晶格能</span>。
+    <strong>是晶格能撐起了整個離子化合物的穩定性</strong>，不是「鈉很想給電子、氯很想拿電子」這種擬人化說法。
+  </p>
+</template>
+
+<template id="tpl-green">
+  <h3>設計一個鍵，就是決定它幾百年後在哪裡</h3>
+  <p>
+    綠色化學<strong>原則 #10「可分解性設計」</strong>要求：化學產品在功能結束後，
+    應能分解成無害物質，不在環境中累積。
+    這條原則的實作層次不在回收廠，而在<strong>分子設計的當下</strong>——你選了哪一種鍵，
+    就決定了它在環境中的命運。
+  </p>
+
+  <h4>🌿 綠色情境怎麼玩</h4>
+  <ol>
+    <li><strong>選 PE、環境選「海水」、時間拉到 24 個月。</strong>剩餘質量幾乎沒動。</li>
+    <li><strong>切到 PLA（聚乳酸），環境仍是海水。</strong>你會發現……它也幾乎不分解！</li>
+    <li><strong>把環境切到「工業堆肥」。</strong>PLA 的曲線立刻俯衝——半衰期從好幾年掉到幾週。</li>
+    <li><strong>切到 PHA。</strong>它在海水中也能分解，這是它與 PLA 最關鍵的差別。</li>
+    <li><strong>最後比較「尿素—甲醛膠」與「貽貝仿生膠」的毒性與水下黏著強度。</strong></li>
+  </ol>
+  <div class="note warn">
+    第 2、3 步是本章最重要的一課：<strong>「生物可分解」不是材料的絕對屬性，而是「材料 × 環境」的組合。</strong>
+    PLA 需要工業堆肥的 58 °C 與高微生物活性才會快速水解；丟進海裡它跟一般塑膠差別有限。
+    許多「可分解餐具」的環境宣稱之所以有爭議，原因就在這裡。
+  </div>
+
+  <h4>化學上的差別在哪裡？</h4>
+  <div class="compare">
+    <div class="c-old">
+      <h5>🏭 聚乙烯 PE：C–C 主鏈</h5>
+      <ul>
+        <li>主鏈全是 <strong>C–C 與 C–H</strong> 鍵，非極性、鍵能高（C–C 347 kJ/mol）</li>
+        <li>碳上沒有部分正電荷，<strong>水分子無從攻擊</strong></li>
+        <li>沒有酵素演化出來能辨識它（自然界沒有這種結構）</li>
+        <li>結果：耐用、便宜、無所不在——也在環境中存續數百年</li>
+      </ul>
+    </div>
+    <div class="c-new">
+      <h5>🌿 PLA / PHA：酯鍵 –COO– 主鏈</h5>
+      <ul>
+        <li>酯鍵的<strong>羰基碳帶部分正電</strong>（C=O 使電子往氧偏）</li>
+        <li>水分子的氧（親核基）可以攻擊這個碳 → <strong>水解斷鏈</strong></li>
+        <li>自然界大量存在酯鍵（油脂、聚酯），因此有現成的酯酶能分解它</li>
+        <li>PHA 由微生物直接合成，在海水中也能被分解</li>
+      </ul>
+    </div>
+  </div>
+  <p>
+    這就是「可分解性設計」的分子層次意義：<strong>在主鏈上放一個可被水或酵素攻擊的官能基</strong>。
+    同樣的邏輯也用在可分解農藥、可分解界面活性劑與可分解醫材上。
+  </p>
+
+  <h4>🦪 仿生黏著：貽貝教我們的事</h4>
+  <p>
+    貽貝（淡菜）能在<strong>波浪拍打的濕滑岩石</strong>上把自己黏住幾個月不掉。
+    這件事在材料科學上非常困難——因為水會擠進界面，破壞黏著。
+    貽貝的答案藏在足絲蛋白裡一個特別的胺基酸：<strong>DOPA（3,4-二羥基苯丙胺酸）</strong>，
+    它帶有<strong>兒茶酚</strong>（catechol，鄰位雙羥基苯）基團。
+  </p>
+  <ul>
+    <li>兩個相鄰的 –OH 可以與礦物表面的 <strong>Fe³⁺、Ti⁴⁺ 等金屬離子形成雙牙配位</strong>，鍵結強且可逆。</li>
+    <li>兒茶酚能與表面形成<strong>氫鍵</strong>，並把界面的水分子擠開。</li>
+    <li>氧化成醌之後可與蛋白質交聯，形成硬化的黏著層。</li>
+  </ul>
+  <div class="compare">
+    <div class="c-old">
+      <h5>🏭 尿素—甲醛膠（UF）</h5>
+      <ul>
+        <li>木質板材最常用的膠，便宜、黏得牢</li>
+        <li>靠亞甲基橋 –CH₂– 交聯</li>
+        <li><strong>會持續緩慢釋出甲醛</strong>——IARC 第 1 類致癌物</li>
+        <li>室內空氣污染的主要來源之一</li>
+      </ul>
+    </div>
+    <div class="c-new">
+      <h5>🌿 貽貝仿生黏著劑</h5>
+      <ul>
+        <li>以兒茶酚基團取代甲醛交聯</li>
+        <li><strong>無甲醛釋放</strong>，且可在<strong>潮濕環境</strong>下作用</li>
+        <li>原料可由生物發酵取得（原則 #7 可再生原料）</li>
+        <li>應用：無甲醛木質板材、醫用組織黏合、水下修補</li>
+        <li>限制：目前成本較高、大規模量產仍在發展</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>對應的綠色化學原則</h4>
+  <ul>
+    <li><strong>原則 #10 可分解性設計</strong>：在主鏈放進可水解的酯鍵。</li>
+    <li><strong>原則 #3 低毒性合成</strong>與<strong>原則 #4 設計更安全的化學品</strong>：以兒茶酚取代甲醛。</li>
+    <li><strong>原則 #7 使用可再生原料</strong>：PLA 來自玉米／甘蔗的乳酸，PHA 由微生物合成。</li>
+    <li><strong>原則 #5 更安全的溶劑</strong>：仿生黏著在水中作用，不需有機溶劑。</li>
+  </ul>
+
+  <h4>🏞 在地連結：花蓮的海與木</h4>
+  <p>
+    <strong>（一）海洋廢棄物。</strong>花蓮的海岸線長、洋流帶來的漂流垃圾以塑膠為大宗。
+    上面的模擬告訴我們一件不太舒服的事實：即使把常見的「可分解塑膠」丟進海裡，
+    也不會像廣告說的那樣消失。真正能在海水中分解的是 <strong>PHA</strong> 這一類材料，
+    而它目前的產能與成本都還不足以取代 PE。<strong>誠實面對限制，是綠色化學的一部分。</strong>
+  </p>
+  <p>
+    <strong>（二）木質產業與室內空氣。</strong>花蓮有相當規模的木作與家具產業。
+    無甲醛膠（包括仿生黏著劑與大豆蛋白基膠）能直接改善室內空氣品質，
+    這是原則 #4「設計更安全的化學品」最貼近生活的應用——
+    因為受益的是每天待在那個房間裡的人。
+  </p>
+  <p>
+    <strong>（三）貽貝與養殖。</strong>台灣東部海域的貝類養殖與潮間帶生態，正是這個仿生靈感的來源。
+    仿生化學提醒我們：<strong>在發明新分子之前，先看看已經演化了幾億年的答案。</strong>
+  </p>
+
+  <div class="note leaf">
+    <strong>本章綠色化學占比自評：</strong>綠色情境為完整可互動模擬（4 個可調參數 × 5 種材料 × 3 種環境）；
+    綠色相關文字實測占全章 65.9%（觀念解說 844 字 vs 綠色化學 1631 字）；5 題測驗中有 3 題考綠色化學／永續判斷。
+  </div>
+</template>
+
+<script type="module">
+import { mountChapter } from '../assets/js/chapter.js';
+import { init } from '../assets/js/sim/ch08.js';
+
+mountChapter({
+  id: 'ch08',
+  stageTitle: '模組 A：拖曳原子改變核間距，看勢能曲線長出來',
+  hint: '在畫面上左右拖曳可改變核間距（可在面板關閉拖曳模式以旋轉視角）',
+  scenario: { classicLabel: '🏭 教科書情境', greenLabel: '🌿 綠色化學情境' },
+  disclaimer: '勢能曲線採 Morse 位能，r₀ 與 De 為實測值、形狀參數為教學用取值；電子雲為示意點雲而非量子化學計算結果。降解曲線採一階動力學與 Q₁₀ ≈ 2 的經驗法則，速率常數為文獻區間之教學用代表值。',
+  init,
+  quiz: [
+    {
+      type: 'single', green: false,
+      q: '把核間距拉到比平衡鍵長更短時，位能急速上升。主要原因是：',
+      options: [
+        '電子之間的吸引力消失了', '兩個原子核都帶正電，靠太近時核—核排斥主導',
+        '鍵被打斷了', '溫度上升造成的',
+      ],
+      answer: 1,
+      hint: '想想原子核帶什麼電荷，距離縮短時庫侖作用會怎麼變。',
+      explain: '平衡鍵長是「電子—核吸引」與「核—核排斥＋電子—電子排斥」的平衡點。壓得更近時排斥項（約 1/r）迅速主導，位能陡升。這也是為什麼固體幾乎不可壓縮。',
+    },
+    {
+      type: 'single', green: false,
+      q: '在 NaCl 的 Born–Haber 循環中，昇華、游離、解離三個步驟都是吸熱的。那麼 NaCl 為什麼還會自發生成？',
+      options: [
+        '因為電子親和能放出的能量夠大', '因為晶格能放出 −787 kJ/mol，足以補償前面所有吸熱步驟',
+        '因為反應在高溫下進行', '因為 Na 與 Cl 的電負度差很大',
+      ],
+      answer: 1,
+      hint: '把循環表上五個數字加起來：+107 + 496 + 122 − 349 − 787 = ?',
+      explain: '五項相加得 −411 kJ/mol，正好是 NaCl(s) 的標準生成焓。真正撐起穩定性的是晶格能——離子固體的穩定來自「大量離子有規則地堆在一起」，而不是單一原子的偏好。',
+    },
+    {
+      type: 'single', green: true,
+      q: 'PLA（聚乳酸）在「工業堆肥」中幾週就大幅分解，但在「海水」中卻幾乎不動。這說明了什麼？',
+      options: [
+        '模擬程式有誤，PLA 是生物可分解塑膠',
+        '「生物可分解」不是材料的絕對屬性，而是「材料 × 環境」的組合結果',
+        '海水的鹽分會保護 PLA 不被分解', 'PLA 只在乾燥環境才會分解',
+      ],
+      answer: 1,
+      hint: '比較兩個環境的溫度與微生物活性：工業堆肥約 58 °C，海水約 20 °C。',
+      explain: 'PLA 的酯鍵水解需要足夠的溫度與微生物活性。這正是許多「可分解餐具」環境宣稱受到質疑的原因——標示應該說明「在什麼條件下、多久」。誠實標示限制條件，本身就是綠色化學的一部分。',
+      explain2: '若要在海洋環境中分解，PHA 是目前較可行的選擇。',
+    },
+    {
+      type: 'single', green: true,
+      q: '從分子結構看，為什麼 PE 幾乎不會在環境中分解，而 PLA／PHA 可以？',
+      options: [
+        'PE 的分子量比較大', 'PE 主鏈只有非極性的 C–C 鍵，沒有帶部分正電、可被水或酵素攻擊的位置',
+        'PE 是從石油做的，PLA 是從植物做的', 'PE 的密度比較高',
+      ],
+      answer: 1,
+      hint: '想想水分子（親核基）要攻擊，需要對方有什麼樣的電荷分布。',
+      explain: '酯鍵的羰基碳因 C=O 的極性而帶部分正電，是親核攻擊的目標；C–C 鍵沒有這種位置。而且自然界本來就有酯鍵，因此存在能分解它的酵素。原料來自石油或植物只影響碳足跡，不決定可分解性——這是常見的誤解。',
+    },
+    {
+      type: 'multi', green: true,
+      q: '貽貝仿生黏著劑（兒茶酚／DOPA）相對於尿素—甲醛膠的優勢包括哪些？（複選）',
+      options: [
+        '不釋放甲醛（IARC 第 1 類致癌物），改善室內空氣品質',
+        '可在潮濕甚至水下環境作用，因為兒茶酚能與表面金屬離子配位並排開界面水',
+        '原料可由生物發酵取得，符合原則 #7 使用可再生原料',
+        '成本比尿素—甲醛膠更低，且已完全取代傳統膠',
+      ],
+      answer: [0, 1, 2],
+      hint: '前三項在對照表裡都有根據。第四項要想想：如果真的更便宜，市場上還會看到甲醛膠嗎？',
+      explain: '仿生黏著劑目前成本仍高於尿素—甲醛膠，量產技術也還在發展中。誠實說明限制不會削弱綠色化學的價值——它讓我們知道下一步該研究什麼。',
+    },
+  ],
+  sources: [
+    '鍵長、解離能、偶極矩：CRC Handbook of Chemistry and Physics, 97th ed.；NIST Diatomic Spectral Database。',
+    '電負度（鮑林標度）與離子性經驗式 1 − exp(−0.25·ΔEN²)：L. Pauling, <i>The Nature of the Chemical Bond</i>.',
+    'NaCl 的 Born–Haber 循環數據（昇華 +107、IE₁ +496、½D(Cl₂) +122、EA −349、晶格能 −787，總和 −411 kJ/mol）：Zumdahl &amp; Zumdahl, <i>Chemistry</i>, 10th ed., §8.5。',
+    'Morse 位能形狀參數為教學用取值，非由振動光譜推得之精確值。',
+    'PLA／PHA／PE 的降解特性與半衰期：生物可分解高分子文獻之常見區間（概略值，強烈依環境條件而異）。',
+    '貽貝足絲蛋白與 DOPA／兒茶酚黏著機制：H. Lee, B. P. Lee &amp; P. B. Messersmith, <i>Nature</i> 448, 338 (2007) 及後續仿生黏著文獻。',
+    '甲醛致癌性分類：IARC Monographs Volume 100F（第 1 類，對人類為致癌物）。',
+  ],
+});
+</script>
+</body>
+</html>

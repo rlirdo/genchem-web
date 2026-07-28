@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ch12 化學反應動力學：自己瞄準角度與動能發射分子，體會碰撞理論的三個條件；綠色化學比較重金屬、酵素與光觸媒催化。">
+<title>Ch12 化學反應動力學｜普通化學互動自學</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/chapter.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%231E9EB3'/><circle cx='16' cy='16' r='5' fill='%23FFC93C'/></svg>">
+<script type="importmap">
+{ "imports": {
+    "three": "../assets/vendor/three.module.js",
+    "three/addons/controls/OrbitControls.js": "../assets/vendor/OrbitControls.js"
+} }
+</script>
+</head>
+<body>
+<header data-nav></header>
+<div class="wrap"><nav data-crumbs></nav></div>
+<main id="main" data-chapter></main>
+<footer data-footer></footer>
+
+<template id="tpl-concept">
+  <h3>一、反應要發生，得同時滿足三件事</h3>
+  <p><span data-term="碰撞理論">碰撞理論</span>把「為什麼有些反應快、有些慢」拆成三個條件：</p>
+  <ol>
+    <li><strong>要碰到</strong>——濃度越高、碰撞頻率越高。</li>
+    <li><strong>能量要夠</strong>——動能必須翻過<span data-term="活化能">活化能</span> Ea 這座山丘。</li>
+    <li><strong>取向要對</strong>——即使能量夠，撞錯位置照樣彈開。</li>
+  </ol>
+  <p>
+    上面的舞台把第 2、3 點變成你手上的兩個滑桿。試試看這組對照：
+  </p>
+  <ul>
+    <li>角度 <strong>0°</strong>、動能 <strong>150</strong> kJ/mol → 成功。</li>
+    <li>角度 <strong>0°</strong>、動能 <strong>60</strong> kJ/mol（小於 Ea = 120）→ <strong>動能不足</strong>，彈開。</li>
+    <li>角度 <strong>120°</strong>、動能 <strong>180</strong> kJ/mol → 能量綽綽有餘，卻因為<strong>取向錯誤</strong>還是失敗。</li>
+  </ul>
+  <div class="note">
+    第三種情況最反直覺，卻是真實反應中最常見的失敗原因。這也是為什麼酵素這麼厲害——
+    它的活性中心把受質「擺好角度」再讓它反應，等於直接把取向因子拉到接近 1。
+  </div>
+
+  <h4>二、溫度為什麼影響那麼大</h4>
+  <p>
+    勾選「自動連發」，程式會依你設定的溫度，從
+    Maxwell–Boltzmann 分布隨機抽取每一次碰撞的動能與角度。
+    把溫度從 300 K 拉到 600 K，你會看到成功率不是變成兩倍，而是<strong>暴增好幾個數量級</strong>——
+    因為能量分布的尾巴是指數形式的。
+  </p>
+  <div class="formula">
+    <code>能量足夠的碰撞分率 = e<sup>−Ea / RT</sup></code><br>
+    <code>k = A · e<sup>−Ea / RT</sup></code>（Arrhenius 式；A 含碰撞頻率與取向因子）<br>
+    面板上的「理論分率」就是把上式再乘上取向因子
+    <code>p ≈ 2×40° / 360° ≈ 0.22</code> 算出來的；「實測成功率」則是模擬統計。
+    連發幾百次之後，兩個數字會逐漸靠攏。
+    <span class="teacher-only">教師補充：取向容許角 <code>TOL_DEG</code> 與教學放大係數
+    <code>TEACH_BOOST</code> 都在 <code>assets/js/sim/ch12.js</code> 檔案開頭，可自行調整。</span>
+  </div>
+  <div class="note warn">
+    <strong>請務必注意面板上的第二個數字。</strong>在 350 K、Ea = 120 kJ/mol 的真實條件下，
+    有效碰撞分率大約只有 10⁻¹⁹ 的量級——意思是「連發一兆兆次也看不到一次成功」。
+    為了讓你在幾秒內看得到事件，自動連發模式把抽樣到的動能<strong>放大了 12 倍</strong>。
+    面板同時列出「真實尺度的有效碰撞分率」，請把兩個數字擺在一起看：
+    這個落差本身就是本章最重要的訊息——<strong>沒有催化劑或高溫，多數反應在室溫下根本不會發生。</strong>
+  </div>
+
+  <h4>三、催化劑做的事，是「開一條新路」</h4>
+  <p>
+    很多人以為催化劑是「把反應物推過山丘」。不是的——
+    <span data-term="催化劑">催化劑</span>提供的是一條<strong>完全不同的反應路徑</strong>，
+    這條路徑有比較矮的山丘，而且中間會經過一個與催化劑結合的中間態。
+    切換上面的催化劑選項，反應座標圖會從一座高山變成兩座小丘＋中間的平台——那個平台就是中間態。
+  </p>
+  <div class="note warn">
+    注意圖上的 ΔH 完全沒有變。<strong>催化劑只改變速率，不改變平衡位置與反應熱。</strong>
+    這個界線在 Ch13 會再確認一次。
+  </div>
+</template>
+
+<template id="tpl-green">
+  <h3>原則 #9 催化：綠色化學裡投報率最高的一條</h3>
+  <p>
+    十二原則裡，第 9 條「催化」被認為是影響力最大的一條，理由很簡單：
+    催化劑<strong>不會被消耗</strong>，所以它用很少的量就能取代大量的化學計量試劑；
+    而降低活化能又直接降低了操作溫度，於是能耗、副反應、設備等級全部跟著下降。
+    一條原則同時改善了原則 #1、#6、#12。
+  </p>
+
+  <h4>🌿 綠色情境怎麼玩：四種催化條件並排</h4>
+  <p>
+    切到綠色情境後，控制面板會出現四個選項，反應座標圖會把四條曲線疊在一起。
+    請依序點過去，注意三件事怎麼一起變：<strong>活化能 Ea → 操作溫度 → 能耗與副產物</strong>。
+  </p>
+  <table class="data">
+    <thead><tr><th>情境</th><th>Ea (kJ/mol)</th><th>操作溫度</th><th>相對能耗</th><th>E-factor</th></tr></thead>
+    <tbody>
+      <tr><td>無催化</td><td>120</td><td>350 °C</td><td>100</td><td>3.0</td></tr>
+      <tr><td>傳統重金屬催化</td><td>65</td><td>180 °C</td><td>55</td><td>1.4</td></tr>
+      <tr><td>仿生酵素催化</td><td>35</td><td>37 °C</td><td>12</td><td>0.3</td></tr>
+      <tr><td>光觸媒 TiO₂</td><td>28</td><td>25 °C</td><td>8</td><td>0.5</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:var(--fs-xs);color:var(--ink-3);margin-top:.4rem">
+    上表為<strong>教學用代表值</strong>，用來呈現數量級關係；實際數值隨反應系統差異極大。
+  </p>
+
+  <h4>三種催化，三種代價</h4>
+  <div class="compare">
+    <div class="c-old">
+      <h5>🏭 傳統重金屬催化</h5>
+      <ul>
+        <li>Pd、Pt、Rh、Cr 等，活性高、應用廣</li>
+        <li>但屬<strong>稀有金屬</strong>，供應集中且開採衝擊大</li>
+        <li>產品可能殘留金屬，醫藥級產品需額外純化</li>
+        <li>符合原則 #9，卻在原則 #3（低毒性）打折</li>
+      </ul>
+    </div>
+    <div class="c-new">
+      <h5>🌿 仿生酵素 / 光觸媒</h5>
+      <ul>
+        <li>酵素：常溫、常壓、<strong>水為溶劑</strong>（原則 #5），選擇性極高、幾乎無副產物</li>
+        <li>光觸媒：以<strong>光子</strong>取代熱能（原則 #6），TiO₂ 無毒、可回收重複使用</li>
+        <li>限制：酵素怕高溫與有機溶劑；TiO₂ 能隙 3.2 eV，只能吸收 ≤387 nm 的紫外光，僅占太陽光約 4%</li>
+        <li>因此研究重點是<strong>可見光響應光觸媒</strong>（摻雜氮、與其他半導體複合）</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>對應的綠色化學原則</h4>
+  <ul>
+    <li><strong>原則 #9 催化</strong>：本章主軸。</li>
+    <li><strong>原則 #6 能源效率設計</strong>：350 °C → 37 °C，能耗差了一個數量級。</li>
+    <li><strong>原則 #1 預防廢棄物</strong>：選擇性提高 → 副產物減少 → E-factor 由 3.0 降到 0.3。</li>
+    <li><strong>原則 #10 可分解性設計</strong>：光觸媒可以把難分解的有機污染物<em>礦化</em>成 CO₂ 與 H₂O。</li>
+  </ul>
+
+  <h4>🏞 在地連結：光觸媒與花蓮的有機農業</h4>
+  <p>
+    TiO₂ 光觸媒被大量研究用於<strong>降解農藥殘留</strong>。原理是：TiO₂ 吸收紫外光後，
+    價帶電子被激發到導帶，留下的電洞具有極強氧化力，可以把水氧化成氫氧自由基（•OH），
+    再把有機農藥分子一步步打斷，最終礦化成 CO₂ 與水。
+  </p>
+  <div class="formula">
+    <code>TiO₂ + hν (λ ≤ 387 nm) → e⁻(CB) + h⁺(VB)</code><br>
+    <code>h⁺ + H₂O → •OH + H⁺</code>　　<code>•OH + 有機物 → … → CO₂ + H₂O</code><br>
+    能隙 3.20 eV 換算成波長：λ = 1240 / 3.20 ≈ 387 nm。
+  </div>
+  <p>
+    花蓮的有機與友善農業面積在全台名列前茅。對這些農戶而言，
+    「不用化學合成農藥」是第一道防線；而對於灌溉水源與集貨場清洗水的殘留處理，
+    光觸媒這類<strong>常溫、無額外化學藥劑、觸媒可回收</strong>的方法，正好符合他們的需求。
+  </p>
+  <p>
+    另一條線索是<strong>酵素</strong>：花蓮的釀造與發酵產業（酒、醋、豆類製品）本質上就是在用微生物的酵素系統，
+    在常溫常壓下完成傳統化工需要高溫高壓才能做到的轉化。仿生催化不是新科技——
+    它只是我們終於開始認真研究廚房與田裡早就在用的化學。
+  </p>
+
+  <div class="note leaf">
+    <strong>本章綠色化學占比自評：</strong>本章綠色比重最高。綠色情境為四選項完整互動模擬（7 個可調參數共用）；
+    綠色相關文字實測占全章 55.3%（觀念解說 999 字 vs 綠色化學 1235 字）；5 題測驗中有 4 題考綠色化學／永續判斷。
+  </div>
+</template>
+
+<script type="module">
+import { mountChapter } from '../assets/js/chapter.js';
+import { init } from '../assets/js/sim/ch12.js';
+
+mountChapter({
+  id: 'ch12',
+  stageTitle: '模組 A：瞄準角度與動能，看碰撞成不成功',
+  hint: '調整角度與動能後按「發射一次」',
+  scenario: { classicLabel: '🏭 教科書情境', greenLabel: '🌿 綠色化學情境' },
+  disclaimer: '碰撞以剛性球體與固定取向容許角（±40°）簡化。自動連發模式為了讓事件在幾秒內看得見，把抽樣到的分子動能放大了 12 倍；面板同時列出「真實尺度」的分率供對照。活化能與能耗為教學用代表值，非特定反應的實驗數據。',
+  init,
+  quiz: [
+    {
+      type: 'single', green: false,
+      q: '把攻擊角度設為 120°、動能設為 180 kJ/mol（遠大於 Ea = 120）發射，結果卻是失敗。原因是：',
+      options: [
+        '動能還是不夠大', '取向錯誤，撞的位置不對',
+        '溫度太低', '活化能被催化劑提高了',
+      ],
+      answer: 1,
+      hint: '碰撞理論有三個條件，這題的能量條件已經滿足了，還剩下哪一個？',
+      explain: '這正是碰撞理論的第三個條件：取向。能量再高，撞錯位置也不會反應。酵素之所以高效，就是因為它把受質「擺好」再反應。',
+    },
+    {
+      type: 'single', green: false,
+      q: '關於催化劑，下列敘述何者<strong>錯誤</strong>？',
+      options: [
+        '催化劑降低活化能，因此加快反應速率',
+        '催化劑提供一條有中間態的新反應路徑',
+        '催化劑會讓反應的 ΔH 變得更負，放出更多熱',
+        '催化劑在反應前後沒有被消耗',
+      ],
+      answer: 2,
+      hint: '看看反應座標圖：切換催化劑時，山丘變矮了，但左右兩端的高度差有變嗎？',
+      explain: 'ΔH 由反應物與產物的能量差決定，與路徑無關（赫斯定律）。催化劑只改變速率，不改變反應熱，也不改變平衡位置。',
+    },
+    {
+      type: 'single', green: true,
+      q: '從「無催化（350 °C）」切到「仿生酵素（37 °C）」，相對能耗由 100 降到 12。這主要實踐了哪一條綠色化學原則？',
+      options: [
+        '原則 #2 原子經濟性', '原則 #6 能源效率設計（盡量在常溫常壓進行反應）',
+        '原則 #11 即時分析防污染', '原則 #4 設計更安全的化學品',
+      ],
+      answer: 1,
+      hint: '這題問的是「條件」的改變，不是「原子去向」的改變。',
+      explain: '原則 #6 明確要求「認清能源使用的環境與經濟成本，盡量在常溫常壓下進行反應」。酵素催化是這條原則最漂亮的示範。',
+    },
+    {
+      type: 'single', green: true,
+      q: '傳統重金屬催化（Pd/Pt）雖然符合原則 #9，卻在其他面向有代價。下列哪一項<strong>不是</strong>它的主要問題？',
+      options: [
+        '屬稀有金屬，供應集中且開採環境衝擊大',
+        '產品可能殘留金屬，醫藥級產品需額外純化',
+        '它會提高反應的活化能，使反應變慢',
+        '部分重金屬本身具毒性，與原則 #3 相衝突',
+      ],
+      answer: 2,
+      hint: '前三個選項裡有一個在描述催化劑做不到的事。',
+      explain: '催化劑一定是降低活化能，否則就不叫催化劑。重金屬催化的代價在於資源風險與毒性，這說明綠色化學是多目標權衡，而不是單一指標的競賽。',
+    },
+    {
+      type: 'match', green: true,
+      q: '把三種催化方式與它們的主要限制配對：',
+      leftTitle: '催化方式', rightTitle: '主要限制',
+      left: ['傳統重金屬催化（Pd/Pt）', '仿生酵素催化', '光觸媒 TiO₂'],
+      right: [
+        '能隙 3.2 eV，只能吸收紫外光（約占太陽光 4%）',
+        '稀有金屬供應風險，產品可能殘留金屬',
+        '怕高溫與有機溶劑，操作條件範圍窄',
+      ],
+      answer: [1, 2, 0],
+      hint: '想想每一種催化劑「怕什麼」：金屬怕的是資源與殘留，蛋白質怕的是變性，半導體怕的是光的波長不對。',
+      explain: '認識每一種綠色技術的限制，比背誦它的優點更重要——這決定了它適用於哪些場合，也指出下一步的研究方向（例如可見光響應光觸媒、耐熱酵素工程）。',
+    },
+  ],
+  sources: [
+    'Arrhenius 式與碰撞理論：Zumdahl &amp; Zumdahl, <i>Chemistry</i>, 10th ed., Ch.12.',
+    '氣體常數 R = 8.314462618 J/(mol·K)：CODATA 2018.',
+    'TiO₂（銳鈦礦）能隙 3.2 eV 與對應波長 387 nm：半導體光觸媒領域公認值（λ = 1240/E<sub>g</sub>）。',
+    '固氮酶等生物催化在常溫常壓運作之特性：Zumdahl 生物化學延伸閱讀；亦見 Ch13 資料來源。',
+    '本頁四種情境的 Ea、操作溫度、相對能耗與 E-factor 為<strong>教學用代表值</strong>（見 assets/data/constants.js 之 KINETICS_SCEN，已標註 approx: true），用以呈現數量級關係，非特定反應之實驗數據。',
+    '綠色化學十二原則：Anastas &amp; Warner (1998).',
+  ],
+});
+</script>
+</body>
+</html>

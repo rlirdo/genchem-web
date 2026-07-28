@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ch4 水溶液反應：看 NaCl 被水分子一顆一顆剝離，自己配沉澱反應；綠色化學延伸到重金屬廢水處理與花蓮水質。">
+<title>Ch4 水溶液反應與溶液計量｜普通化學互動自學</title>
+<link rel="stylesheet" href="../assets/css/theme.css">
+<link rel="stylesheet" href="../assets/css/chapter.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%233FA34D'/><circle cx='16' cy='16' r='5' fill='%23FFC93C'/></svg>">
+<script type="importmap">
+{ "imports": {
+    "three": "../assets/vendor/three.module.js",
+    "three/addons/controls/OrbitControls.js": "../assets/vendor/OrbitControls.js"
+} }
+</script>
+</head>
+<body>
+<header data-nav></header>
+<div class="wrap"><nav data-crumbs></nav></div>
+<main id="main" data-chapter></main>
+<footer data-footer></footer>
+
+<template id="tpl-concept">
+  <h3>一、溶解不是「消失」，是被水拆開又抱住</h3>
+  <p>
+    把「時間軸」滑桿從 0% 慢慢推到 100%，你會看到 NaCl 晶體的離子被一顆一顆拉走。
+    請注意<strong>先走的一定是角落的離子</strong>——因為角落離子的配位數最少，被晶格抓得最鬆。
+    這不是動畫效果，這是真實的溶解機制。
+  </p>
+  <p>
+    水能做到這件事，靠的是它的<strong>偶極</strong>：氧端帶部分負電、氫端帶部分正電。
+    於是水分子用氧端圍住 Na⁺、用氫端圍住 Cl⁻，把離子從晶格上「談判」下來，
+    再穩定地包在水殼裡——這個過程叫<span data-term="水合">水合</span>。
+  </p>
+  <div class="note">
+    把滑桿<strong>拉回去</strong>試試看：離子會回到晶格上。這就是重結晶。
+    溶解與結晶其實一直同時在進行，飽和溶液只是兩者速率相等的<span data-term="動態平衡">動態平衡</span>——
+    這條線索會在 Ch13 全面展開。
+  </div>
+
+  <h4>二、沉澱：什麼時候「不肯」溶在水裡</h4>
+  <p>
+    切到「模組 B」，自己搭配陽離子與陰離子。有些組合什麼都不會發生（例如 Na⁺ + NO₃⁻），
+    有些一碰面就變濁（例如 Ag⁺ + Cl⁻）。判斷的依據是<span data-term="溶解度積">溶解度積</span> Ksp：
+  </p>
+  <div class="formula">
+    <code>AgCl(s) ⇌ Ag⁺(aq) + Cl⁻(aq)　　Ksp = [Ag⁺][Cl⁻] = 1.8×10⁻¹⁰</code><br>
+    把當下的離子濃度代進去得到<span data-term="反應商">反應商</span> Q：<br>
+    <code>Q &gt; Ksp → 沉澱析出　　Q = Ksp → 飽和　　Q &lt; Ksp → 繼續溶解</code>
+  </div>
+
+  <h4>三、淨離子方程式：把不做事的人請出去</h4>
+  <p>
+    當你把 AgNO₃ 溶液倒進 NaCl 溶液，實際發生的只有 Ag⁺ 與 Cl⁻ 結合成固體。
+    Na⁺ 與 NO₃⁻ 從頭到尾都泡在水裡沒事做——它們是<span data-term="旁觀離子">旁觀離子</span>。
+    把它們刪掉，剩下的就是<span data-term="淨離子方程式">淨離子方程式</span>：
+  </p>
+  <div class="formula">
+    完整式：<code>AgNO₃(aq) + NaCl(aq) → AgCl(s) + NaNO₃(aq)</code><br>
+    淨離子式：<code>Ag⁺(aq) + Cl⁻(aq) → AgCl(s)</code><br>
+    <span class="teacher-only">教師補充：這個化簡不是為了偷懶，而是為了看清「真正的反應」是什麼。
+    在廢水處理的場合，這決定了你該加哪一種藥劑。</span>
+  </div>
+</template>
+
+<template id="tpl-green">
+  <h3>同一個 Ksp，換一個舞台：重金屬廢水處理</h3>
+  <p>
+    上一段你用 Ksp 判斷 AgCl 會不會沉澱。現在把同一件事拿去做環境工程——
+    差別只在於，這次我們<strong>刻意</strong>讓金屬離子沉澱，好把它從水裡撈出來。
+  </p>
+  <div class="formula">
+    <code>Pb²⁺(aq) + 2 OH⁻(aq) → Pb(OH)₂(s)↓</code>
+    <code>殘留 [Pb²⁺] = Ksp / [OH⁻]²</code><br>
+    pH 每上升 1，[OH⁻] 上升 10 倍，殘留濃度就下降 100 倍。
+  </div>
+
+  <h4>🌿 綠色情境怎麼玩：三個一定要做的實驗</h4>
+  <ol>
+    <li><strong>選「鎘 Cd²⁺」，把 pH 從 8 慢慢往上拉。</strong>你會看到殘留濃度一路往下掉，
+      直到跨過那條紅色的放流水標準線（0.03 mg/L，是三種金屬中最嚴的）。</li>
+    <li><strong>選「鉛 Pb²⁺」，把 pH 拉超過 11。</strong>曲線會<strong>翹回來</strong>！
+      因為鉛是<span data-term="兩性">兩性</span>金屬，高 pH 時生成可溶的 Pb(OH)₃⁻ 又溶回水裡。
+      這是實務上最常見的操作錯誤之一：<strong>加越多鹼不等於越乾淨。</strong></li>
+    <li><strong>切到「硫化物法」。</strong>殘留濃度會再掉好幾個數量級——因為 PbS 的 Ksp 只有 10⁻²⁸ 量級。
+      但看一下儀表板上的「藥劑毒性等級」，它從 1.2 跳到 4.0。</li>
+  </ol>
+  <div class="note warn">
+    第 3 個實驗是本章最重要的一課。硫化物法能把水處理得更乾淨，
+    但硫化物藥劑本身有毒，遇酸會放出劇毒的 H₂S。
+    <strong>「處理得更乾淨」與「製程本身更安全」是兩件不同的事。</strong>
+    綠色化學要求同時看這兩件事（原則 #3 低毒性、原則 #12 本質安全），而不是只看放流水數據。
+  </div>
+
+  <h4>對應的綠色化學原則</h4>
+  <ul>
+    <li><strong>原則 #5 更安全的溶劑與助劑</strong>：這一整章的反應都在<strong>水</strong>裡進行。
+      水無毒、不可燃、不揮發、可回收，是綠色化學最推薦的溶劑。</li>
+    <li><strong>原則 #3 低毒性合成</strong>：氫氧化物法（石灰、NaOH）vs 硫化物法的取捨。</li>
+    <li><strong>原則 #1 預防廢棄物</strong>：加藥最佳化。看儀表板的「污泥產量」——
+      加藥量從 1.0 拉到 5.0 倍，殘留濃度改善有限，污泥卻直線上升。
+      這些污泥是<strong>事業廢棄物</strong>，處理費用高、而且只是把污染從水相移到固相。</li>
+  </ul>
+
+  <h4>更前面一步：源頭減量與資源回收</h4>
+  <p>
+    沉澱法終究是「末端處理」。真正符合綠色化學精神的順序是：
+  </p>
+  <ol>
+    <li><strong>源頭替代</strong>：電鍍改用三價鉻取代六價鉻、無鉛焊料取代含鉛焊料。</li>
+    <li><strong>製程內回收</strong>：離子交換、電解回收，把金屬直接變回原料（呼應 Ch2 的都市採礦）。</li>
+    <li><strong>末端處理</strong>：才輪到今天玩的沉澱法。</li>
+  </ol>
+
+  <h4>🏞 在地連結：花蓮溪流域的水質</h4>
+  <p>
+    花蓮的水環境同時承受三種壓力：<strong>農業排水</strong>（氮、磷、農藥殘留）、
+    <strong>礦業與砂石加工</strong>（懸浮固體、少量重金屬）與<strong>生活污水</strong>。
+    這三者需要的化學處理完全不同：
+  </p>
+  <ul>
+    <li>農業排水的氮磷 → 生物處理與人工濕地（利用微生物的硝化—脫氮），不是沉澱法。</li>
+    <li>懸浮固體 → 混凝沉澱（加鋁鹽或鐵鹽），原理是壓縮膠體的雙電層。</li>
+    <li>重金屬 → 才是今天這一頁的 pH 調整＋沉澱。</li>
+  </ul>
+  <p>
+    這件事的化學意義是：<strong>「污染」不是單一問題，開藥方之前要先知道對象是誰。</strong>
+    而要知道對象是誰，就得回到 Ch2 講過的原則 #11——先有可靠的分析。
+  </p>
+  <p>
+    花蓮的另一個特色是水質相對乾淨、水量豐沛，這讓「人工濕地」這類低能耗的自然解方特別可行。
+    用生態系統代替加藥槽，本質上就是原則 #6（能源效率）與原則 #9（生物催化）的組合。
+  </p>
+
+  <div class="note leaf">
+    <strong>本章綠色化學占比自評：</strong>綠色情境為完整可互動模擬（5 個可調參數，含 U 型溶解度曲線）；
+    綠色相關文字實測占全章 64.0%（觀念解說 700 字 vs 綠色化學 1246 字）；5 題測驗中有 3 題考綠色化學／永續判斷。
+  </div>
+</template>
+
+<script type="module">
+import { mountChapter } from '../assets/js/chapter.js';
+import { init } from '../assets/js/sim/ch04.js';
+
+mountChapter({
+  id: 'ch04',
+  stageTitle: '模組 A：NaCl 晶體的溶解與水合',
+  hint: '拖曳旋轉 · 拉時間軸看溶解與重結晶',
+  scenario: { classicLabel: '🏭 教科書情境', greenLabel: '🌿 綠色化學情境' },
+  disclaimer: '溶解動畫依「角落離子先脫離」的定性規則排序，非分子動力學計算。殘留濃度計算忽略離子強度、錯合與 S²⁻ 質子化平衡；兩性再溶解係數為教學用參數。',
+  init,
+  quiz: [
+    {
+      type: 'single', green: false,
+      q: '在 NaCl 溶解動畫中，為什麼<strong>角落</strong>的離子最先離開晶格？',
+      options: [
+        '因為角落離子帶的電荷比較少',
+        '因為角落離子的配位數最少，被周圍異性離子抓得最鬆',
+        '因為角落離水分子比較近，溫度比較高',
+        '這只是動畫效果，實際上是隨機的',
+      ],
+      answer: 1,
+      hint: '想想晶格中一顆離子被幾顆異性離子包圍，角落與內部有什麼差別。',
+      explain: '晶體內部的離子被六個異性離子包圍（NaCl 為 6 配位），角落只有三個。被抓得越鬆，水合作用越容易勝出，所以角落先溶。這也是為什麼粉末比塊狀溶得快——表面與角落的比例高很多。',
+    },
+    {
+      type: 'single', green: false,
+      q: '把 Ag⁺ 與 NO₃⁻ 配在一起，模擬顯示「沒有沉澱」。這代表：',
+      options: [
+        '兩者沒有碰撞', '硝酸鹽幾乎都可溶，Q 遠小於任何 Ksp，所有離子都是旁觀離子',
+        'Ag⁺ 濃度太低', '需要加熱才會反應',
+      ],
+      answer: 1,
+      hint: '回想溶解度規則：哪一類鹽「幾乎沒有例外」都可溶？',
+      explain: '硝酸鹽（NO₃⁻）與大部分鹼金屬鹽幾乎全部可溶，因此不會有沉澱，淨離子方程式寫成「NR（無反應）」。這時所有離子都只是旁觀離子。',
+    },
+    {
+      type: 'single', green: true,
+      q: '處理含鉛廢水時，把 pH 從 9 一路拉到 13，殘留鉛濃度反而<strong>上升</strong>。最合理的解釋是：',
+      options: [
+        'pH 計壞了', '鉛是兩性金屬，高 pH 時生成可溶的 Pb(OH)₃⁻ 而重新溶解',
+        'Ksp 隨 pH 改變', '加太多鹼把 Pb(OH)₂ 蒸發掉了',
+      ],
+      answer: 1,
+      hint: '看曲線的形狀——它不是一路往下，而是一個 U 型。想想「兩性」是什麼意思。',
+      explain: '兩性金屬（Pb、Zn、Al、Cr(III)）在強鹼中會生成可溶的羥基錯合物。因此每一種金屬都有一個「最適 pH」，加藥不是越多越好。這同時是原則 #1（少加藥＝少污泥）的實務體現。',
+      explain2: '在真實廠務中，含多種金屬的混合廢水甚至無法用單一 pH 同時達標，必須分段處理。',
+    },
+    {
+      type: 'single', green: true,
+      q: '硫化物法能把重金屬殘留壓得比氫氧化物法低好幾個數量級。為什麼綠色化學仍然不會無條件推薦它？',
+      options: [
+        '因為它的 Ksp 太大', '因為硫化物藥劑本身有毒、遇酸會放出劇毒 H₂S，違反原則 #3 與 #12',
+        '因為它需要高溫高壓', '因為它產生的污泥比較少',
+      ],
+      answer: 1,
+      hint: '看儀表板上的「藥劑毒性等級」在切換沉澱劑時怎麼變。',
+      explain: '「處理後的水更乾淨」與「處理過程本身更安全」是兩個獨立的目標。綠色化學要求同時評估，而不是只看放流口的數據。這也是為什麼原則 #12（本質安全）要單獨列一條。',
+    },
+    {
+      type: 'multi', green: true,
+      q: '依綠色化學的優先順序，處理含鉛電鍍廢水時，下列哪些做法比「末端沉澱處理」更符合原則 #1（預防廢棄物）？（複選）',
+      options: [
+        '改用無鉛製程，從源頭不使用鉛',
+        '以離子交換或電解回收，把鉛變回可再利用的原料',
+        '把加藥量從 1.0 倍提高到 5.0 倍，讓沉澱更完全',
+        '在製程中即時監測鉛濃度，發現異常立刻調整',
+      ],
+      answer: [0, 1, 3],
+      hint: '原則 #1 的原文是「寧可從源頭不產生廢棄物，也不要事後再處理」。哪一個選項是純粹的「事後再處理」，而且還更浪費？',
+      explain: '加藥量拉到 5 倍只會讓污泥產量暴增，殘留濃度改善卻很有限——這是把污染從水相搬到固相，並沒有真正減少廢棄物。源頭替代 > 製程內回收 > 即時監測 > 末端處理，這個順序就是綠色化學的思考路徑。',
+    },
+  ],
+  sources: [
+    '溶解度積 Ksp（25 °C）：CRC Handbook, 97th ed.；Zumdahl, <i>Chemistry</i> 10th ed. 附錄。金屬硫化物之 Ksp 各文獻差異可達數個數量級，本站已標註為概略值。',
+    '放流水標準（鉛 1.0、銅 3.0、鎘 0.03 mg/L）：中華民國環境部（原行政院環境保護署）「放流水標準」一般業別限值；部分業別另有更嚴規定。',
+    '原子量：IUPAC 2021 標準原子量。',
+    '兩性金屬高 pH 再溶解之現象為公認事實；本頁用來重現 U 型曲線的係數為<strong>教學用參數</strong>，非實測平衡常數。',
+    '綠色化學十二原則：Anastas &amp; Warner (1998).',
+  ],
+});
+</script>
+</body>
+</html>
