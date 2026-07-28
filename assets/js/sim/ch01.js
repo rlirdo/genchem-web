@@ -15,6 +15,9 @@ import { createStage, THREE, atomMaterial, glassBox, textSprite } from '../ui/th
 import { buildControls, buildReadouts } from '../ui/controls.js';
 import { buildGauges } from '../ui/gauges.js';
 import { METALS, LIGHTWEIGHT, FUEL_CO2, HUALIEN_ROCKS, CONST } from '../../data/constants.js';
+/* AR 相關（引擎與本章解耦，內容與 HUD 放在 ch01-ar.js）*/
+import { launchAR } from '../ar/ar-stage.js';
+import { buildCh01ARContent, buildCh01ARHud } from './ch01-ar.js';
 
 /* Ti 的 c 軸（HCP）*/
 const TI_C_PM = 468.3;
@@ -203,6 +206,7 @@ export async function init(ctx) {
         { type: 'range', key: 'recy', label: '再生料比例', min: 0, max: 100, step: 5, value: 0, unit: '%',
           hint: '再生金屬省去冶煉還原，隱含碳大幅下降（原則 #6）。' },
         { type: 'check', key: 'cell', label: '顯示單位晶胞', value: true },
+        { type: 'button', key: 'ar', label: '📱 用手機鏡頭看（AR）', variant: 'ocean' },
       ], onChange);
       readout = buildReadouts(ctx.hostReadout, [
         { key: 'n', label: '盒內原子數', unit: '顆', digits: 0 },
@@ -243,8 +247,105 @@ export async function init(ctx) {
   }
 
   function onChange(key) {
+    if (key === 'ar') { openAR(); return; }                 // AR：不動任何既有狀態
     if (key === 'metal' || key === 'cells' || key === 'rscale' || key === 'cell' || key === 'mat') rebuild();
     else update();
+  }
+
+  /* ==========================================================================
+     AR 入口（只在 Ch1 使用；引擎本身在 assets/js/ar/ar-stage.js，其他章可直接重用）
+     ========================================================================== */
+  let arSession = null;
+
+  /** 判斷是不是「拿在手上的裝置」——桌機改為顯示網址讓學生用手機開。
+      用 (pointer: coarse) and (hover: none) 而不是 maxTouchPoints，
+      否則有觸控螢幕的 Windows 筆電也會被誤判成手機。 */
+  function looksLikeMobile() {
+    if (!window.matchMedia) return false;
+    return window.matchMedia('(pointer: coarse) and (hover: none)').matches;
+  }
+
+  /** 顯示一個置中的提示視窗（桌機提示、AR 不支援提示都共用）*/
+  function showDialog(title, bodyHtml) {
+    const wrap = document.createElement('div');
+    wrap.setAttribute('role', 'dialog');
+    wrap.setAttribute('aria-modal', 'true');
+    wrap.setAttribute('aria-label', title);
+    wrap.style.cssText = `position:fixed;inset:0;z-index:9998;display:flex;align-items:center;
+      justify-content:center;padding:1.2rem;background:rgba(18,59,46,.55)`;
+    wrap.innerHTML = `
+      <div style="background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow-lg);
+                  padding:1.4rem 1.3rem;max-width:24rem;width:100%;font-size:var(--fs-sm);line-height:1.75">
+        <h3 style="margin:0 0 .6rem;font-size:1.05rem;color:var(--leaf-deep)">${title}</h3>
+        <div>${bodyHtml}</div>
+        <button type="button" class="btn ghost" style="width:100%;margin-top:1rem">關閉</button>
+      </div>`;
+    wrap.querySelector('button').addEventListener('click', () => wrap.remove());
+    wrap.addEventListener('click', e => { if (e.target === wrap) wrap.remove(); });
+    document.body.appendChild(wrap);
+    return wrap;
+  }
+
+  async function openAR() {
+    // ---- 桌機：不啟動 AR，改請學生用手機開同一個網址 ----
+    if (!looksLikeMobile()) {
+      const url = location.href.split('#')[0];
+      const dlg = showDialog('📱 請用手機掃描下方網址開啟 AR', `
+        <p style="margin:.2rem 0 .6rem">AR 需要手機的鏡頭與感測器，桌機無法使用。
+        請用手機瀏覽器開啟這個網址，再按一次同一顆按鈕：</p>
+        <p style="word-break:break-all;background:var(--ocean-soft);color:var(--ocean-deep);
+                  padding:.6rem .7rem;border-radius:var(--r-sm);font-family:var(--font-num);
+                  font-size:var(--fs-xs)" data-url>${url}</p>
+        <button type="button" class="btn sm" data-copy style="width:100%">📋 複製網址</button>
+        <p class="note" style="margin-top:.8rem;font-size:var(--fs-xs)">
+          Android Chrome 會使用 WebXR（可貼在真實桌面上）；
+          iPhone Safari 會使用相機直通模式（物件固定在你前方 0.5 公尺）。
+          兩者都需要以 <strong>HTTPS</strong> 開啟（本站的 GitHub Pages 網址已符合）。</p>`);
+      const copyBtn = dlg.querySelector('[data-copy]');
+      copyBtn.addEventListener('click', async () => {
+        try { await navigator.clipboard.writeText(url); copyBtn.textContent = '✅ 已複製'; }
+        catch (e) { copyBtn.textContent = '請長按上方網址手動複製'; }
+      });
+      return;
+    }
+
+    // ---- 手機：啟動 AR ----
+    const arState = { metal: C.values.metal || 'Au', green: false };
+    let hud = null;
+    try {
+      hud = buildCh01ARHud(arState, () => {
+        if (arSession && arSession.rebuild) arSession.rebuild(() => buildCh01ARContent(arState));
+      });
+      stage.stop();                                    // 暫停頁面上的 3D，省電也避免搶 GPU
+      arSession = await launchAR({
+        buildContent: () => buildCh01ARContent(arState),
+        hud,
+        onExit: () => { arSession = null; stage.start(() => { group.rotation.y += 0.0016; }); },
+      });
+      if (arSession.mode === 'none') {
+        stage.start(() => { group.rotation.y += 0.0016; });
+        arSession = null;
+        showDialog('這台裝置無法使用 AR', `
+          <p>${'很抱歉，你的瀏覽器既不支援 WebXR，也無法取得相機影像。'}</p>
+          <ul style="padding-left:1.2rem;margin:.6rem 0">
+            <li><strong>Android</strong>：請用 Chrome 開啟，並安裝／更新「Google Play 服務（AR）」。</li>
+            <li><strong>iPhone</strong>：請用 Safari 開啟（iOS 15 以上），並允許相機權限。</li>
+            <li>網址必須是 <strong>https://</strong> 開頭，用 http 或直接開檔案都無法取得鏡頭。</li>
+          </ul>
+          <p class="note" style="font-size:var(--fs-xs)">上面的 3D 模型在任何瀏覽器都能正常操作，AR 只是加分功能。</p>`);
+      }
+    } catch (err) {
+      console.error('[ch01] AR 啟動失敗：', err);
+      stage.start(() => { group.rotation.y += 0.0016; });
+      arSession = null;
+      if (hud && hud.parentElement) hud.parentElement.removeChild(hud);
+      showDialog('AR 啟動失敗', `
+        <p>發生了預期外的錯誤，已回到一般網頁模式：</p>
+        <p style="background:var(--coral-soft);color:var(--coral-deep);padding:.5rem .7rem;
+                  border-radius:var(--r-sm);font-size:var(--fs-xs);word-break:break-all">
+          ${(err && err.message) || err}</p>
+        <p class="note" style="font-size:var(--fs-xs)">上面的 3D 模型不受影響，可以繼續使用。</p>`);
+    }
   }
 
   /* ---------------- 產生 3D 內容 ---------------- */
@@ -473,5 +574,10 @@ export async function init(ctx) {
   buildForScenario();
   stage.start(() => { group.rotation.y += 0.0016; });
 
-  return { destroy() { stage.dispose(); } };
+  return {
+    destroy() {
+      if (arSession && arSession.close) arSession.close();   // 離開章節時一併關掉 AR
+      stage.dispose();
+    },
+  };
 }
